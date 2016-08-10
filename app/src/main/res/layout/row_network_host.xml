@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/ip_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/ip" />
+
+    <TextView
+        android:id="@+id/ip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/ip_title"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_toEndOf="@id/ip_title"
+        android:layout_toRightOf="@id/ip_title"
+        tools:text="192.168.1.1" />
+
+    <TextView
+        android:id="@+id/mac_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/ip"
+        android:layout_marginTop="@dimen/margin_xsmall"
+        android:text="@string/mac" />
+
+    <TextView
+        android:id="@+id/mac"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/mac_title"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_toEndOf="@id/mac_title"
+        android:layout_toRightOf="@id/mac_title"
+        tools:text="AA:BB:CC:00:11:22" />
+
+    <TextView
+        android:id="@+id/vendor_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/mac"
+        android:layout_marginTop="@dimen/margin_xsmall"
+        android:text="@string/vendor" />
+
+    <TextView
+        android:id="@+id/vendor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/vendor_title"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_toEndOf="@id/vendor_title"
+        android:layout_toRightOf="@id/vendor_title"
+        tools:text="Asustek" />
+</RelativeLayout>
