@@ -2,30 +2,46 @@ package it.uniroma2.giadd.aitm.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.adapters.NetworkHostsAdapter;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
+import it.uniroma2.giadd.aitm.tasks.NetworkHostScannerTask;
 import it.uniroma2.giadd.aitm.utils.DividerItemDecoration;
 
 /**
  * Created by Alessandro Di Diego
  */
 
-public class ScannerFragment extends Fragment {
+public class ScannerFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<NetworkHost>>{
 
+    private NetworkHostsAdapter networkHostsAdapter;
     private ArrayList<NetworkHost> networkHosts;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parentViewGroup,
@@ -35,7 +51,7 @@ public class ScannerFragment extends Fragment {
 
         networkHosts = new ArrayList<>();
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        NetworkHostsAdapter networkHostsAdapter = new NetworkHostsAdapter(networkHosts);
+        networkHostsAdapter = new NetworkHostsAdapter(networkHosts);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -57,6 +73,58 @@ public class ScannerFragment extends Fragment {
         }));
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.inflateMenu(R.menu.scanner_menu);
+        MenuItem actionRefresh = toolbar.getMenu().findItem(R.id.action_refresh);
+        actionRefresh.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                return onOptionsItemSelected(menuItem);
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.action_refresh:
+                // id is fragment-unique so we can use 0
+                getLoaderManager().restartLoader(0, null, this);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Loader<List<NetworkHost>> onCreateLoader(int id, Bundle args) {
+        return new NetworkHostScannerTask(getContext());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<NetworkHost>> loader, List<NetworkHost> data) {
+        networkHosts.removeAll(data);
+        for(NetworkHost networkHost : networkHosts){
+            networkHost.setReachable(false);
+        }
+        networkHosts.addAll(data);
+        networkHostsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<NetworkHost>> loader) {
+
     }
 
     public interface ClickListener {

@@ -4,4 +4,6 @@
     <string name="ip">IP:</string>
     <string name="mac">MAC:</string>
     <string name="vendor">Vendor:</string>
+    <string name="refresh">Refresh</string>
+    <string name="settings">Settings</string>
 </resources>

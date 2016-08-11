@@ -1,21 +1,28 @@
 package it.uniroma2.giadd.aitm.tasks;
 
 import android.content.Context;
+import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.support.v4.content.AsyncTaskLoader;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import it.uniroma2.giadd.aitm.managers.ArpTableReader;
+import it.uniroma2.giadd.aitm.managers.PacketSender;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
 import it.uniroma2.giadd.aitm.utils.ListIPs;
+import it.uniroma2.giadd.aitm.utils.MACAddressVendorLookup;
 
 /**
  * Created by Alessandro Di Diego on 10/08/16.
  */
 
 public class NetworkHostScannerTask extends AsyncTaskLoader<List<NetworkHost>> {
-    
+
+    private static final String TAG = NetworkHostScannerTask.class.getName();
+
     // We hold a reference to the Loader’s data here.
     private List<NetworkHost> mData;
 
@@ -37,13 +44,27 @@ public class NetworkHostScannerTask extends AsyncTaskLoader<List<NetworkHost>> {
         // This method is called on a background thread and should generate a
         // new set of data to be delivered back to the client.
         List<NetworkHost> data = new ArrayList<>();
+        //  Perform the query here and add the results to 'data'.
+        // initializing vendor LUT
+        MACAddressVendorLookup macAddressVendorLookup = new MACAddressVendorLookup(getContext());
+        macAddressVendorLookup.initializeSync(getContext(), false);
         // retrieving wifi info
-        wifii= (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        d=wifii.getDhcpInfo();
-        List<String> ipsList = ListIPs.listIPs()
-
-
-        // TODO: Perform the query here and add the results to 'data'.
+        WifiManager wifiManager = (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
+        DhcpInfo dhcpInfo = wifiManager.getDhcpInfo();
+        if (dhcpInfo == null) {
+            Log.e(TAG, "error: dhcpInfo is null (not connected to wifi?)");
+            return data;
+        }
+        List<String> ipsList = ListIPs.listIPs(ListIPs.intToIp(dhcpInfo.ipAddress), ListIPs.intToIp(dhcpInfo.netmask));
+        if (ipsList == null) {
+            Log.e(TAG, "error: ipsList is null ");
+            return data;
+        }
+        for (String ip : ipsList) {
+            PacketSender.sendUDP(ip, "a");
+        }
+        ArpTableReader arpTableReader = new ArpTableReader(macAddressVendorLookup);
+        data.addAll(arpTableReader.readAddresses());
 
         return data;
     }
@@ -89,10 +110,10 @@ public class NetworkHostScannerTask extends AsyncTaskLoader<List<NetworkHost>> {
         }
 
         // Begin monitoring the underlying data source.
-        if (mObserver == null) {
+        /*if (mObserver == null) {
             mObserver = new SampleObserver();
-            // TODO: register the observer
-        }
+            // register the observer
+        }*/
 
         if (takeContentChanged() || mData == null) {
             // When the observer detects a change, it should call onContentChanged()
@@ -126,10 +147,10 @@ public class NetworkHostScannerTask extends AsyncTaskLoader<List<NetworkHost>> {
         }
 
         // The Loader is being reset, so we should stop monitoring for changes.
-        if (mObserver != null) {
-            // TODO: unregister the observer
+        /*if (mObserver != null) {
+            // unregister the observer
             mObserver = null;
-        }
+        }*/
     }
 
     @Override
@@ -163,6 +184,6 @@ public class NetworkHostScannerTask extends AsyncTaskLoader<List<NetworkHost>> {
     // ACTION_PACKAGE_ADDED intent, and calls onContentChanged() on the particular 
     // Loader whenever the receiver detects that a new application has been installed.
     // Please don’t hesitate to leave a comment if you still find this confusing! :)
-    private SampleObserver mObserver;
+    // private SampleObserver mObserver;
 
 }
