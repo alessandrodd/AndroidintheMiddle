@@ -76,6 +76,12 @@ public class NetworkHostScannerTask extends AsyncTaskLoader<List<NetworkHost>> {
         for (String ip : allIps) {
             PacketSender.sendUDP(ip, "a");
         }
+        // wait for ARP table to be populated
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         ArpTableReader arpTableReader = new ArpTableReader(macAddressVendorLookup);
         data.addAll(arpTableReader.readAddresses());
 
