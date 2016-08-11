@@ -134,7 +134,7 @@ public class ScannerFragment extends Fragment implements LoaderManager.LoaderCal
         for (NetworkHost networkHost : networkHosts) {
             networkHost.setReachable(false);
         }
-        networkHosts.addAll(data);
+        networkHosts.addAll(0, data);
         networkHostsAdapter.notifyDataSetChanged();
         if (getView() != null) {
             getView().findViewById(R.id.loading_circle).setVisibility(View.GONE);

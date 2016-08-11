@@ -20,11 +20,12 @@ public class NetworkHostsAdapter extends RecyclerView.Adapter<NetworkHostsAdapte
     private List<NetworkHost> networkHostsList;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView ip, mac, vendor;
+        TextView ip, hostname, mac, vendor;
 
         MyViewHolder(View view) {
             super(view);
             ip = (TextView) view.findViewById(R.id.ip);
+            hostname = (TextView) view.findViewById(R.id.hostname);
             mac = (TextView) view.findViewById(R.id.mac);
             vendor = (TextView) view.findViewById(R.id.vendor);
         }
@@ -47,6 +48,7 @@ public class NetworkHostsAdapter extends RecyclerView.Adapter<NetworkHostsAdapte
     public void onBindViewHolder(MyViewHolder holder, int position) {
         NetworkHost networkHost = networkHostsList.get(position);
         holder.ip.setText((networkHost.getIp()));
+        holder.hostname.setText((networkHost.getHostname()));
         holder.mac.setText((networkHost.getMacAddress().getAddress()));
         holder.vendor.setText((networkHost.getMacAddress().getVendor()));
         if (networkHost.isReachable())

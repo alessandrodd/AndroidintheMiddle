@@ -12,9 +12,11 @@ import java.util.List;
 
 import it.uniroma2.giadd.aitm.managers.ArpTableReader;
 import it.uniroma2.giadd.aitm.managers.PacketSender;
+import it.uniroma2.giadd.aitm.models.MACAddress;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
 import it.uniroma2.giadd.aitm.utils.IPUtils;
 import it.uniroma2.giadd.aitm.utils.MACAddressVendorLookup;
+import it.uniroma2.giadd.aitm.utils.NetworkUtils;
 import it.uniroma2.giadd.aitm.utils.SubnetUtils;
 
 /**
@@ -84,6 +86,12 @@ public class NetworkHostScannerTask extends AsyncTaskLoader<List<NetworkHost>> {
         }
         ArpTableReader arpTableReader = new ArpTableReader(macAddressVendorLookup);
         data.addAll(arpTableReader.readAddresses());
+
+        // Add this device informations at the top of the list
+        String deviceMACAddress = NetworkUtils.getDeviceMacAddr();
+        MACAddress deviceMAC = new MACAddress(deviceMACAddress, macAddressVendorLookup.getVendor(deviceMACAddress));
+        NetworkHost deviceNetworkHost = new NetworkHost(ipInet.getHostAddress(), "(This device)", deviceMAC, true);
+        data.add(0, deviceNetworkHost);
 
         return data;
     }

@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/ip"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/ip_title"
         android:layout_marginLeft="@dimen/margin_small"
@@ -25,6 +25,17 @@
         android:layout_toEndOf="@id/ip_title"
         android:layout_toRightOf="@id/ip_title"
         tools:text="192.168.1.1" />
+
+    <TextView
+        android:id="@+id/hostname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/ip_title"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_toEndOf="@id/ip"
+        android:layout_toRightOf="@id/ip"
+        tools:text="(hostname.it)" />
 
     <TextView
         android:id="@+id/mac_title"
