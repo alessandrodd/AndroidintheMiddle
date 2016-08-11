@@ -23,6 +23,17 @@ public class NetworkHost {
         return ip;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj instanceof NetworkHost) {
+            NetworkHost networkHost = (NetworkHost) obj;
+            if (networkHost.getIp().equals(this.getIp()) && networkHost.getMacAddress().equals(this.getMacAddress()))
+                return true;
+        }
+        return false;
+    }
+
     public void setIp(String ip) {
         this.ip = ip;
     }

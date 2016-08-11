@@ -6,14 +6,16 @@ import android.net.wifi.WifiManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
 import it.uniroma2.giadd.aitm.managers.ArpTableReader;
 import it.uniroma2.giadd.aitm.managers.PacketSender;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
-import it.uniroma2.giadd.aitm.utils.ListIPs;
+import it.uniroma2.giadd.aitm.utils.IPUtils;
 import it.uniroma2.giadd.aitm.utils.MACAddressVendorLookup;
+import it.uniroma2.giadd.aitm.utils.SubnetUtils;
 
 /**
  * Created by Alessandro Di Diego on 10/08/16.
@@ -55,12 +57,23 @@ public class NetworkHostScannerTask extends AsyncTaskLoader<List<NetworkHost>> {
             Log.e(TAG, "error: dhcpInfo is null (not connected to wifi?)");
             return data;
         }
-        List<String> ipsList = ListIPs.listIPs(ListIPs.intToIp(dhcpInfo.ipAddress), ListIPs.intToIp(dhcpInfo.netmask));
-        if (ipsList == null) {
+        InetAddress ipInet = IPUtils.intToInetAddress(dhcpInfo.ipAddress);
+        InetAddress maskInet = IPUtils.intToInetAddress(dhcpInfo.netmask);
+        if (ipInet == null) {
+            Log.e(TAG, "invalid ip address: " + dhcpInfo.ipAddress);
+            return data;
+        }
+        if (maskInet == null) {
+            Log.e(TAG, "invalid mask address: " + dhcpInfo.netmask);
+            return data;
+        }
+        SubnetUtils utils = new SubnetUtils(ipInet.getHostAddress(), maskInet.getHostAddress());
+        String[] allIps = utils.getInfo().getAllAddresses();
+        if (allIps == null) {
             Log.e(TAG, "error: ipsList is null ");
             return data;
         }
-        for (String ip : ipsList) {
+        for (String ip : allIps) {
             PacketSender.sendUDP(ip, "a");
         }
         ArpTableReader arpTableReader = new ArpTableReader(macAddressVendorLookup);

@@ -1,8 +1,11 @@
 package it.uniroma2.giadd.aitm.fragments;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -10,6 +13,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +22,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +32,13 @@ import it.uniroma2.giadd.aitm.adapters.NetworkHostsAdapter;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
 import it.uniroma2.giadd.aitm.tasks.NetworkHostScannerTask;
 import it.uniroma2.giadd.aitm.utils.DividerItemDecoration;
+import it.uniroma2.giadd.aitm.utils.NetworkUtils;
 
 /**
  * Created by Alessandro Di Diego
  */
 
-public class ScannerFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<NetworkHost>>{
+public class ScannerFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<NetworkHost>> {
 
     private NetworkHostsAdapter networkHostsAdapter;
     private ArrayList<NetworkHost> networkHosts;
@@ -98,6 +104,16 @@ public class ScannerFragment extends Fragment implements LoaderManager.LoaderCal
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
             case R.id.action_refresh:
+                // check if wifi is connected
+                if (NetworkUtils.checkActiveConnectionType(getContext()) != NetworkUtils.TYPE_WIFI) {
+                    Snackbar snackbar = Snackbar
+                            .make(getView(), R.string.error_scanner_not_connected_to_wifi, Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    break;
+                }
+                if (getView() != null) {
+                    getView().findViewById(R.id.loading_circle).setVisibility(View.VISIBLE);
+                }
                 // id is fragment-unique so we can use 0
                 getLoaderManager().restartLoader(0, null, this);
                 break;
@@ -115,11 +131,17 @@ public class ScannerFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<List<NetworkHost>> loader, List<NetworkHost> data) {
         networkHosts.removeAll(data);
-        for(NetworkHost networkHost : networkHosts){
+        for (NetworkHost networkHost : networkHosts) {
             networkHost.setReachable(false);
         }
         networkHosts.addAll(data);
         networkHostsAdapter.notifyDataSetChanged();
+        if (getView() != null) {
+            getView().findViewById(R.id.loading_circle).setVisibility(View.GONE);
+            TextView textView = (TextView) getView().findViewById(R.id.empty_list_textview);
+            if (networkHosts.size() == 0) textView.setText(R.string.no_host_found);
+            else textView.setVisibility(View.GONE);
+        }
     }
 
     @Override

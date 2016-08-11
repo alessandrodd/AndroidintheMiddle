@@ -20,6 +20,17 @@ public class MACAddress {
         this.vendor = vendor;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj instanceof MACAddress) {
+            MACAddress macAddress = (MACAddress) obj;
+            if (macAddress.getAddress().equals(this.address) && macAddress.getVendor().equals(this.vendor))
+                return true;
+        }
+        return false;
+    }
+
     public String getAddress() {
         return address;
     }

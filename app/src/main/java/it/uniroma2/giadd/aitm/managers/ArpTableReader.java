@@ -32,7 +32,7 @@ public class ArpTableReader {
                 if (splitted.length >= 4) {
                     String ip = splitted[0];
                     String mac = splitted[3];
-                    if (mac.matches("..:..:..:..:..:..")) {
+                    if (mac.matches("..:..:..:..:..:..") && !mac.equals("00:00:00:00:00:00")) {
                         String vendor = macLut.getVendor(mac);
                         MACAddress macAddress = new MACAddress(mac, vendor);
                         NetworkHost networkHost = new NetworkHost(ip, macAddress, true);
