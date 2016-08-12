@@ -21,14 +21,21 @@ public class MACAddress {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj instanceof MACAddress) {
-            MACAddress macAddress = (MACAddress) obj;
-            if (macAddress.getAddress().equals(this.address) && macAddress.getVendor().equals(this.vendor))
-                return true;
-        }
-        return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MACAddress that = (MACAddress) o;
+
+        return address != null ? address.equals(that.address) : that.address == null && (vendor != null ? vendor.equals(that.vendor) : that.vendor == null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = address != null ? address.hashCode() : 0;
+        result = 31 * result + (vendor != null ? vendor.hashCode() : 0);
+        return result;
     }
 
     public String getAddress() {

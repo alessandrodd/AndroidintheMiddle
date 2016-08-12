@@ -3,8 +3,6 @@ package it.uniroma2.giadd.aitm.managers;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.os.Build;
 import android.util.Log;
@@ -14,11 +12,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 
 import it.uniroma2.giadd.aitm.BuildConfig;
 
 import static android.content.Context.MODE_PRIVATE;
-import static java.lang.System.in;
 
 /**
  * Created by Alessandro Di Diego on 12/08/16.
@@ -28,9 +26,9 @@ public class BinaryManager {
 
     private static final String TAG = BinaryManager.class.getName();
 
-    private static final String[] binaries = new String[]{"native-binary"};
+    private static final String[] binaries = new String[]{"native-binary", "tcpdump"};
     private static final int BUFFER_SIZE = 4096;
-    public static final String VERSION_CODE_KEY = "VERSION_CODE";
+    private static final String VERSION_CODE_KEY = "VERSION_CODE";
 
 
     private Context context;
@@ -41,7 +39,13 @@ public class BinaryManager {
         this.context = context;
     }
 
-    private String getBinariesAssetPath() {
+    private String getBinariesAssetPath(String filename) throws IOException {
+        AssetManager assetManager = context.getAssets();
+        // check root folder for generic binaries
+        if (Arrays.asList(assetManager.list("")).contains(filename)) {
+            Log.d(TAG, "binary found in root folder: " + filename);
+            return "";
+        }
         String abi;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             abi = Build.SUPPORTED_ABIS[0];
@@ -62,7 +66,7 @@ public class BinaryManager {
             Log.e(TAG, "Warning - unknown architecture, defaulting on armeabi");
             folder = "armeabi";
         }
-        return folder;
+        return folder + "/";
 
     }
 
@@ -71,7 +75,7 @@ public class BinaryManager {
         for (String binary : binaries) {
             deleteModifedBinary(binary);
             if (!isBinaryPresent(binary)) {
-                String binaryNewPath = copyAssetsToAppFilesDir(getBinariesAssetPath(), binary);
+                String binaryNewPath = copyAssetsToAppFilesDir(getBinariesAssetPath(binary), binary);
                 if (binaryNewPath != null) {
                     setExecutable(binaryNewPath);
                 }
@@ -101,7 +105,7 @@ public class BinaryManager {
             long size = 0;
             long nRead;
             byte[] data = new byte[BUFFER_SIZE];
-            InputStream inputStream = assetManager.open(getBinariesAssetPath() + "/" + binary);
+            InputStream inputStream = assetManager.open(getBinariesAssetPath(binary) + binary);
             while ((nRead = inputStream.read(data, 0, BUFFER_SIZE)) != -1) {
                 size += nRead;
             }
@@ -140,7 +144,7 @@ public class BinaryManager {
         final byte[] buff = new byte[BUFFER_SIZE];
 
         try {
-            in = assetManager.open(assetFolder + "/" + filename);
+            in = assetManager.open(assetFolder + filename);
             out = context.openFileOutput(filename, MODE_PRIVATE);
             Log.d(TAG, "outDir: " + context.getFilesDir());
             long size = 0;
