@@ -31,7 +31,7 @@ android {
     defaultConfig {
         externalNativeBuild {
             cmake {
-                targets "native-lib", "libpcap"
+                targets "native-lib", "libpcap", "native-binary"
                 // WARNING!!!! ANDROID_PLATFORM set at android-21 because before API 21 several
                 // linux/*.h didn't existed in the NDK, but we should check if doing so it works
                 // anyway with devices older than API 21

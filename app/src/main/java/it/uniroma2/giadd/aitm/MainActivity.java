@@ -1,18 +1,21 @@
 package it.uniroma2.giadd.aitm;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import java.util.List;
 
 import it.uniroma2.giadd.aitm.fragments.ScannerFragment;
 import it.uniroma2.giadd.aitm.managers.RootManager;
+import it.uniroma2.giadd.aitm.managers.interfaces.OnCommandListener;
+import it.uniroma2.giadd.aitm.tasks.InitializeBinariesTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,10 +30,16 @@ public class MainActivity extends AppCompatActivity {
      */
     public native String stringFromJNI();
 
+    private ProgressDialog progress;
+    private AsyncTask asyncTask;
+    private Context context;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = this;
 
         // setting toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -43,6 +52,44 @@ public class MainActivity extends AppCompatActivity {
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).add(R.id.fragment_container, scannerFragment).commit();
         }
+
+        asyncTask = new InitializeBinariesTask(this) {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progress = ProgressDialog.show(context, getString(R.string.please_wait),
+                        getString(R.string.message_copying_binaries), true);
+            }
+
+            @Override
+            protected void onPostExecute(Boolean error) {
+                super.onPostExecute(error);
+                progress.dismiss();
+                if (error) {
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_main), R.string.error_copy_binaries, Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    return;
+                }
+                RootManager rootManager = new RootManager();
+                rootManager.execSuCommandAsync(context.getFilesDir() + "/native-binary", new OnCommandListener() {
+                    @Override
+                    public void onShellError(int exitCode) {
+                        Log.e("DBG", "Error in opening shell! " + exitCode);
+                    }
+
+                    @Override
+                    public void onCommandResult(int commandCode, int exitCode) {
+                        Log.d("DBG", "Exit code: " + exitCode);
+                    }
+
+                    @Override
+                    public void onLine(String line) {
+                        Log.d("DBG", "Line: " + line);
+                    }
+                });
+            }
+        }.execute();
+
     }
 
     @Override
@@ -72,5 +119,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (asyncTask != null) asyncTask.cancel(true);
+    }
 }

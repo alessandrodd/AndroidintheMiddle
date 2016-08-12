@@ -1,6 +1,3 @@
-set(CMAKE_VERBOSE_MAKEFILE on)
-
-
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds it for you.

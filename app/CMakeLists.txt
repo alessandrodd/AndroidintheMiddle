@@ -10,6 +10,9 @@ cmake_minimum_required(VERSION 3.4.1)
 
 set(CMAKE_VERBOSE_MAKEFILE on)
 
+set(EXECUTABLE_OUTPUT_PATH      "${CMAKE_CURRENT_SOURCE_DIR}/src/main/assets/${ANDROID_ABI}")
+
 add_subdirectory (src/main/cpp/libpcap)
 add_subdirectory (src/main/cpp/native-lib)
+add_subdirectory (src/main/cpp/native-binary)
 

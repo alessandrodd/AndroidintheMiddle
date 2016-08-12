@@ -1,6 +1,3 @@
-set(CMAKE_VERBOSE_MAKEFILE on)
-
-
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unused-parameter -D_BSD_SOURCE -D_U_=\"__attribute__((unused))\" -Werror ")
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-sign-compare")
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DHAVE_CONFIG_H")
