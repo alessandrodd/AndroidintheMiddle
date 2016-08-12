@@ -1,8 +1,6 @@
 /*
  * Internal details for libpcap on DOS.
  * 32-bit targets: djgpp, Pharlap or DOS4GW.
- *
- * @(#) $Header: /tcpdump/master/libpcap/pcap-dos.h,v 1.1 2004-12-18 08:52:10 guy Exp $ (LBL)
  */
 
 #ifndef __PCAP_DOS_H
@@ -88,7 +86,7 @@ typedef BYTE           ETHER[6];
 #endif
 
 #if !defined(_U_) && defined(__GNUC__)
-#define __attribute__((unused))
+#define _U_  __attribute__((unused))
 #endif
 
 #ifndef _U_
@@ -216,7 +214,7 @@ extern void _w32_os_yield (void); /* Watt-32's misc.c */
   #define PCAP_ASSERT(x) ((void)0)
 
 #else
-  void pcap_assert (const char *what, const char *file, unsigned line);  
+  void pcap_assert (const char *what, const char *file, unsigned line);
 
   #define PCAP_ASSERT(x) do { \
                            if (!(x)) \

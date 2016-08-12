@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).add(R.id.fragment_container, scannerFragment).commit();
         }
-
-        stringFromJNI();
     }
 
     @Override
