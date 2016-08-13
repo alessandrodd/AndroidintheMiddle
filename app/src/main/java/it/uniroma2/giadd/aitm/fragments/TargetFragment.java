@@ -1,198 +1,165 @@
 package it.uniroma2.giadd.aitm.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.GestureDetector;
+import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.uniroma2.giadd.aitm.R;
-import it.uniroma2.giadd.aitm.adapters.NetworkHostsAdapter;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
-import it.uniroma2.giadd.aitm.tasks.NetworkHostScannerTask;
-import it.uniroma2.giadd.aitm.utils.DividerItemDecoration;
-import it.uniroma2.giadd.aitm.utils.NetworkUtils;
+import it.uniroma2.giadd.aitm.tasks.CheckHostTask;
 
 /**
  * Created by Alessandro Di Diego
  */
 
-public class TargetFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<NetworkHost>> {
+public class TargetFragment extends Fragment implements LoaderManager.LoaderCallbacks<Boolean> {
 
-    private NetworkHostsAdapter networkHostsAdapter;
-    private ArrayList<NetworkHost> networkHosts;
+    private static final String TAG = TargetFragment.class.getName();
+    private static final String HOST_KEY = "host";
+
+    private TargetFragment thisFragment;
+    private NetworkHost host;
+    private Snackbar snackbar;
+
+    public static TargetFragment newInstance(NetworkHost networkHost) {
+        TargetFragment myFragment = new TargetFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(HOST_KEY, networkHost);
+        myFragment.setArguments(args);
+        return myFragment;
+    }
+
+    View.OnClickListener buttonManager = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.button_check_host_status:
+                    getLoaderManager().restartLoader(1, null, thisFragment);
+                    break;
+                case R.id.button_kill_connection:
+                    break;
+                case R.id.button_mitm_all:
+                    break;
+                case R.id.button_mitm_messages:
+                    break;
+
+            }
+        }
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            host = bundle.getParcelable(HOST_KEY);
+        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parentViewGroup,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_scanner, parentViewGroup, false);
-
-
-        networkHosts = new ArrayList<>();
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        networkHostsAdapter = new NetworkHostsAdapter(networkHosts);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(networkHostsAdapter);
-        // we can enable optimizations if all item views are of the same height and width for significantly smoother scrolling
-        recyclerView.setHasFixedSize(true);
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                NetworkHost networkHost = networkHosts.get(position);
-                // Do something
+        View rootView = inflater.inflate(R.layout.fragment_target, parentViewGroup, false);
+        thisFragment = this;
+        if (host != null) {
+            TextView ipTextView = (TextView) rootView.findViewById(R.id.ip);
+            ipTextView.setText(host.getIp());
+            TextView hostnameTextView = (TextView) rootView.findViewById(R.id.hostname);
+            hostnameTextView.setText(host.getHostname());
+            if (host.getMacAddress() != null) {
+                TextView macTextView = (TextView) rootView.findViewById(R.id.mac);
+                macTextView.setText(host.getMacAddress().getAddress());
+                TextView vendorTextView = (TextView) rootView.findViewById(R.id.vendor);
+                vendorTextView.setText(host.getMacAddress().getVendor());
             }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
-
+        }
+        CardView checkHostStatusButton = (CardView) rootView.findViewById(R.id.button_check_host_status);
+        CardView killConnectionButton = (CardView) rootView.findViewById(R.id.button_kill_connection);
+        CardView mitmAllButton = (CardView) rootView.findViewById(R.id.button_mitm_all);
+        CardView mitmMessagesButton = (CardView) rootView.findViewById(R.id.button_mitm_messages);
+        checkHostStatusButton.setOnClickListener(buttonManager);
+        killConnectionButton.setOnClickListener(buttonManager);
+        mitmAllButton.setOnClickListener(buttonManager);
+        mitmMessagesButton.setOnClickListener(buttonManager);
         return rootView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null)
+            host = savedInstanceState.getParcelable(HOST_KEY);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(HOST_KEY, host);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.inflateMenu(R.menu.scanner_menu);
-        MenuItem actionRefresh = toolbar.getMenu().findItem(R.id.action_refresh);
-        actionRefresh.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                return onOptionsItemSelected(menuItem);
-            }
-        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // action with ID action_refresh was selected
-            case R.id.action_refresh:
-                // check if wifi is connected
-                if (NetworkUtils.checkActiveConnectionType(getContext()) != NetworkUtils.TYPE_WIFI) {
-                    Snackbar snackbar = Snackbar
-                            .make(getView(), R.string.error_scanner_not_connected_to_wifi, Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    break;
-                }
-                if (getView() != null) {
-                    getView().findViewById(R.id.loading_circle).setVisibility(View.VISIBLE);
-                }
-                // id is fragment-unique so we can use 0
-                getLoaderManager().restartLoader(0, null, this);
-                break;
-            default:
-                break;
-        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public Loader<List<NetworkHost>> onCreateLoader(int id, Bundle args) {
-        return new NetworkHostScannerTask(getContext());
+    public Loader<Boolean> onCreateLoader(int id, Bundle args) {
+        if (snackbar != null) snackbar.dismiss();
+        if (getView() != null && getView().findViewById(R.id.fragment_target) != null) {
+            snackbar = Snackbar.make(getView().findViewById(R.id.fragment_target), R.string.host_reachable_check, Snackbar.LENGTH_INDEFINITE);
+            snackbar.show();
+        }
+        return new CheckHostTask(getContext(), host);
     }
 
     @Override
-    public void onLoadFinished(Loader<List<NetworkHost>> loader, List<NetworkHost> data) {
-        networkHosts.removeAll(data);
-        for (NetworkHost networkHost : networkHosts) {
-            networkHost.setReachable(false);
-        }
-        networkHosts.addAll(0, data);
-        networkHostsAdapter.notifyDataSetChanged();
-        if (getView() != null) {
-            getView().findViewById(R.id.loading_circle).setVisibility(View.GONE);
-            TextView textView = (TextView) getView().findViewById(R.id.empty_list_textview);
-            if (networkHosts.size() == 0) textView.setText(R.string.no_host_found);
-            else textView.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<NetworkHost>> loader) {
-
-    }
-
-    public interface ClickListener {
-        void onClick(View view, int position);
-
-        void onLongClick(View view, int position);
-    }
-
-    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
-
-        private GestureDetector gestureDetector;
-        private ClickListener clickListener;
-
-        RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
-            this.clickListener = clickListener;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-
-                @Override
-                public void onLongPress(MotionEvent e) {
-                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                    if (child != null && clickListener != null) {
-                        clickListener.onLongClick(child, recyclerView.getChildAdapterPosition(child));
-                    }
-                }
-            });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent e) {
-
-            View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
-                clickListener.onClick(child, recyclerView.getChildAdapterPosition(child));
+    public void onLoadFinished(Loader<Boolean> loader, Boolean reachable) {
+        Log.d("DBG", "FINISHED2");
+        if (snackbar != null) snackbar.dismiss();
+        if (getView() != null && getView().findViewById(R.id.fragment_target) != null) {
+            CardView deviceInfo = (CardView) getView().findViewById(R.id.cardview_device_info);
+            if (reachable) {
+                snackbar = Snackbar.make(getView().findViewById(R.id.fragment_target), R.string.host_reachable_message, Snackbar.LENGTH_LONG);
+                host.setReachable(true);
+                deviceInfo.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.cardview_dark_background));
+            } else {
+                snackbar = Snackbar.make(getView().findViewById(R.id.fragment_target), R.string.host_unreachable_message, Snackbar.LENGTH_LONG);
+                host.setReachable(false);
+                deviceInfo.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent_red));
             }
-            return false;
+            snackbar.show();
         }
+    }
 
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        }
+    @Override
+    public void onLoaderReset(Loader<Boolean> loader) {
+        if (snackbar != null) snackbar.dismiss();
+    }
 
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (snackbar != null) snackbar.dismiss();
     }
 
 }

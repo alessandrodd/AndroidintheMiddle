@@ -16,4 +16,8 @@
     <string name="button_sniff_all">SNIFF ALL</string>
     <string name="button_sniff_messaging_apps">SNIFF MESSAGING APPS</string>
     <string name="button_check_host_status">CHECK HOST STATUS</string>
+    <string name="host_reachable_check">Checking if host is reachable...</string>
+    <string name="host_reachable_message">Host is reachable.</string>
+    <string name="host_unreachable_message">Warning: Host is unreachable.</string>
+    <string name="gateway">(Gateway)</string>
 </resources>

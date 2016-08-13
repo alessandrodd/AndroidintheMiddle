@@ -1,10 +1,13 @@
 package it.uniroma2.giadd.aitm.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Alessandro Di Diego on 10/08/16.
  */
 
-public class NetworkHost {
+public class NetworkHost implements Parcelable {
 
     private String ip;
     private String hostname;
@@ -70,4 +73,37 @@ public class NetworkHost {
     public void setReachable(boolean reachable) {
         this.reachable = reachable;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.ip);
+        dest.writeString(this.hostname);
+        dest.writeParcelable(this.macAddress, flags);
+        dest.writeByte(this.reachable ? (byte) 1 : (byte) 0);
+    }
+
+    protected NetworkHost(Parcel in) {
+        this.ip = in.readString();
+        this.hostname = in.readString();
+        this.macAddress = in.readParcelable(MACAddress.class.getClassLoader());
+        this.reachable = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<NetworkHost> CREATOR = new Parcelable.Creator<NetworkHost>() {
+        @Override
+        public NetworkHost createFromParcel(Parcel source) {
+            return new NetworkHost(source);
+        }
+
+        @Override
+        public NetworkHost[] newArray(int size) {
+            return new NetworkHost[size];
+        }
+    };
 }

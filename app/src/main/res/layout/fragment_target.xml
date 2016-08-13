@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/activity_main"
+        android:id="@+id/fragment_target"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -16,7 +16,6 @@
             android:layout_margin="@dimen/margin_small">
 
             <RelativeLayout
-                android:id="@+id/row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_small">
@@ -48,6 +47,7 @@
                     android:layout_marginRight="@dimen/margin_small"
                     android:layout_toEndOf="@id/ip_title"
                     android:layout_toRightOf="@id/ip_title"
+                    android:freezesText="true"
                     tools:text="192.168.1.1" />
 
                 <TextView
@@ -59,6 +59,7 @@
                     android:layout_marginRight="@dimen/margin_small"
                     android:layout_toEndOf="@id/ip"
                     android:layout_toRightOf="@id/ip"
+                    android:freezesText="true"
                     tools:text="(hostname.it)" />
 
                 <TextView
@@ -80,6 +81,7 @@
                     android:layout_marginRight="@dimen/margin_small"
                     android:layout_toEndOf="@id/mac_title"
                     android:layout_toRightOf="@id/mac_title"
+                    android:freezesText="true"
                     tools:text="AA:BB:CC:00:11:22" />
 
                 <TextView
@@ -101,16 +103,17 @@
                     android:layout_marginRight="@dimen/margin_small"
                     android:layout_toEndOf="@id/vendor_title"
                     android:layout_toRightOf="@id/vendor_title"
+                    android:freezesText="true"
                     tools:text="Asustek" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/button_check_host_status"
+            style="@style/CardViewButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cardview_device_info"
-            android:layout_margin="@dimen/margin_small">
+            android:layout_below="@id/cardview_device_info">
 
 
             <TextView
@@ -126,10 +129,10 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/button_kill_connection"
+            style="@style/CardViewButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/button_check_host_status"
-            android:layout_margin="@dimen/margin_small">
+            android:layout_below="@id/button_check_host_status">
 
 
             <TextView
@@ -145,10 +148,10 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/button_mitm_all"
+            style="@style/CardViewButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/button_kill_connection"
-            android:layout_margin="@dimen/margin_small">
+            android:layout_below="@id/button_kill_connection">
 
 
             <TextView
@@ -164,10 +167,10 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/button_mitm_messages"
+            style="@style/CardViewButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/button_mitm_all"
-            android:layout_margin="@dimen/margin_small">
+            android:layout_below="@id/button_mitm_all">
 
 
             <TextView

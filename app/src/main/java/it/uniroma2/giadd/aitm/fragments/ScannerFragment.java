@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -28,7 +30,6 @@ import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.adapters.NetworkHostsAdapter;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
 import it.uniroma2.giadd.aitm.tasks.NetworkHostScannerTask;
-import it.uniroma2.giadd.aitm.utils.DividerItemDecoration;
 import it.uniroma2.giadd.aitm.utils.NetworkUtils;
 
 /**
@@ -58,7 +59,7 @@ public class ScannerFragment extends Fragment implements LoaderManager.LoaderCal
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(networkHostsAdapter);
         // we can enable optimizations if all item views are of the same height and width for significantly smoother scrolling
         recyclerView.setHasFixedSize(true);
@@ -66,7 +67,12 @@ public class ScannerFragment extends Fragment implements LoaderManager.LoaderCal
             @Override
             public void onClick(View view, int position) {
                 NetworkHost networkHost = networkHosts.get(position);
-                // Do something
+                TargetFragment fragment = TargetFragment.newInstance(networkHost);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
 
             @Override
@@ -103,9 +109,11 @@ public class ScannerFragment extends Fragment implements LoaderManager.LoaderCal
             case R.id.action_refresh:
                 // check if wifi is connected
                 if (NetworkUtils.checkActiveConnectionType(getContext()) != NetworkUtils.TYPE_WIFI) {
-                    Snackbar snackbar = Snackbar
-                            .make(getView(), R.string.error_scanner_not_connected_to_wifi, Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    if (getView() != null) {
+                        Snackbar snackbar = Snackbar
+                                .make(getView(), R.string.error_scanner_not_connected_to_wifi, Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
                     break;
                 }
                 if (getView() != null) {

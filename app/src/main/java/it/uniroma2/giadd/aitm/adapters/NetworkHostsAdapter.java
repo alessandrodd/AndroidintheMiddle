@@ -1,5 +1,7 @@
 package it.uniroma2.giadd.aitm.adapters;
 
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +22,12 @@ public class NetworkHostsAdapter extends RecyclerView.Adapter<NetworkHostsAdapte
     private List<NetworkHost> networkHostsList;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
+        CardView cardView;
         TextView ip, hostname, mac, vendor;
 
         MyViewHolder(View view) {
             super(view);
+            cardView = (CardView) view.findViewById(R.id.cardview);
             ip = (TextView) view.findViewById(R.id.ip);
             hostname = (TextView) view.findViewById(R.id.hostname);
             mac = (TextView) view.findViewById(R.id.mac);
@@ -52,8 +56,10 @@ public class NetworkHostsAdapter extends RecyclerView.Adapter<NetworkHostsAdapte
         holder.mac.setText((networkHost.getMacAddress().getAddress()));
         holder.vendor.setText((networkHost.getMacAddress().getVendor()));
         if (networkHost.isReachable())
-            holder.itemView.setBackgroundResource(R.color.transparent);
-        else holder.itemView.setBackgroundResource(R.color.transparent_red);
+            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.cardView.getContext(), R.color.cardview_dark_background));
+        else
+            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.cardView.getContext(), R.color.transparent_red));
+
     }
 
     @Override

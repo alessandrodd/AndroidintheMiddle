@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.managers.ArpTableReader;
 import it.uniroma2.giadd.aitm.managers.PacketSender;
 import it.uniroma2.giadd.aitm.models.MACAddress;
@@ -61,6 +62,7 @@ public class NetworkHostScannerTask extends AsyncTaskLoader<List<NetworkHost>> {
         }
         InetAddress ipInet = IPUtils.intToInetAddress(dhcpInfo.ipAddress);
         InetAddress maskInet = IPUtils.intToInetAddress(dhcpInfo.netmask);
+        InetAddress gatewayInet = IPUtils.intToInetAddress(dhcpInfo.gateway);
         if (ipInet == null) {
             Log.e(TAG, "invalid ip address: " + dhcpInfo.ipAddress);
             return data;
@@ -86,6 +88,20 @@ public class NetworkHostScannerTask extends AsyncTaskLoader<List<NetworkHost>> {
         }
         ArpTableReader arpTableReader = new ArpTableReader(macAddressVendorLookup);
         data.addAll(arpTableReader.readAddresses());
+
+        // mark gateway host
+        if (gatewayInet != null) {
+            String gateway = gatewayInet.getHostAddress();
+            for (NetworkHost networkHost : data) {
+                if (networkHost.getIp() != null && networkHost.getIp().equals(gateway)) {
+                    if (networkHost.getHostname() == null)
+                        networkHost.setHostname(getContext().getString(R.string.gateway));
+                    else
+                        networkHost.setHostname(networkHost.getHostname() + " " + getContext().getString(R.string.gateway));
+                    break;
+                }
+            }
+        }
 
         // Add this device informations at the top of the list
         String deviceMACAddress = NetworkUtils.getDeviceMacAddr();
