@@ -1,81 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_small">
 
-
-    <TextView
-        android:id="@+id/ip_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/ip" />
-
-    <TextView
-        android:id="@+id/ip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/ip_title"
-        android:layout_marginLeft="@dimen/margin_small"
-        android:layout_marginRight="@dimen/margin_small"
-        android:layout_toEndOf="@id/ip_title"
-        android:layout_toRightOf="@id/ip_title"
-        tools:text="192.168.1.1" />
-
-    <TextView
-        android:id="@+id/hostname"
+    <RelativeLayout
+        android:id="@+id/row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/ip_title"
-        android:layout_marginLeft="@dimen/margin_small"
-        android:layout_marginRight="@dimen/margin_small"
-        android:layout_toEndOf="@id/ip"
-        android:layout_toRightOf="@id/ip"
-        tools:text="(hostname.it)" />
+        android:layout_margin="@dimen/margin_small">
 
-    <TextView
-        android:id="@+id/mac_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/ip"
-        android:layout_marginTop="@dimen/margin_xsmall"
-        android:text="@string/mac" />
 
-    <TextView
-        android:id="@+id/mac"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/mac_title"
-        android:layout_marginLeft="@dimen/margin_small"
-        android:layout_marginRight="@dimen/margin_small"
-        android:layout_toEndOf="@id/mac_title"
-        android:layout_toRightOf="@id/mac_title"
-        tools:text="AA:BB:CC:00:11:22" />
+        <TextView
+            android:id="@+id/ip_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/ip" />
 
-    <TextView
-        android:id="@+id/vendor_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/mac"
-        android:layout_marginTop="@dimen/margin_xsmall"
-        android:text="@string/vendor" />
+        <TextView
+            android:id="@+id/ip"
+            style="@style/TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/ip_title"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_toEndOf="@id/ip_title"
+            android:layout_toRightOf="@id/ip_title"
+            tools:text="192.168.1.1" />
 
-    <TextView
-        android:id="@+id/vendor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/vendor_title"
-        android:layout_marginLeft="@dimen/margin_small"
-        android:layout_marginRight="@dimen/margin_small"
-        android:layout_toEndOf="@id/vendor_title"
-        android:layout_toRightOf="@id/vendor_title"
-        tools:text="Asustek" />
-</RelativeLayout>
+        <TextView
+            android:id="@+id/hostname"
+            style="@style/TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/ip_title"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_toEndOf="@id/ip"
+            android:layout_toRightOf="@id/ip"
+            tools:text="(hostname.it)" />
+
+        <TextView
+            android:id="@+id/mac_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/ip"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:text="@string/mac" />
+
+        <TextView
+            android:id="@+id/mac"
+            style="@style/TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/mac_title"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_toEndOf="@id/mac_title"
+            android:layout_toRightOf="@id/mac_title"
+            tools:text="AA:BB:CC:00:11:22" />
+
+        <TextView
+            android:id="@+id/vendor_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/mac"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:text="@string/vendor" />
+
+        <TextView
+            android:id="@+id/vendor"
+            style="@style/TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/vendor_title"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_toEndOf="@id/vendor_title"
+            android:layout_toRightOf="@id/vendor_title"
+            tools:text="Asustek" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

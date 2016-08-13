@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview_device_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small">
+
+            <RelativeLayout
+                android:id="@+id/row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small">
+
+                <TextView
+                    android:id="@+id/device_info"
+                    style="@style/TextTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:text="@string/device_info" />
+
+                <TextView
+                    android:id="@+id/ip_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/device_info"
+                    android:text="@string/ip" />
+
+                <TextView
+                    android:id="@+id/ip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/ip_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/ip_title"
+                    android:layout_toRightOf="@id/ip_title"
+                    tools:text="192.168.1.1" />
+
+                <TextView
+                    android:id="@+id/hostname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/ip_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/ip"
+                    android:layout_toRightOf="@id/ip"
+                    tools:text="(hostname.it)" />
+
+                <TextView
+                    android:id="@+id/mac_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/ip"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/mac" />
+
+                <TextView
+                    android:id="@+id/mac"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/mac_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/mac_title"
+                    android:layout_toRightOf="@id/mac_title"
+                    tools:text="AA:BB:CC:00:11:22" />
+
+                <TextView
+                    android:id="@+id/vendor_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/mac"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/vendor" />
+
+                <TextView
+                    android:id="@+id/vendor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/vendor_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/vendor_title"
+                    android:layout_toRightOf="@id/vendor_title"
+                    tools:text="Asustek" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_check_host_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cardview_device_info"
+            android:layout_margin="@dimen/margin_small">
+
+
+            <TextView
+                style="@style/TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/button_check_host_status" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_kill_connection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button_check_host_status"
+            android:layout_margin="@dimen/margin_small">
+
+
+            <TextView
+                style="@style/TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/button_kill_connection" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_mitm_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button_kill_connection"
+            android:layout_margin="@dimen/margin_small">
+
+
+            <TextView
+                style="@style/TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/button_sniff_all" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_mitm_messages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button_mitm_all"
+            android:layout_margin="@dimen/margin_small">
+
+
+            <TextView
+                style="@style/TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/button_sniff_messaging_apps" />
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+</ScrollView>

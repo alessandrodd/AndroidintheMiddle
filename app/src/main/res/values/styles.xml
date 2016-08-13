@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Textview Styles -->
+    <style name="TextTitle">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextButton">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

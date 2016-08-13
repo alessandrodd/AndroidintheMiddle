@@ -9,6 +9,11 @@
     <string name="no_host_found">No host found. Press the refresh button to try again!</string>
     <string name="error_scanner_not_connected_to_wifi">ERROR: You must be connected to WiFi in order to scan the network.</string>
     <string name="error_copy_binaries">ERROR: Unable to copy binaries</string>
-    <string name="please_wait">Please, wait...</string>
-    <string name="message_copying_binaries">Copying binaries from asset folder to app data folder...</string>
+    <string name="please_wait">Please, wait…</string>
+    <string name="message_copying_binaries">Copying binaries from asset folder to app data folder…</string>
+    <string name="device_info">Device info</string>
+    <string name="button_kill_connection">KILL CONNECTION</string>
+    <string name="button_sniff_all">SNIFF ALL</string>
+    <string name="button_sniff_messaging_apps">SNIFF MESSAGING APPS</string>
+    <string name="button_check_host_status">CHECK HOST STATUS</string>
 </resources>
