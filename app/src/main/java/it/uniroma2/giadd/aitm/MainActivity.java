@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 RootManager rootManager = new RootManager();
-                rootManager.execSuCommandAsync(context.getFilesDir() + "/native-binary", new OnCommandListener() {
+                rootManager.execSuCommandAsync(context.getFilesDir() + "/arpspoof", new OnCommandListener() {
                     @Override
                     public void onShellError(int exitCode) {
                         Log.e("DBG", "Error in opening shell! " + exitCode);

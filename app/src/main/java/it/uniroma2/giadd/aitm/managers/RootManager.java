@@ -54,6 +54,7 @@ public class RootManager {
     }
 
     private void execCommand(final String command, final OnCommandListener callback) {
+        Log.d("DBG", "Executing this command: " + command);
         rootSession.addCommand(new String[]{command},
                 1, // a command id
                 new Shell.OnCommandLineListener() {
@@ -71,13 +72,13 @@ public class RootManager {
 
     public void execSuCommandAsync(final String command, final OnCommandListener callback) {
         // start the shell in the background and keep it alive as long as the app is running
-        if (rootSession != null) {
+      /*  if (rootSession != null) {
             execCommand(command, callback);
             return;
-        }
+        }*/
         rootSession = new Shell.Builder().
                 useSU().
-                setWantSTDERR(true).
+                setWantSTDERR(true).setOnSTDERRLineListener(callback).
                 setWatchdogTimeout(5).
                 setMinimalLogging(true).
                 open(new Shell.OnCommandResultListener() {
