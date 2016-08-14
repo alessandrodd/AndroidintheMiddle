@@ -62,7 +62,6 @@ public class NetworkHostScannerTask extends AsyncTaskLoader<List<NetworkHost>> {
         }
         InetAddress ipInet = IPUtils.intToInetAddress(dhcpInfo.ipAddress);
         InetAddress maskInet = IPUtils.intToInetAddress(dhcpInfo.netmask);
-        InetAddress gatewayInet = IPUtils.intToInetAddress(dhcpInfo.gateway);
         if (ipInet == null) {
             Log.e(TAG, "invalid ip address: " + dhcpInfo.ipAddress);
             return data;
@@ -86,14 +85,17 @@ public class NetworkHostScannerTask extends AsyncTaskLoader<List<NetworkHost>> {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ArpTableReader arpTableReader = new ArpTableReader(macAddressVendorLookup);
+
+        // mark gateway host
+        String gateway = NetworkUtils.getWifiGateway(getContext());
+
+        ArpTableReader arpTableReader = new ArpTableReader(macAddressVendorLookup, gateway);
         data.addAll(arpTableReader.readAddresses());
 
         // mark gateway host
-        if (gatewayInet != null) {
-            String gateway = gatewayInet.getHostAddress();
+        if (gateway != null) {
             for (NetworkHost networkHost : data) {
-                if (networkHost.getIp() != null && networkHost.getIp().equals(gateway)) {
+                if (networkHost.isGateway()) {
                     if (networkHost.getHostname() == null)
                         networkHost.setHostname(getContext().getString(R.string.gateway));
                     else
@@ -104,7 +106,7 @@ public class NetworkHostScannerTask extends AsyncTaskLoader<List<NetworkHost>> {
         }
 
         // Add this device informations at the top of the list
-        String deviceMACAddress = NetworkUtils.getDeviceMacAddr();
+        String deviceMACAddress = NetworkUtils.getDeviceMacAddr(getContext());
         MACAddress deviceMAC = new MACAddress(deviceMACAddress, macAddressVendorLookup.getVendor(deviceMACAddress));
         NetworkHost deviceNetworkHost = new NetworkHost(ipInet.getHostAddress(), "(This device)", deviceMAC, true);
         data.add(0, deviceNetworkHost);

@@ -13,6 +13,7 @@ public class NetworkHost implements Parcelable {
     private String hostname;
     private MACAddress macAddress;
     private boolean reachable;
+    private boolean gateway;
 
     public NetworkHost(String ip, String hostname, MACAddress macAddress, boolean reachable) {
         this.ip = ip;
@@ -22,6 +23,15 @@ public class NetworkHost implements Parcelable {
         this.reachable = reachable;
     }
 
+    public NetworkHost(String ip, String hostname, MACAddress macAddress, boolean reachable, boolean gateway) {
+        this.ip = ip;
+        if (hostname == null) hostname = "";
+        this.hostname = hostname;
+        this.macAddress = macAddress;
+        this.reachable = reachable;
+        this.gateway = gateway;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -29,7 +39,7 @@ public class NetworkHost implements Parcelable {
 
         NetworkHost that = (NetworkHost) o;
 
-        return reachable == that.reachable && (ip != null ? ip.equals(that.ip) : that.ip == null && (hostname != null ? hostname.equals(that.hostname) : that.hostname == null && (macAddress != null ? macAddress.equals(that.macAddress) : that.macAddress == null)));
+        return reachable == that.reachable && gateway == that.gateway && (ip != null ? ip.equals(that.ip) : that.ip == null && (hostname != null ? hostname.equals(that.hostname) : that.hostname == null && (macAddress != null ? macAddress.equals(that.macAddress) : that.macAddress == null)));
 
     }
 
@@ -39,6 +49,7 @@ public class NetworkHost implements Parcelable {
         result = 31 * result + (hostname != null ? hostname.hashCode() : 0);
         result = 31 * result + (macAddress != null ? macAddress.hashCode() : 0);
         result = 31 * result + (reachable ? 1 : 0);
+        result = 31 * result + (gateway ? 1 : 0);
         return result;
     }
 
@@ -74,6 +85,14 @@ public class NetworkHost implements Parcelable {
         this.reachable = reachable;
     }
 
+    public boolean isGateway() {
+        return gateway;
+    }
+
+    public void setGateway(boolean gateway) {
+        this.gateway = gateway;
+    }
+
 
     @Override
     public int describeContents() {
@@ -86,6 +105,7 @@ public class NetworkHost implements Parcelable {
         dest.writeString(this.hostname);
         dest.writeParcelable(this.macAddress, flags);
         dest.writeByte(this.reachable ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.gateway ? (byte) 1 : (byte) 0);
     }
 
     protected NetworkHost(Parcel in) {
@@ -93,9 +113,10 @@ public class NetworkHost implements Parcelable {
         this.hostname = in.readString();
         this.macAddress = in.readParcelable(MACAddress.class.getClassLoader());
         this.reachable = in.readByte() != 0;
+        this.gateway = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<NetworkHost> CREATOR = new Parcelable.Creator<NetworkHost>() {
+    public static final Creator<NetworkHost> CREATOR = new Creator<NetworkHost>() {
         @Override
         public NetworkHost createFromParcel(Parcel source) {
             return new NetworkHost(source);

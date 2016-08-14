@@ -1,5 +1,6 @@
 package it.uniroma2.giadd.aitm.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -17,8 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.net.SocketException;
+
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
+import it.uniroma2.giadd.aitm.models.SniffAllModule;
+import it.uniroma2.giadd.aitm.services.SniffService;
 import it.uniroma2.giadd.aitm.tasks.CheckHostTask;
 
 /**
@@ -52,6 +57,17 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
                 case R.id.button_kill_connection:
                     break;
                 case R.id.button_mitm_all:
+                    Intent i = new Intent(getContext(), SniffService.class);
+                    SniffAllModule module = null;
+                    try {
+                        module = new SniffAllModule(getContext(), host.getIp(), null, getContext().getFilesDir() + "prova.cap");
+                    } catch (SocketException e) {
+                        e.printStackTrace();
+                        if (getView() != null)
+                            Snackbar.make(getView(), getString(R.string.error_sniff_all_module) + e.getMessage(), Snackbar.LENGTH_LONG).show();
+                    }
+                    i.putExtra(SniffService.MITM_MODULE, module);
+                    getContext().startService(i);
                     break;
                 case R.id.button_mitm_messages:
                     break;

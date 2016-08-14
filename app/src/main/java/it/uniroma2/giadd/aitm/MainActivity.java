@@ -2,19 +2,17 @@ package it.uniroma2.giadd.aitm;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import it.uniroma2.giadd.aitm.fragments.ScannerFragment;
-import it.uniroma2.giadd.aitm.managers.RootManager;
-import it.uniroma2.giadd.aitm.managers.interfaces.OnCommandListener;
 import it.uniroma2.giadd.aitm.tasks.InitializeBinariesTask;
 
 public class MainActivity extends AppCompatActivity {
@@ -68,25 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 if (error) {
                     Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_main), R.string.error_copy_binaries, Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    return;
                 }
-                RootManager rootManager = new RootManager();
-                rootManager.execSuCommandAsync(context.getFilesDir() + "/arpspoof", new OnCommandListener() {
-                    @Override
-                    public void onShellError(int exitCode) {
-                        Log.e("DBG", "Error in opening shell! " + exitCode);
-                    }
-
-                    @Override
-                    public void onCommandResult(int commandCode, int exitCode) {
-                        Log.d("DBG", "Exit code: " + exitCode);
-                    }
-
-                    @Override
-                    public void onLine(String line) {
-                        Log.d("DBG", "Line: " + line);
-                    }
-                });
             }
         }.execute();
 
@@ -111,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // action with ID action_settings was selected
             case R.id.action_settings:
-                // open settings menu!
+                Intent intent = new Intent(this, OptionsActivity.class);
+                startActivity(intent);
             default:
                 break;
         }

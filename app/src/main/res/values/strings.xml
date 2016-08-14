@@ -16,8 +16,19 @@
     <string name="button_sniff_all">SNIFF ALL</string>
     <string name="button_sniff_messaging_apps">SNIFF MESSAGING APPS</string>
     <string name="button_check_host_status">CHECK HOST STATUS</string>
-    <string name="host_reachable_check">Checking if host is reachable...</string>
+    <string name="host_reachable_check">Checking if host is reachable…</string>
     <string name="host_reachable_message">Host is reachable.</string>
     <string name="host_unreachable_message">Warning: Host is unreachable.</string>
     <string name="gateway">(Gateway)</string>
+    <string name="sniff_service">SniffService</string>
+    <string name="change_network_interface">Change Network Interface</string>
+    <string name="default_choice">Default</string>
+    <string name="error_sniff_all_module">"Error in SnifAllModule: "</string>
+    <string name="mitm_started">MitM started...</string>
+    <string name="stop_mitm">Stop MitM</string>
+
+    <string-array name="options_array">
+        <item>Network Interface</item>
+        <item></item>
+    </string-array>
 </resources>

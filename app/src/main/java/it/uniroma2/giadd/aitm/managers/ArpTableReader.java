@@ -16,9 +16,15 @@ import it.uniroma2.giadd.aitm.utils.MACAddressVendorLookup;
 public class ArpTableReader {
 
     private MACAddressVendorLookup macLut;
+    private String gateway;
 
     public ArpTableReader(MACAddressVendorLookup initializedMACAddressVendorLookup) {
         this.macLut = initializedMACAddressVendorLookup;
+    }
+
+    public ArpTableReader(MACAddressVendorLookup initializedMACAddressVendorLookup, String gateway) {
+        this.macLut = initializedMACAddressVendorLookup;
+        this.gateway = gateway;
     }
 
     public ArrayList<NetworkHost> readAddresses() {
@@ -36,6 +42,7 @@ public class ArpTableReader {
                         String vendor = macLut.getVendor(mac);
                         MACAddress macAddress = new MACAddress(mac, vendor);
                         NetworkHost networkHost = new NetworkHost(ip, "", macAddress, true);
+                        if (gateway != null && gateway.equals(ip)) networkHost.setGateway(true);
                         networkHosts.add(networkHost);
                     }
                 }

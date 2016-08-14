@@ -33,6 +33,7 @@ public class RootManager {
         return null;
     }
 
+    @Deprecated
     public static void execSuCommandAsync(final String command, final OnSuCommandExecuted callback) {
         final Handler mHandler = new Handler();
 
@@ -72,10 +73,10 @@ public class RootManager {
 
     public void execSuCommandAsync(final String command, final OnCommandListener callback) {
         // start the shell in the background and keep it alive as long as the app is running
-      /*  if (rootSession != null) {
+        if (rootSession != null) {
             execCommand(command, callback);
             return;
-        }*/
+        }
         rootSession = new Shell.Builder().
                 useSU().
                 setWantSTDERR(true).setOnSTDERRLineListener(callback).

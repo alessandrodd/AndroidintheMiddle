@@ -2,7 +2,6 @@ package it.uniroma2.giadd.aitm.tasks;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -24,21 +23,17 @@ public class CheckHostTask extends AsyncTaskLoader<Boolean> {
     public CheckHostTask(Context context, NetworkHost networkHost) {
         super(context);
         this.networkHost = networkHost;
-        Log.d("DBG", "STARTED0");
     }
 
     @Override
     public Boolean loadInBackground() {
-        Log.d("DBG", "STARTED");
         Boolean reachable = false;
         if (networkHost == null) return false;
         try {
-            Log.d("DBG", "STARTED1");
             reachable = InetAddress.getByName(networkHost.getIp()).isReachable(DEFAULT_TIMEOUT);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d("DBG", "FINISHED");
         return reachable;
     }
 
