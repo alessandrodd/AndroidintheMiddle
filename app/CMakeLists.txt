@@ -15,6 +15,7 @@ set(EXECUTABLE_OUTPUT_PATH      "${CMAKE_CURRENT_SOURCE_DIR}/src/main/assets/${A
 add_subdirectory (src/main/cpp/libpcap)
 add_subdirectory (src/main/cpp/native-lib)
 add_subdirectory (src/main/cpp/native-binary)
+add_subdirectory (src/main/cpp/mykill)
 add_subdirectory (src/main/cpp/libnet)
 add_subdirectory (src/main/cpp/arpspoof)
 

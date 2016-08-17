@@ -26,7 +26,7 @@ public class BinaryManager {
 
     private static final String TAG = BinaryManager.class.getName();
 
-    private static final String[] binaries = new String[]{"native-binary", "tcpdump", "arpspoof"};
+    private static final String[] binaries = new String[]{"native-binary", "tcpdump", "arpspoof", "iptables", "mykill"};
     private static final int BUFFER_SIZE = 4096;
     private static final String VERSION_CODE_KEY = "VERSION_CODE";
 

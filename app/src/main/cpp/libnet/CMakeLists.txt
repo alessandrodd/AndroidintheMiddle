@@ -50,6 +50,7 @@ set(libnet_srcs src/libnet_advanced.c
 
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g")
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DHAVE_CONFIG_H -D_U_=\"__attribute__((unused))\" -Dlinux -D__GLIBC__ -D_GNU_SOURCE")
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ffunction-sections -fdata-sections")
 
 add_library(libnet STATIC ${libnet_srcs})
 target_include_directories (libnet PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

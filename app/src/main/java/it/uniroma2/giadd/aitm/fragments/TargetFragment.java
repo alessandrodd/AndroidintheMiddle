@@ -22,7 +22,7 @@ import java.net.SocketException;
 
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
-import it.uniroma2.giadd.aitm.models.SniffAllModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffAllModule;
 import it.uniroma2.giadd.aitm.services.SniffService;
 import it.uniroma2.giadd.aitm.tasks.CheckHostTask;
 
@@ -60,7 +60,7 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
                     Intent i = new Intent(getContext(), SniffService.class);
                     SniffAllModule module = null;
                     try {
-                        module = new SniffAllModule(getContext(), host.getIp(), null, getContext().getFilesDir() + "prova.cap");
+                        module = new SniffAllModule(getContext(), host.getIp(), null, getContext().getFilesDir() + "/" + "prova.cap");
                     } catch (SocketException e) {
                         e.printStackTrace();
                         if (getView() != null)

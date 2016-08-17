@@ -9,13 +9,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.managers.RootManager;
 import it.uniroma2.giadd.aitm.managers.interfaces.OnCommandListener;
-import it.uniroma2.giadd.aitm.models.MitmModule;
+import it.uniroma2.giadd.aitm.models.modules.MitmModule;
 
 /**
  * Created by Alessandro Di Diego on 13/08/16.
@@ -29,13 +28,16 @@ public class SniffService extends Service implements OnCommandListener {
     public static final String MITM_STOP = "MITM_STOP";
     public static final String MITM_MODULE = "MITM_MODULE";
 
+    private RootManager rootManager;
+    private MitmModule mitmModule;
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent.getBooleanExtra(MITM_STOP, false)) {
             stopSelf();
         }
         if (intent.getParcelableExtra(MITM_MODULE) != null) {
-            MitmModule mitmModule = intent.getParcelableExtra(MITM_MODULE);
+            mitmModule = intent.getParcelableExtra(MITM_MODULE);
             if (mitmModule.getCommands() != null && mitmModule.getCommands().size() > 0) {
                 showNotification();
                 execCommands(mitmModule.getCommands());
@@ -48,6 +50,7 @@ public class SniffService extends Service implements OnCommandListener {
     @Override
     public void onDestroy() {
         stopForeground(true);
+        if (mitmModule != null) mitmModule.onModuleTermination(this);
         super.onDestroy();
     }
 
@@ -63,9 +66,9 @@ public class SniffService extends Service implements OnCommandListener {
     }
 
     private void execCommands(List<String> commands) {
-        RootManager rootManager = new RootManager();
-        for (String command : commands) {
-            rootManager.execSuCommandAsync(command, this);
+        for (int i = 0; i < commands.size(); i++) {
+            rootManager = new RootManager();
+            rootManager.execSuCommandAsync(commands.get(i), i, this);
         }
     }
 

@@ -9,10 +9,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import eu.chainfire.libsuperuser.Debug;
 import it.uniroma2.giadd.aitm.fragments.ScannerFragment;
+import it.uniroma2.giadd.aitm.managers.RootManager;
+import it.uniroma2.giadd.aitm.managers.interfaces.OnCommandListener;
 import it.uniroma2.giadd.aitm.tasks.InitializeBinariesTask;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,9 +71,37 @@ public class MainActivity extends AppCompatActivity {
                     Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_main), R.string.error_copy_binaries, Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
+
+
+
+                Debug.setDebug(true);
+                RootManager rootManager = new RootManager();
+                //rootManager.execSuCommandAsync("/data/user/0/it.uniroma2.giadd.aitm/files/arpspoof -i wlan0 -t 192.168.1.102 192.168.1.254", 0, new OnCommandListener() {
+                rootManager.execSuCommandAsync("/data/user/0/it.uniroma2.giadd.aitm/files/tcpdump -qns 0 -A -r /data/user/0/it.uniroma2.giadd.aitm/files/prova.cap", 0, new OnCommandListener() {
+                    //rootManager.execSuCommandAsync("ping www.google.it", 0, new OnCommandListener() {
+                    @Override
+                    public void onShellError(int exitCode) {
+                        Log.d("DBG", "ERROR" + exitCode);
+                    }
+
+                    @Override
+                    public void onCommandResult(int commandCode, int exitCode) {
+                        Log.d("DBG", "EXITCODE" + exitCode);
+                    }
+
+                    @Override
+                    public void onLine(String line) {
+                        Log.d("DBG", "LINE" + line);
+                    }
+                });
+
+
+
+
+
+
             }
         }.execute();
-
     }
 
     @Override
