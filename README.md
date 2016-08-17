@@ -7,3 +7,6 @@ Repository for Android in the Middle app
 - creazione filtri ad hoc [Medio]
 - creazione Activity e servizi [Medio/Facile ma lungo]
 - creazione interfaccia [Facile-Medio a seconda di quanto vogliamo complicarci la vita]
+
+TODO:
+  compile tcpdump and iptables in order to support non-arm CPUs
