@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import it.uniroma2.giadd.aitm.CaptureActivity;
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
 import it.uniroma2.giadd.aitm.models.modules.SniffAllModule;
@@ -100,6 +101,8 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
                             }
                             i.putExtra(SniffService.MITM_MODULE, module);
                             getContext().startService(i);
+                            i = new Intent(getContext(), CaptureActivity.class);
+                            startActivity(i);
                         }
                     });
 

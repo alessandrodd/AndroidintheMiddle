@@ -1,21 +1,10 @@
 package it.uniroma2.giadd.aitm;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
@@ -28,14 +17,8 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import java.io.File;
-
-import it.uniroma2.giadd.aitm.fragments.ScannerFragment;
-import it.uniroma2.giadd.aitm.managers.RootManager;
-import it.uniroma2.giadd.aitm.managers.interfaces.OnCommandListener;
 import it.uniroma2.giadd.aitm.models.modules.MitmModule;
 import it.uniroma2.giadd.aitm.services.SniffService;
-import it.uniroma2.giadd.aitm.tasks.InitializeBinariesTask;
 
 public class CaptureActivity extends AppCompatActivity {
 
@@ -89,25 +72,6 @@ public class CaptureActivity extends AppCompatActivity {
                 else saveCaptureSwitch.setChecked(false);
             } else saveCaptureSwitch.setVisibility(View.GONE);
             consoleOutputTextView.setText("");
-            RootManager rootManager = new RootManager();
-            String command = "cat <path> | <binary_path>/tcpdump -r -";
-            rootManager.execSuCommandAsync(command, 0, new OnCommandListener() {
-                @Override
-                public void onShellError(int exitCode) {
-
-                }
-
-                @Override
-                public void onCommandResult(int commandCode, int exitCode) {
-
-                }
-
-                @Override
-                public void onLine(String line) {
-
-                }
-            });
-
         }
     }
 
@@ -123,8 +87,9 @@ public class CaptureActivity extends AppCompatActivity {
 
     @Override
     public void onResume() {
+        super.onResume();
         try {
-            LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter());
+            LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter(SniffService.TAG));
         } catch (IllegalArgumentException e) {
             Log.d(TAG, "receiver already registered");
         }

@@ -12,6 +12,7 @@ import android.util.Log;
 
 import java.util.List;
 
+import it.uniroma2.giadd.aitm.CaptureActivity;
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.managers.RootManager;
 import it.uniroma2.giadd.aitm.managers.interfaces.OnCommandListener;
@@ -68,9 +69,13 @@ public class SniffService extends Service implements OnCommandListener {
         Intent stopIntent = new Intent(this, this.getClass());
         stopIntent.putExtra(MITM_STOP, true);
         PendingIntent stopPendingIntent = PendingIntent.getService(this, 1, stopIntent, 0);
+        Intent notificationIntent = new Intent(this, CaptureActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
         Notification notification = builder.setSmallIcon(R.drawable.ic_action_navigation_refresh).setTicker(getString(R.string.mitm_started))
                 .setAutoCancel(false).setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.mitm_started)).addAction(android.R.drawable.ic_media_pause, getString(R.string.stop_mitm), stopPendingIntent).build();
+                .setContentText(getString(R.string.mitm_started)).addAction(android.R.drawable.ic_media_pause, getString(R.string.stop_mitm), stopPendingIntent).setContentIntent(pendingIntent).build();
+
+
         startForeground(ONGOING_NOTIFICATION_ID, notification);
     }
 
