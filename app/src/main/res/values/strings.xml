@@ -26,6 +26,18 @@
     <string name="error_sniff_all_module">"Error in SnifAllModule: "</string>
     <string name="mitm_started">MitM started...</string>
     <string name="stop_mitm">Stop MitM</string>
+    <string name="title_set_capture_filename">Set capture file name</string>
+    <string name="error_illegal_character">"Error: illegal character: "</string>
+    <string name="error_write_permissions">Error: no write permissions. Please, give this app write permissions in order to continue.</string>
+    <string name="error_unable_create_folder">Error: unable to create folder pcaps in external storage.</string>
+    <string name="error_permission_denied">Error: write and read permissions are needed to capture packets!\nYou will not be able to capture packets.</string>
+    <string name="module_sniffall_title">Sniff All</string>
+    <string name="module_sniffall_message">Capturing all traffic...</string>
+    <string name="module_killconnection_message">Killing connection...</string>
+    <string name="module_killconnection_title">Kill Connection</string>
+    <string name="module_mitm_title">MitM Module</string>
+    <string name="module_mitm_message">Generic MitM module</string>
+    <string name="save_capture">Save capture</string>
 
     <string-array name="options_array">
         <item>Network Interface</item>

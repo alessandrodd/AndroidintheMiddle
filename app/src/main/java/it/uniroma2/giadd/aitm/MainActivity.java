@@ -1,22 +1,27 @@
 package it.uniroma2.giadd.aitm;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import eu.chainfire.libsuperuser.Debug;
+import java.io.File;
+
 import it.uniroma2.giadd.aitm.fragments.ScannerFragment;
-import it.uniroma2.giadd.aitm.managers.RootManager;
-import it.uniroma2.giadd.aitm.managers.interfaces.OnCommandListener;
 import it.uniroma2.giadd.aitm.tasks.InitializeBinariesTask;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,9 +37,13 @@ public class MainActivity extends AppCompatActivity {
      */
     public native String stringFromJNI();
 
+    private static final int WRITE_PERMISSION_CODE = 1;
+    private static final int READ_PERMISSION_CODE = 2;
+
     private ProgressDialog progress;
     private AsyncTask asyncTask;
     private Context context;
+    private Activity activity;
 
 
     @Override
@@ -42,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = this;
+        activity = this;
 
         // setting toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -71,9 +81,11 @@ public class MainActivity extends AppCompatActivity {
                     Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_main), R.string.error_copy_binaries, Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
-
-
-
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
+                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_PERMISSION_CODE);
+                }
+                /*
                 Debug.setDebug(true);
                 RootManager rootManager = new RootManager();
                 //rootManager.execSuCommandAsync("/data/user/0/it.uniroma2.giadd.aitm/files/arpspoof -i wlan0 -t 192.168.1.102 192.168.1.254", 0, new OnCommandListener() {
@@ -93,15 +105,29 @@ public class MainActivity extends AppCompatActivity {
                     public void onLine(String line) {
                         Log.d("DBG", "LINE" + line);
                     }
-                });
-
-
-
-
+                });*/
 
 
             }
         }.execute();
+    }
+
+    //This method will be called when the user will tap on allow or deny
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //Checking the request code of our request
+        if (requestCode == WRITE_PERMISSION_CODE || requestCode == READ_PERMISSION_CODE) {
+            //If permission is granted
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //permission granted
+                File folder = new File(Environment.getExternalStorageDirectory() + "/pcaps");
+                if (!folder.exists() && !folder.mkdir()) {
+                    Snackbar.make(activity.findViewById(R.id.activity_main), getString(R.string.error_unable_create_folder), Snackbar.LENGTH_LONG).show();
+                }
+            } else {
+                Snackbar.make(activity.findViewById(R.id.activity_main), R.string.error_permission_denied, Snackbar.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override

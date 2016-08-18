@@ -37,7 +37,7 @@ static void cleanup(int sig) {
 
     if (netmap == NULL) {
         if (arp_lookup(gateway_ip, &gateway_mac, iface) == 0) {
-            for (i = 0; i < 3; i++) {
+            for (i = 0; i < 5; i++) {
                 /* XXX - on BSD, requires ETHERSPOOF kernel. */
                 arp_send(lnet, ARPOP_REPLY, (unsigned char *) &gateway_mac, gateway_ip,
                          (unsigned char *) &target_mac, target_ip);
@@ -47,7 +47,7 @@ static void cleanup(int sig) {
     }
     else {
         if (arp_lookup(gateway_ip, &gateway_mac, iface) == 0) {
-            for (i = 0; i < 3; i++) {
+            for (i = 0; i < 5; i++) {
                 for (j = 0; j < netmap->bucketCount; j++) {
                     Entry *hentry = netmap->buckets[j];
                     while (hentry != NULL) {

@@ -1,13 +1,13 @@
 package it.uniroma2.giadd.aitm.models.modules;
 
 import android.content.Context;
-import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
 import java.net.SocketException;
 import java.util.List;
 
+import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.managers.RootManager;
 import it.uniroma2.giadd.aitm.managers.interfaces.OnCommandListener;
 import it.uniroma2.giadd.aitm.utils.NetworkUtils;
@@ -26,11 +26,13 @@ public class SniffAllModule extends MitmModule implements Parcelable {
      */
     private static final String ARP_SPOOF_COMMAND_1 = "arpspoof -i <interface> -t <target> <default gateway>";
     private static final String ARP_SPOOF_COMMAND_2 = "arpspoof -i <interface> -t <default gateway> <target>";
-    private static final String TCPDUMP_COMMAND = "tcpdump host <target> -i <interface> -XSs 0 -w <path> and not arp and not rarp";
+    private static final String TCPDUMP_COMMAND = "tcpdump host <target> -i <interface> -XSs 0 -l -w <path> and not arp and not rarp";
     private static final String TCPDUMP_COMMAND_NO_DUMP = "tcpdump host <target> -i <interface> -XSs 0 and not arp and not rarp";
 
     public SniffAllModule(Context context, String target, List<String> additionalCommands, String path) throws SocketException {
-        super(context, additionalCommands);
+        super(context, path, additionalCommands);
+        moduleTitle = context.getString(R.string.module_sniffall_title);
+        moduleMessage = context.getString(R.string.module_sniffall_message);
 
         // enable forwarding
         addKernelRoutingCommand(true);
@@ -74,7 +76,7 @@ public class SniffAllModule extends MitmModule implements Parcelable {
 
 
     @Override
-    public void onModuleTermination(Context context) {
+    public void onModuleTermination(final Context context) {
         RootManager.killByName(context, "tcpdump", RootManager.SIGINT, new OnCommandListener() {
             @Override
             public void onShellError(int exitCode) {
@@ -84,6 +86,7 @@ public class SniffAllModule extends MitmModule implements Parcelable {
             @Override
             public void onCommandResult(int commandCode, int exitCode) {
                 Log.d(TAG, "tcpdump terminated; EXIT CODE:" + exitCode);
+                SniffAllModule.super.onModuleTermination(context);
             }
 
             @Override
@@ -111,34 +114,4 @@ public class SniffAllModule extends MitmModule implements Parcelable {
             }
         });
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringList(this.commands);
-        dest.writeByte(this.dumpToFile ? (byte) 1 : (byte) 0);
-        dest.writeString(this.binaryFolder);
-    }
-
-    protected SniffAllModule(Parcel in) {
-        this.commands = in.createStringArrayList();
-        this.dumpToFile = in.readByte() != 0;
-        this.binaryFolder = in.readString();
-    }
-
-    public static final Parcelable.Creator<SniffAllModule> CREATOR = new Parcelable.Creator<SniffAllModule>() {
-        @Override
-        public SniffAllModule createFromParcel(Parcel source) {
-            return new SniffAllModule(source);
-        }
-
-        @Override
-        public SniffAllModule[] newArray(int size) {
-            return new SniffAllModule[size];
-        }
-    };
 }

@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
@@ -27,6 +28,9 @@ public class SniffService extends Service implements OnCommandListener {
     public static final String TAG = SniffService.class.getName();
     public static final String MITM_STOP = "MITM_STOP";
     public static final String MITM_MODULE = "MITM_MODULE";
+    public static final String RETRIEVE_MITM_MODULE = "RETRIEVE_MITM_MODULE";
+    public static final String DELETE_DUMP = "DELETE_DUMP";
+    public static final String SAVE_DUMP = "SAVE_DUMP";
 
     private RootManager rootManager;
     private MitmModule mitmModule;
@@ -35,15 +39,20 @@ public class SniffService extends Service implements OnCommandListener {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent.getBooleanExtra(MITM_STOP, false)) {
             stopSelf();
-        }
-        if (intent.getParcelableExtra(MITM_MODULE) != null) {
+        } else if (intent.getParcelableExtra(MITM_MODULE) != null) {
             mitmModule = intent.getParcelableExtra(MITM_MODULE);
             if (mitmModule.getCommands() != null && mitmModule.getCommands().size() > 0) {
                 showNotification();
                 execCommands(mitmModule.getCommands());
             }
-
+        } else if (intent.getBooleanExtra(RETRIEVE_MITM_MODULE, false)) {
+            sendModule();
+        } else if (intent.getBooleanExtra(DELETE_DUMP, false)) {
+            if (mitmModule != null) mitmModule.setDumpToFile(false);
+        } else if (intent.getBooleanExtra(SAVE_DUMP, false)) {
+            if (mitmModule != null) mitmModule.setDumpToFile(true);
         }
+
         return Service.START_NOT_STICKY;
     }
 
@@ -70,6 +79,13 @@ public class SniffService extends Service implements OnCommandListener {
             rootManager = new RootManager();
             rootManager.execSuCommandAsync(commands.get(i), i, this);
         }
+    }
+
+    private void sendModule() {
+        Intent intent = new Intent(TAG);
+        if (mitmModule != null)
+            intent.putExtra(MITM_MODULE, mitmModule);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     @Nullable

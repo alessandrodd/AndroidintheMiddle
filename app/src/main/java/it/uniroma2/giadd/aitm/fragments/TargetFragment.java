@@ -1,13 +1,16 @@
 package it.uniroma2.giadd.aitm.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,15 +19,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.net.SocketException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
 import it.uniroma2.giadd.aitm.models.modules.SniffAllModule;
 import it.uniroma2.giadd.aitm.services.SniffService;
 import it.uniroma2.giadd.aitm.tasks.CheckHostTask;
+import it.uniroma2.giadd.aitm.utils.PermissionUtils;
 
 /**
  * Created by Alessandro Di Diego
@@ -34,6 +42,8 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
 
     private static final String TAG = TargetFragment.class.getName();
     private static final String HOST_KEY = "host";
+    private static final char[] ILLEGAL_CHARACTERS = {'/', '\n', '\r', '\t', '\0', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':'};
+
 
     private TargetFragment thisFragment;
     private NetworkHost host;
@@ -57,17 +67,46 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
                 case R.id.button_kill_connection:
                     break;
                 case R.id.button_mitm_all:
-                    Intent i = new Intent(getContext(), SniffService.class);
-                    SniffAllModule module = null;
-                    try {
-                        module = new SniffAllModule(getContext(), host.getIp(), null, getContext().getFilesDir() + "/" + "prova.cap");
-                    } catch (SocketException e) {
-                        e.printStackTrace();
+                    if (!PermissionUtils.isWriteStorageAllowed(getContext())) {
                         if (getView() != null)
-                            Snackbar.make(getView(), getString(R.string.error_sniff_all_module) + e.getMessage(), Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(getView(), R.string.error_write_permissions, Snackbar.LENGTH_LONG).show();
+                        break;
                     }
-                    i.putExtra(SniffService.MITM_MODULE, module);
-                    getContext().startService(i);
+
+                    final AlertDialog.Builder popDialog = new AlertDialog.Builder(getContext());
+                    final EditText fileNameEditText = new EditText(getContext());
+                    Date now = new Date(); // java.util.Date, NOT java.sql.Date or java.sql.Timestamp!
+                    String dateString = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(now);
+                    fileNameEditText.setText(dateString);
+                    popDialog.setTitle(R.string.title_set_capture_filename);
+                    popDialog.setView(fileNameEditText);
+                    popDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            String insertedString = fileNameEditText.getText().toString();
+                            for (Character character : ILLEGAL_CHARACTERS) {
+                                if (insertedString.indexOf(character) != -1 && getView() != null) {
+                                    Snackbar.make(getView(), getString(R.string.error_illegal_character) + " " + character, Snackbar.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+                            Intent i = new Intent(getContext(), SniffService.class);
+                            SniffAllModule module = null;
+                            try {
+                                module = new SniffAllModule(getContext(), host.getIp(), null, Environment.getExternalStorageDirectory() + "/pcaps" + "/" + insertedString + ".pcap");
+                            } catch (SocketException e) {
+                                e.printStackTrace();
+                                if (getView() != null)
+                                    Snackbar.make(getView(), getString(R.string.error_sniff_all_module) + e.getMessage(), Snackbar.LENGTH_LONG).show();
+                            }
+                            i.putExtra(SniffService.MITM_MODULE, module);
+                            getContext().startService(i);
+                        }
+                    });
+
+                    popDialog.create();
+                    popDialog.show();
+
+
                     break;
                 case R.id.button_mitm_messages:
                     break;

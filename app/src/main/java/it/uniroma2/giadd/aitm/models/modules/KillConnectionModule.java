@@ -8,6 +8,7 @@ import android.util.Log;
 import java.net.SocketException;
 import java.util.List;
 
+import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.managers.RootManager;
 import it.uniroma2.giadd.aitm.managers.interfaces.OnCommandListener;
 import it.uniroma2.giadd.aitm.utils.NetworkUtils;
@@ -22,7 +23,9 @@ public class KillConnectionModule extends MitmModule implements Parcelable {
     private static final String ARP_SPOOF_COMMAND = "arpspoof -i <interface> -t <target> <default gateway>";
 
     public KillConnectionModule(Context context, String target, List<String> additionalCommands) throws SocketException {
-        super(context, additionalCommands);
+        super(context, null, additionalCommands);
+        moduleTitle = context.getString(R.string.module_killconnection_title);
+        moduleMessage = context.getString(R.string.module_killconnection_message);
 
         // disable forwarding to block connection
         addKernelRoutingCommand(false);
@@ -47,6 +50,7 @@ public class KillConnectionModule extends MitmModule implements Parcelable {
 
     @Override
     public void onModuleTermination(Context context) {
+        super.onModuleTermination(context);
         RootManager.killByName(context, "arpspoof", RootManager.SIGINT, new OnCommandListener() {
             @Override
             public void onShellError(int exitCode) {
@@ -67,33 +71,4 @@ public class KillConnectionModule extends MitmModule implements Parcelable {
         });
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringList(this.commands);
-        dest.writeByte(this.dumpToFile ? (byte) 1 : (byte) 0);
-        dest.writeString(this.binaryFolder);
-    }
-
-    protected KillConnectionModule(Parcel in) {
-        this.commands = in.createStringArrayList();
-        this.dumpToFile = in.readByte() != 0;
-        this.binaryFolder = in.readString();
-    }
-
-    public static final Parcelable.Creator<KillConnectionModule> CREATOR = new Parcelable.Creator<KillConnectionModule>() {
-        @Override
-        public KillConnectionModule createFromParcel(Parcel source) {
-            return new KillConnectionModule(source);
-        }
-
-        @Override
-        public KillConnectionModule[] newArray(int size) {
-            return new KillConnectionModule[size];
-        }
-    };
 }
