@@ -22,8 +22,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    externalNativeBuild{
-        cmake{
+    externalNativeBuild {
+        cmake {
             path "CMakeLists.txt"
         }
     }
@@ -31,14 +31,14 @@ android {
     defaultConfig {
         externalNativeBuild {
             cmake {
-                //targets "native-lib", "libpcap", "native-binary"
+                targets "libpcap", "native-lib", "pcap-parser", "native-binary", "mykill", "libnet", "arpspoof"
                 // WARNING!!!! ANDROID_PLATFORM set at android-21 because before API 21 several
                 // linux/*.h didn't existed in the NDK, but we should check if doing so it works
                 // anyway with devices older than API 21
                 arguments "-DANDROID_TOOLCHAIN=clang", "-DANDROID_PLATFORM=android-21"
                 cFlags "-DTEST_C_FLAG1", "-DTEST_C_FLAG2"
                 cppFlags "-DTEST_CPP_FLAG2", "-DTEST_CPP_FLAG2"
-                abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a'
+                abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64'
             }
         }
     }

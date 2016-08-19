@@ -16,12 +16,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.io.File;
 
 import it.uniroma2.giadd.aitm.fragments.ScannerFragment;
+import it.uniroma2.giadd.aitm.models.PcapParser;
 import it.uniroma2.giadd.aitm.tasks.InitializeBinariesTask;
 
 public class MainActivity extends AppCompatActivity {
@@ -85,6 +87,16 @@ public class MainActivity extends AppCompatActivity {
                     ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
                     ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_PERMISSION_CODE);
                 }
+
+                PcapParser pcapParser = new PcapParser(){
+                    @Override
+                    protected void onPacketParsed(String string) {
+                        super.onPacketParsed(string);
+                        Log.d("DBG", "IP:"+string);
+                    }
+                };
+                //pcapParser.parsePcapFile(Environment.getExternalStorageDirectory()+"/pcaps/prova2.pcap");
+
                 /*
                 Debug.setDebug(true);
                 RootManager rootManager = new RootManager();
