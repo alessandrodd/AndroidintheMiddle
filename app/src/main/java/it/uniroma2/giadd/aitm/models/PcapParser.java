@@ -16,7 +16,7 @@ public class PcapParser {
 
     }
 
-    protected void onPacketParsed(String string) {
+    protected void onPacketParsed(MyIpPacket ipPacket) {
 
     }
 }

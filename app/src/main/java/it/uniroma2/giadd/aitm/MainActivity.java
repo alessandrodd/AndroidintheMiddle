@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import java.io.File;
 
 import it.uniroma2.giadd.aitm.fragments.ScannerFragment;
+import it.uniroma2.giadd.aitm.models.MyIpPacket;
 import it.uniroma2.giadd.aitm.models.PcapParser;
 import it.uniroma2.giadd.aitm.tasks.InitializeBinariesTask;
 
@@ -88,14 +89,27 @@ public class MainActivity extends AppCompatActivity {
                     ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_PERMISSION_CODE);
                 }
 
-                PcapParser pcapParser = new PcapParser(){
+                PcapParser pcapParser = new PcapParser() {
                     @Override
-                    protected void onPacketParsed(String string) {
-                        super.onPacketParsed(string);
-                        Log.d("DBG", "IP:"+string);
+                    protected void onPacketParsed(MyIpPacket ipPacket) {
+                        super.onPacketParsed(ipPacket);
+                        Log.d("DBG", "Pacchetto: " + ipPacket.toString());
+                        Log.d("DBG", "Data: ");
+                        Log.d("DBG", "------------START------------");
+                        byte[] bytes = ipPacket.getTransportLayerPacket().getData();
+                        String dataStr ="";
+                        for (byte b : bytes) {
+                            if ((b >= 32 && b <= 126) || b == 10 || b == 11 || b == 13) {
+                                dataStr += (char) b;
+                            } else {
+                                dataStr += ".";
+                            }
+                        }
+                        Log.d("DBG", dataStr);
+                        Log.d("DBG", "------------END------------");
                     }
                 };
-                //pcapParser.parsePcapFile(Environment.getExternalStorageDirectory()+"/pcaps/prova2.pcap");
+                pcapParser.parsePcapFile(Environment.getExternalStorageDirectory() + "/pcaps/prova2.pcap");
 
                 /*
                 Debug.setDebug(true);
