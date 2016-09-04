@@ -23,6 +23,10 @@ package it.uniroma2.giadd.aitm.models;
  */
 
 public class MyIpPacket {
+
+    public static final int IPPROTO_TCP = 6;
+    public static final int IPPROTO_UDP = 17;
+
     private String sourceIp;
     private String destinationIp;
     private int headerLength;

@@ -71,4 +71,30 @@ public class KillConnectionModule extends MitmModule implements Parcelable {
         });
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+    }
+
+    protected KillConnectionModule(Parcel in) {
+        super(in);
+    }
+
+    public static final Creator<KillConnectionModule> CREATOR = new Creator<KillConnectionModule>() {
+        @Override
+        public KillConnectionModule createFromParcel(Parcel source) {
+            return new KillConnectionModule(source);
+        }
+
+        @Override
+        public KillConnectionModule[] newArray(int size) {
+            return new KillConnectionModule[size];
+        }
+    };
 }

@@ -192,7 +192,6 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<Boolean> loader, Boolean reachable) {
-        Log.d("DBG", "FINISHED2");
         if (snackbar != null) snackbar.dismiss();
         if (getView() != null && getView().findViewById(R.id.fragment_target) != null) {
             CardView deviceInfo = (CardView) getView().findViewById(R.id.cardview_device_info);

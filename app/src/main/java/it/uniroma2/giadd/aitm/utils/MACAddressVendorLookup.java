@@ -88,7 +88,6 @@ public class MACAddressVendorLookup {
         if (cursor != null) {
             icount = cursor.getInt(0);
         }
-        Log.d("DBG", "icount:" + icount);
         return icount > 0;
     }
 
@@ -178,7 +177,6 @@ public class MACAddressVendorLookup {
         public void onCreate(SQLiteDatabase db) {
             mDatabase = db;
             mDatabase.execSQL(FTS_TABLE_CREATE);
-            Log.d("DBG", "CREAZIONE!");
         }
 
         @Override

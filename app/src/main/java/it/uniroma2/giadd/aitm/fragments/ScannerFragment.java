@@ -1,6 +1,5 @@
 package it.uniroma2.giadd.aitm.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -13,12 +12,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -31,6 +28,7 @@ import it.uniroma2.giadd.aitm.adapters.NetworkHostsAdapter;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
 import it.uniroma2.giadd.aitm.tasks.NetworkHostScannerTask;
 import it.uniroma2.giadd.aitm.utils.NetworkUtils;
+import it.uniroma2.giadd.aitm.utils.RecyclerTouchListener;
 
 /**
  * Created by Alessandro Di Diego
@@ -158,49 +156,6 @@ public class ScannerFragment extends Fragment implements LoaderManager.LoaderCal
         void onClick(View view, int position);
 
         void onLongClick(View view, int position);
-    }
-
-    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
-
-        private GestureDetector gestureDetector;
-        private ClickListener clickListener;
-
-        RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
-            this.clickListener = clickListener;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-
-                @Override
-                public void onLongPress(MotionEvent e) {
-                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                    if (child != null && clickListener != null) {
-                        clickListener.onLongClick(child, recyclerView.getChildAdapterPosition(child));
-                    }
-                }
-            });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent e) {
-
-            View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
-                clickListener.onClick(child, recyclerView.getChildAdapterPosition(child));
-            }
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
     }
 
 }

@@ -16,16 +16,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.io.File;
 
 import it.uniroma2.giadd.aitm.fragments.ScannerFragment;
-import it.uniroma2.giadd.aitm.models.MyIpPacket;
-import it.uniroma2.giadd.aitm.models.PcapParser;
 import it.uniroma2.giadd.aitm.tasks.InitializeBinariesTask;
+import it.uniroma2.giadd.aitm.tasks.ParsePcapTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int WRITE_PERMISSION_CODE = 1;
     private static final int READ_PERMISSION_CODE = 2;
+    private static final int ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 3;
 
     private ProgressDialog progress;
     private AsyncTask asyncTask;
@@ -60,12 +59,39 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
+        } else startScanner();
+    }
+
+    //This method will be called when the user will tap on allow or deny
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //Checking the request code of our request
+        if (requestCode == WRITE_PERMISSION_CODE || requestCode == READ_PERMISSION_CODE || requestCode == ASK_MULTIPLE_PERMISSION_REQUEST_CODE) {
+            //If permission is granted
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //permission granted
+                File folder = new File(Environment.getExternalStorageDirectory() + "/pcaps");
+                if (!folder.exists() && !folder.mkdir()) {
+                    Snackbar.make(activity.findViewById(R.id.activity_main), getString(R.string.error_unable_create_folder), Snackbar.LENGTH_LONG).show();
+                } else {
+                    // We got permissions; let's start the real behavior
+                    startScanner();
+                }
+            } else {
+                Snackbar.make(activity.findViewById(R.id.activity_main), R.string.error_permission_denied, Snackbar.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void startScanner() {
         // initializing Activity with the first fragment
         if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) == null) {
             // Create a new Fragment to be placed in the activity layout
             ScannerFragment scannerFragment = new ScannerFragment();
             // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).add(R.id.fragment_container, scannerFragment).commit();
+            getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).add(R.id.fragment_container, scannerFragment).commitAllowingStateLoss();
         }
 
         asyncTask = new InitializeBinariesTask(this) {
@@ -84,76 +110,8 @@ public class MainActivity extends AppCompatActivity {
                     Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_main), R.string.error_copy_binaries, Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
-                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_PERMISSION_CODE);
-                }
-
-                PcapParser pcapParser = new PcapParser() {
-                    @Override
-                    protected void onPacketParsed(MyIpPacket ipPacket) {
-                        super.onPacketParsed(ipPacket);
-                        Log.d("DBG", "Pacchetto: " + ipPacket.toString());
-                        Log.d("DBG", "Data: ");
-                        Log.d("DBG", "------------START------------");
-                        byte[] bytes = ipPacket.getTransportLayerPacket().getData();
-                        String dataStr ="";
-                        for (byte b : bytes) {
-                            if ((b >= 32 && b <= 126) || b == 10 || b == 11 || b == 13) {
-                                dataStr += (char) b;
-                            } else {
-                                dataStr += ".";
-                            }
-                        }
-                        Log.d("DBG", dataStr);
-                        Log.d("DBG", "------------END------------");
-                    }
-                };
-                pcapParser.parsePcapFile(Environment.getExternalStorageDirectory() + "/pcaps/prova2.pcap");
-
-                /*
-                Debug.setDebug(true);
-                RootManager rootManager = new RootManager();
-                //rootManager.execSuCommandAsync("/data/user/0/it.uniroma2.giadd.aitm/files/arpspoof -i wlan0 -t 192.168.1.102 192.168.1.254", 0, new OnCommandListener() {
-                rootManager.execSuCommandAsync("/data/user/0/it.uniroma2.giadd.aitm/files/tcpdump -qns 0 -A -r /data/user/0/it.uniroma2.giadd.aitm/files/prova.cap", 0, new OnCommandListener() {
-                    //rootManager.execSuCommandAsync("ping www.google.it", 0, new OnCommandListener() {
-                    @Override
-                    public void onShellError(int exitCode) {
-                        Log.d("DBG", "ERROR" + exitCode);
-                    }
-
-                    @Override
-                    public void onCommandResult(int commandCode, int exitCode) {
-                        Log.d("DBG", "EXITCODE" + exitCode);
-                    }
-
-                    @Override
-                    public void onLine(String line) {
-                        Log.d("DBG", "LINE" + line);
-                    }
-                });*/
-
-
             }
         }.execute();
-    }
-
-    //This method will be called when the user will tap on allow or deny
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        //Checking the request code of our request
-        if (requestCode == WRITE_PERMISSION_CODE || requestCode == READ_PERMISSION_CODE) {
-            //If permission is granted
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //permission granted
-                File folder = new File(Environment.getExternalStorageDirectory() + "/pcaps");
-                if (!folder.exists() && !folder.mkdir()) {
-                    Snackbar.make(activity.findViewById(R.id.activity_main), getString(R.string.error_unable_create_folder), Snackbar.LENGTH_LONG).show();
-                }
-            } else {
-                Snackbar.make(activity.findViewById(R.id.activity_main), R.string.error_permission_denied, Snackbar.LENGTH_LONG).show();
-            }
-        }
     }
 
     @Override

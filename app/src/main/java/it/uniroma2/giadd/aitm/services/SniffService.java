@@ -32,8 +32,8 @@ public class SniffService extends Service implements OnCommandListener {
     public static final String RETRIEVE_MITM_MODULE = "RETRIEVE_MITM_MODULE";
     public static final String DELETE_DUMP = "DELETE_DUMP";
     public static final String SAVE_DUMP = "SAVE_DUMP";
+    public static final String CONSOLE_MESSAGE = "CONSOLE_MESSAGE";
 
-    private RootManager rootManager;
     private MitmModule mitmModule;
 
     @Override
@@ -61,6 +61,8 @@ public class SniffService extends Service implements OnCommandListener {
     public void onDestroy() {
         stopForeground(true);
         if (mitmModule != null) mitmModule.onModuleTermination(this);
+        sendStopMessage();
+        mitmModule = null;
         super.onDestroy();
     }
 
@@ -81,15 +83,28 @@ public class SniffService extends Service implements OnCommandListener {
 
     private void execCommands(List<String> commands) {
         for (int i = 0; i < commands.size(); i++) {
-            rootManager = new RootManager();
+            RootManager rootManager = new RootManager();
             rootManager.execSuCommandAsync(commands.get(i), i, this);
         }
     }
 
     private void sendModule() {
         Intent intent = new Intent(TAG);
-        if (mitmModule != null)
+        if (mitmModule != null) {
             intent.putExtra(MITM_MODULE, mitmModule);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        } else sendStopMessage();
+    }
+
+    private void sendConsoleMessage(String message) {
+        Intent intent = new Intent(TAG);
+        intent.putExtra(CONSOLE_MESSAGE, message);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+    private void sendStopMessage() {
+        Intent intent = new Intent(TAG);
+        intent.putExtra(MITM_STOP, true);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
@@ -111,7 +126,6 @@ public class SniffService extends Service implements OnCommandListener {
 
     @Override
     public void onLine(String line) {
-        Log.d(TAG, "Line: " + line);
-
+        sendConsoleMessage(line);
     }
 }

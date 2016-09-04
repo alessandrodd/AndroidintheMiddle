@@ -91,4 +91,140 @@ public class MyTcpPacket extends MyTransportLayerPacket {
                 ", urg=" + urg +
                 '}';
     }
+
+    public int getSourcePort() {
+        return sourcePort;
+    }
+
+    public void setSourcePort(int sourcePort) {
+        this.sourcePort = sourcePort;
+    }
+
+    public int getDestinationPort() {
+        return destinationPort;
+    }
+
+    public void setDestinationPort(int destinationPort) {
+        this.destinationPort = destinationPort;
+    }
+
+    public long getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    public void setSequenceNumber(long sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+    public long getAcknowledgmentNumber() {
+        return acknowledgmentNumber;
+    }
+
+    public void setAcknowledgmentNumber(long acknowledgmentNumber) {
+        this.acknowledgmentNumber = acknowledgmentNumber;
+    }
+
+    public int getDataOffset() {
+        return dataOffset;
+    }
+
+    public void setDataOffset(int dataOffset) {
+        this.dataOffset = dataOffset;
+    }
+
+    public int getWindow() {
+        return window;
+    }
+
+    public void setWindow(int window) {
+        this.window = window;
+    }
+
+    public int getChecksum() {
+        return checksum;
+    }
+
+    public void setChecksum(int checksum) {
+        this.checksum = checksum;
+    }
+
+    public int getUrgentPointer() {
+        return urgentPointer;
+    }
+
+    public void setUrgentPointer(int urgentPointer) {
+        this.urgentPointer = urgentPointer;
+    }
+
+    public long getAckSequence() {
+        return ackSequence;
+    }
+
+    public void setAckSequence(long ackSequence) {
+        this.ackSequence = ackSequence;
+    }
+
+    public int getCwr() {
+        return cwr;
+    }
+
+    public void setCwr(int cwr) {
+        this.cwr = cwr;
+    }
+
+    public int getEce() {
+        return ece;
+    }
+
+    public void setEce(int ece) {
+        this.ece = ece;
+    }
+
+    public int getFin() {
+        return fin;
+    }
+
+    public void setFin(int fin) {
+        this.fin = fin;
+    }
+
+    public int getPsh() {
+        return psh;
+    }
+
+    public void setPsh(int psh) {
+        this.psh = psh;
+    }
+
+    public int getReservedBits1() {
+        return reservedBits1;
+    }
+
+    public void setReservedBits1(int reservedBits1) {
+        this.reservedBits1 = reservedBits1;
+    }
+
+    public int getRst() {
+        return rst;
+    }
+
+    public void setRst(int rst) {
+        this.rst = rst;
+    }
+
+    public int getSyn() {
+        return syn;
+    }
+
+    public void setSyn(int syn) {
+        this.syn = syn;
+    }
+
+    public int getUrg() {
+        return urg;
+    }
+
+    public void setUrg(int urg) {
+        this.urg = urg;
+    }
 }

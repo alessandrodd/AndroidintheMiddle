@@ -17,7 +17,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -28,6 +27,10 @@
             android:name="it.uniroma2.giadd.aitm.services.SniffService"
             android:icon="@drawable/ic_action_navigation_refresh"
             android:label="@string/sniff_service" />
+        <service
+            android:name="it.uniroma2.giadd.aitm.services.ParsePcapService"
+            android:icon="@drawable/ic_action_navigation_refresh"
+            android:label="@string/parse_pcap_service" />
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package it.uniroma2.giadd.aitm.models.modules;
 
 import android.content.Context;
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
@@ -26,7 +27,7 @@ public class SniffAllModule extends MitmModule implements Parcelable {
      */
     private static final String ARP_SPOOF_COMMAND_1 = "arpspoof -i <interface> -t <target> <default gateway>";
     private static final String ARP_SPOOF_COMMAND_2 = "arpspoof -i <interface> -t <default gateway> <target>";
-    private static final String TCPDUMP_COMMAND = "tcpdump host <target> -i <interface> -XSs 0 -l -w <path> and not arp and not rarp";
+    private static final String TCPDUMP_COMMAND = "tcpdump host <target> -i <interface> -XSs 0 -U -w <path> and not arp and not rarp";
     private static final String TCPDUMP_COMMAND_NO_DUMP = "tcpdump host <target> -i <interface> -XSs 0 and not arp and not rarp";
 
     public SniffAllModule(Context context, String target, List<String> additionalCommands, String path) throws SocketException {
@@ -114,4 +115,30 @@ public class SniffAllModule extends MitmModule implements Parcelable {
             }
         });
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+    }
+
+    protected SniffAllModule(Parcel in) {
+        super(in);
+    }
+
+    public static final Creator<SniffAllModule> CREATOR = new Creator<SniffAllModule>() {
+        @Override
+        public SniffAllModule createFromParcel(Parcel source) {
+            return new SniffAllModule(source);
+        }
+
+        @Override
+        public SniffAllModule[] newArray(int size) {
+            return new SniffAllModule[size];
+        }
+    };
 }

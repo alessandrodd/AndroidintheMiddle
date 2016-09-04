@@ -7,6 +7,7 @@
 #include <netinet/udp.h>
 #include <arpa/inet.h>
 #include <android/log.h>
+#include <unistd.h>
 
 #define TAG "pcap-parser.cpp"
 
@@ -24,23 +25,90 @@ typedef struct {
 
 void packetHandler(callback *cb, const struct pcap_pkthdr *pkthdr, const u_char *packet);
 
-JNIEXPORT jint JNICALL Java_it_uniroma2_giadd_aitm_models_PcapParser_parsePcapFile(JNIEnv *env,
-                                                                                   jobject obj,
-                                                                                   jstring path) {
+long parsePcapFileFromOffset(callback *cb, const char *pcap_path, long offset) {
+    pcap_t *pcap_opened;
+    char errbuf[PCAP_ERRBUF_SIZE];
+
+    // check if the file doesn't exists yet
+    if (access(pcap_path, F_OK) == -1) {
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "File %s doesn't exists yet", pcap_path);
+        return offset;
+    }
+    // open capture file for offline processing
+    FILE *pcap_file_descriptor = fopen(pcap_path, "r");
+    if (pcap_file_descriptor == NULL) {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "Error opening pcap file with fopen");
+        return -1;
+    }
+
+// If all goes well, we get a pcap_t descriptor returned. If not, check the error buffer for details.
+    pcap_opened = pcap_fopen_offline(pcap_file_descriptor, errbuf);
+    if (pcap_opened == NULL) {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "Error in pcap_open_offline: %s for file %s", errbuf, pcap_path);
+        fclose(pcap_file_descriptor);
+        return -1;
+    }
+    if (offset > 0) {
+        if (fseek(pcap_file_descriptor, offset, SEEK_SET) == -1) {
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "Error fseeking pcap file with fseek");
+            fclose(pcap_file_descriptor);
+            return -1;
+        }
+        //check if we are at the end of file, i.e. no new content
+        char temp[5];
+        if (fread(temp, 1, 4, pcap_file_descriptor) != 4) {
+            fclose(pcap_file_descriptor);
+            return offset; // if there aren't at least 4 bytes, we need more data
+        }
+            // rewind to offset
+        else if (fseek(pcap_file_descriptor, offset, SEEK_SET) == -1) {
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "Error fseeking pcap file with fseek");
+            fclose(pcap_file_descriptor);
+            return -1;
+        }
+
+    }
+
+// start packet processing loop, just like live capture
+    if (
+            pcap_loop(pcap_opened,
+                      -1, (pcap_handler) packetHandler, (u_char *) cb) < 0) {
+        __android_log_print(ANDROID_LOG_ERROR,
+                            TAG, "Error in pcap_loop: %s",
+                            pcap_geterr(pcap_opened)
+        );
+        fclose(pcap_file_descriptor);
+        return -1;
+    }
+    offset = ftell(pcap_file_descriptor);
+    if (offset == -1L) {
+        __android_log_print(ANDROID_LOG_ERROR,
+                            TAG, "Error in ftell");
+        fclose(pcap_file_descriptor);
+        return -1;
+    }
+    fclose(pcap_file_descriptor);
+    return offset;
+}
+
+JNIEXPORT jlong JNICALL Java_it_uniroma2_giadd_aitm_models_PcapParser_parsePcapFile(JNIEnv *env,
+                                                                                    jobject obj,
+                                                                                    jstring path,
+                                                                                    jlong offset) {
     env->ExceptionClear();
     const char *pcap_path = env->GetStringUTFChars(path, JNI_FALSE);
 
     jclass pcapParserClass = env->FindClass("it/uniroma2/giadd/aitm/models/PcapParser");
     if (pcapParserClass == NULL) {
         __android_log_print(ANDROID_LOG_ERROR, TAG, "Unable to find class PcapParser");
-        return 1;
+        return -1;
     }
     // Get the method that you want to call
     jmethodID onPacketParsed = env->GetMethodID(pcapParserClass, "onPacketParsed",
                                                 "(Lit/uniroma2/giadd/aitm/models/MyIpPacket;)V");
     if (onPacketParsed == NULL) {
         __android_log_print(ANDROID_LOG_ERROR, TAG, "Unable to find method onPacketParsed");
-        return 1;
+        return -1;
     }
 
     callback *cb = new callback;
@@ -48,29 +116,11 @@ JNIEXPORT jint JNICALL Java_it_uniroma2_giadd_aitm_models_PcapParser_parsePcapFi
     cb->obj = obj;
     cb->method = onPacketParsed;
 
-    pcap_t *descr;
-    char errbuf[PCAP_ERRBUF_SIZE];
+    offset = parsePcapFileFromOffset(cb, pcap_path, (long) offset);
 
-    // open capture file for offline processing
-    // If all goes well, we get a pcap_t descriptor returned. If not, check the error buffer for details.
-    descr = pcap_open_offline(pcap_path, errbuf);
-    if (descr == NULL) {
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "Error in pcap_open_offline: %s", errbuf);
-        free(cb);
-        env->ReleaseStringUTFChars(path, pcap_path);
-        return 1;
-    }
-
-    // start packet processing loop, just like live capture
-    if (pcap_loop(descr, -1, (pcap_handler) packetHandler, (u_char *) cb) < 0) {
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "Error in pcap_loop: %s", pcap_geterr(descr));
-        free(cb);
-        env->ReleaseStringUTFChars(path, pcap_path);
-        return 1;
-    }
     free(cb);
     env->ReleaseStringUTFChars(path, pcap_path);
-    return 0;
+    return offset;
 }
 
 
@@ -344,6 +394,7 @@ void packetHandler(callback *cb, const struct pcap_pkthdr *pkthdr, const u_char 
         (cb->env)->DeleteLocalRef(myTransportLayerPacket);
     }
 }
+
 #ifdef __cplusplus
 }
 #endif

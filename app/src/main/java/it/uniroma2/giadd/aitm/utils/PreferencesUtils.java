@@ -11,6 +11,7 @@ public class PreferencesUtils {
 
     private static final String SHARED_PREFERENCES_KEY = "it.uniroma2.giadd.mitm";
     private static final String INTERFACE_NAME = "INTERFACE_NAME";
+    private static final String PARSE_CAPTURE = "PARSE_CAPTURE";
 
     private static SharedPreferences sharedPreferences = null;
 
@@ -30,6 +31,14 @@ public class PreferencesUtils {
 
     public static void setInterfaceName(Context context, String interfaceName) {
         getInstance(context).edit().putString(INTERFACE_NAME, interfaceName).apply();
+    }
+
+    public static boolean shouldParseCapture(Context context) {
+        return getInstance(context).getBoolean(PARSE_CAPTURE, true);
+    }
+
+    public static void setParseCapture(Context context, boolean parseCapture) {
+        getInstance(context).edit().putBoolean(PARSE_CAPTURE, parseCapture).apply();
     }
 
 }

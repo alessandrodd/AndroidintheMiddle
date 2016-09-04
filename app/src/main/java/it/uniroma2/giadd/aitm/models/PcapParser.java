@@ -10,7 +10,7 @@ public class PcapParser {
         System.loadLibrary("pcap-parser");
     }
 
-    public native String parsePcapFile(String path);
+    public native long parsePcapFile(String path, long offset);
 
     public PcapParser() {
 

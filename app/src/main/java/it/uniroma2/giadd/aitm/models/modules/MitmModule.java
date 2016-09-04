@@ -3,6 +3,7 @@ package it.uniroma2.giadd.aitm.models.modules;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -94,7 +95,7 @@ public class MitmModule implements Parcelable {
     public void onModuleTermination(Context context) {
         if (!isDumpToFile() && dumpPath != null) {
             File file = new File(dumpPath);
-            file.delete();
+            boolean delete = file.delete();
         }
     }
 
