@@ -1,12 +1,12 @@
 # Android-in-the-Middle
 Repository for Android in the Middle app
-- ~~interazione con ROOT (richiesta permessi, check permessi) [Facile]~~
-- ~~ricerca utenti sulla rete (ping degli host, host scanner) [Medio]~~
+- ~~interazione con ROOT (richiesta permessi, check permessi)~~ [Facile]
+- ~~ricerca utenti sulla rete (ping degli host, host scanner)~~ [Medio]
 - ~~"avvelenamento" host~~ [Facile-Difficile, a seconda se utilizziamo una libreria]
-- ~~MitM dei pacchetti (solo lettura)~~ [Medio/Difficile]
-- ~~creazione Activity e servizi [Medio/Facile ma lungo]~~
-- ~~creazione interfaccia [Facile-Medio a seconda di quanto vogliamo complicarci la vita]~~
-- MitM dei pacchetti (modifica on-the-fly)[Medio/Difficile]
+- ~~MitM e interpretazione dei pacchetti (solo lettura)~~ [Difficile]
+- ~~creazione Activity e servizi~~ [Medio/Facile ma lungo]
+- ~~creazione interfaccia~~ [Facile-Medio a seconda di quanto vogliamo complicarci la vita]
+- MitM dei pacchetti (modifica on-the-fly)[Difficile]
 - creazione filtri ad hoc [Medio]
 
 TODO:
@@ -22,4 +22,4 @@ Con l'arp spoofing redirigiamo il traffico di un target verso di noi. Con iptabl
   Possibile soluzione 1) Creare del codice in C/C++ che sfrutti libpcap per decodificare di continuo un file pcap e fare un parser java (che però possiamo riutilizzare per modificare il traffico in realtime, se mai lo faremo)
   Possibile soluzione 2) Creare del codice in C/C++ che sfrutti libpcap per decodificare di continuo un file in modo che ogni pacchetto venga messo in una struttura C/C++ che distingua frame ethernet, header tcp/udp, payload etc.
   
-  Soluziona adottata: parsing nativo del file pcap in strutture C e classi Java 
+  **Soluziona adottata**: parsing nativo del file pcap in strutture C e classi Java 
