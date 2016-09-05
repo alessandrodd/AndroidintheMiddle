@@ -11,6 +11,7 @@ Repository for Android in the Middle app
 
 TODO:
   compile tcpdump and iptables in order to support non-arm CPUs
+  
   ~~implement C/C++ code that continuosly read and parse packet from opened .pcap file using libpcap~~
 
 
