@@ -2,7 +2,7 @@
 Repository for Android in the Middle app
 - ~~interazione con ROOT (richiesta permessi, check permessi) [Facile]~~
 - ~~ricerca utenti sulla rete (ping degli host, host scanner) [Medio]~~
-- ~~"avvelenamento" host [Facile-Difficile, a seconda se utilizziamo una libreria]~~
+- ~~"avvelenamento" host~~ [Facile-Difficile, a seconda se utilizziamo una libreria]
 - ~~MitM dei pacchetti (solo lettura)~~ [Medio/Difficile]
 - MitM dei pacchetti (modifica on-the-fly)[Medio/Difficile]
 - creazione filtri ad hoc [Medio]
