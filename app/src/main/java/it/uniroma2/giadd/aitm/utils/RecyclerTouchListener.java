@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import it.uniroma2.giadd.aitm.fragments.ScannerFragment;
+import it.uniroma2.giadd.aitm.interfaces.SimpleClickListener;
 
 /**
  * Created by Alessandro Di Diego on 03/09/16.
@@ -15,9 +16,9 @@ import it.uniroma2.giadd.aitm.fragments.ScannerFragment;
 public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
     private GestureDetector gestureDetector;
-    private ScannerFragment.ClickListener clickListener;
+    private SimpleClickListener clickListener;
 
-    public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ScannerFragment.ClickListener clickListener) {
+    public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final SimpleClickListener clickListener) {
         this.clickListener = clickListener;
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override

@@ -52,6 +52,11 @@
     <string name="length">Length:</string>
     <string name="protocol_udp">UDP</string>
     <string name="protocol_tcp">TCP</string>
+    <string name="stopped">Stopped</string>
+    <string name="error_kill_module">Error in Kill Connection Module</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="telegram">Telegram</string>
+    <string name="line">LINE</string>
 
     <string-array name="options_array">
         <item>Network Interface</item>

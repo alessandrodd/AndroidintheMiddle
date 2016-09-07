@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardview"
+    style="@style/CardViewButton"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small">
+
+        <LinearLayout
+            android:id="@+id/linear_layout_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/source_address_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/source" />
+
+            <TextView
+                android:id="@+id/destination_address_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="@string/destination" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear_layout_1"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/ip_source"
+                style="@style/TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="192.168.1.1" />
+
+            <TextView
+                android:id="@+id/ip_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ip_title" />
+
+            <TextView
+                android:id="@+id/ip_destination"
+                style="@style/TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                tools:text="192.168.1.1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear_layout_2"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/port_source"
+                style="@style/TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="80" />
+
+            <TextView
+                android:id="@+id/port_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/port_title" />
+
+            <TextView
+                android:id="@+id/port_destination"
+                style="@style/TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                tools:text="443" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/separator_line"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/linear_layout_3"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:background="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/data"
+            style="@style/TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/separator_line"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            tools:text="HTTP/1.1 200 OK
+Date: Wed, 17 Aug 2016 11:05:03 GMT
+Server: Apache/2.2.22
+Last-Modified: Mon, 03 Feb 2014 08:06:06 GMT
+        Accept-Ranges: bytes
+        Vary: Accept-Encoding
+        Content-Encoding: gzip
+        Content-Length: 878
+        Keep-Alive: timeout=5, max=97
+        Connection: Keep-Alive
+        Content-Type: application/javascript
+
+        ...........Wmk.0..._!.B.6q..e.,.v.:.........h8....m...d[.....n....p.;.=...2. ..}.p........O......eqwweqweqwqe" />
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

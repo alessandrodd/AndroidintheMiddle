@@ -9,7 +9,6 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -84,9 +83,9 @@ public class ParsePcapService extends Service {
         PendingIntent stopPendingIntent = PendingIntent.getService(this, 1, stopIntent, 0);
         Intent notificationIntent = new Intent(this, CaptureActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-        Notification notification = builder.setSmallIcon(R.drawable.ic_action_navigation_refresh).setTicker(getString(R.string.parsing_pcap_message))
+        Notification notification = builder.setSmallIcon(R.drawable.ic_antenna).setTicker(getString(R.string.parsing_pcap_message))
                 .setAutoCancel(false).setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.parsing_pcap_message)).addAction(android.R.drawable.ic_media_pause, getString(R.string.stop_parsing_pcap), stopPendingIntent).setContentIntent(pendingIntent).build();
+                .setContentText(getString(R.string.parsing_pcap_message)).addAction(R.drawable.ic_action_stop, getString(R.string.stop_parsing_pcap), stopPendingIntent).setContentIntent(pendingIntent).build();
         startForeground(ONGOING_NOTIFICATION_ID, notification);
     }
 

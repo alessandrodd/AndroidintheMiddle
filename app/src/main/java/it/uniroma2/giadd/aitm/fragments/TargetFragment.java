@@ -12,7 +12,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +29,7 @@ import java.util.Locale;
 import it.uniroma2.giadd.aitm.CaptureActivity;
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
+import it.uniroma2.giadd.aitm.models.modules.KillConnectionModule;
 import it.uniroma2.giadd.aitm.models.modules.SniffAllModule;
 import it.uniroma2.giadd.aitm.services.SniffService;
 import it.uniroma2.giadd.aitm.tasks.CheckHostTask;
@@ -66,6 +66,19 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
                     getLoaderManager().restartLoader(1, null, thisFragment);
                     break;
                 case R.id.button_kill_connection:
+                    Intent i = new Intent(getContext(), SniffService.class);
+                    KillConnectionModule module;
+                    try {
+                        module = new KillConnectionModule(getContext(), host.getIp(), null);
+                        i.putExtra(SniffService.MITM_MODULE, module);
+                        getContext().startService(i);
+                        i = new Intent(getContext(), CaptureActivity.class);
+                        startActivity(i);
+                    } catch (SocketException e) {
+                        e.printStackTrace();
+                        if (getView() != null)
+                            Snackbar.make(getView(), getString(R.string.error_kill_module) + e.getMessage(), Snackbar.LENGTH_LONG).show();
+                    }
                     break;
                 case R.id.button_mitm_all:
                     if (!PermissionUtils.isWriteStorageAllowed(getContext())) {
@@ -91,25 +104,23 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
                                 }
                             }
                             Intent i = new Intent(getContext(), SniffService.class);
-                            SniffAllModule module = null;
+                            SniffAllModule module;
                             try {
                                 module = new SniffAllModule(getContext(), host.getIp(), null, Environment.getExternalStorageDirectory() + "/pcaps" + "/" + insertedString + ".pcap");
+                                i.putExtra(SniffService.MITM_MODULE, module);
+                                getContext().startService(i);
+                                i = new Intent(getContext(), CaptureActivity.class);
+                                startActivity(i);
                             } catch (SocketException e) {
                                 e.printStackTrace();
                                 if (getView() != null)
                                     Snackbar.make(getView(), getString(R.string.error_sniff_all_module) + e.getMessage(), Snackbar.LENGTH_LONG).show();
                             }
-                            i.putExtra(SniffService.MITM_MODULE, module);
-                            getContext().startService(i);
-                            i = new Intent(getContext(), CaptureActivity.class);
-                            startActivity(i);
                         }
                     });
 
                     popDialog.create();
                     popDialog.show();
-
-
                     break;
                 case R.id.button_mitm_messages:
                     break;

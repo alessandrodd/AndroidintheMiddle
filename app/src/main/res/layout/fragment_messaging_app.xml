@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/fragment_target"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_whatsapp"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            app:cardBackgroundColor="@color/whatsapp">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/whatsapp" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_telegram"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button_whatsapp"
+            app:cardBackgroundColor="@color/telegram">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/telegram" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_line"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button_telegram"
+            app:cardBackgroundColor="@color/line">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/line" />
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+</ScrollView>

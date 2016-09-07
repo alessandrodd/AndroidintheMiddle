@@ -18,6 +18,16 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextEngraved" parent="TextButton">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:shadowColor">@android:color/white</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">0.6</item>
+    </style>
+
     <!-- Cardview Styles -->
     <style name="CardViewButton">
         <item name="android:foreground">?selectableItemBackground</item>

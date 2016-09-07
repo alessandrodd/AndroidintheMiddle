@@ -1,4 +1,4 @@
-package it.uniroma2.giadd.aitm.managers.interfaces;
+package it.uniroma2.giadd.aitm.interfaces;
 
 import eu.chainfire.libsuperuser.Shell;
 

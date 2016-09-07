@@ -10,7 +10,7 @@ import java.util.List;
 
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.managers.RootManager;
-import it.uniroma2.giadd.aitm.managers.interfaces.OnCommandListener;
+import it.uniroma2.giadd.aitm.interfaces.OnCommandListener;
 import it.uniroma2.giadd.aitm.utils.NetworkUtils;
 
 /**

@@ -8,5 +8,8 @@
     <color name="transparent_red">#55F70C43</color>
     <color name="red">#F44336</color>
     <color name="blue">#2196F3</color>
+    <color name="whatsapp">#43d854</color>
+    <color name="telegram">#0088cc</color>
+    <color name="line">#00c300</color>
 
 </resources>

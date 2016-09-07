@@ -10,7 +10,7 @@ import java.util.List;
 
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.managers.RootManager;
-import it.uniroma2.giadd.aitm.managers.interfaces.OnCommandListener;
+import it.uniroma2.giadd.aitm.interfaces.OnCommandListener;
 import it.uniroma2.giadd.aitm.utils.NetworkUtils;
 
 /**
@@ -56,10 +56,10 @@ public class SniffAllModule extends MitmModule implements Parcelable {
         commands.add(command);
 
         //spoof gateway connection to client
-        command = context.getFilesDir() + "/" + ARP_SPOOF_COMMAND_2;
-        command = command.replaceAll("<interface>", interfaceName);
-        command = command.replaceAll("<target>", target);
-        command = command.replaceAll("<default gateway>", gateway);
+        //command = context.getFilesDir() + "/" + ARP_SPOOF_COMMAND_2;
+        //command = command.replaceAll("<interface>", interfaceName);
+        //command = command.replaceAll("<target>", target);
+        //command = command.replaceAll("<default gateway>", gateway);
         //commands.add(command);
 
         //dump to file

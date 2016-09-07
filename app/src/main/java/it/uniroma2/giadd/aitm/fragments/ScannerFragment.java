@@ -25,6 +25,7 @@ import java.util.List;
 
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.adapters.NetworkHostsAdapter;
+import it.uniroma2.giadd.aitm.interfaces.SimpleClickListener;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
 import it.uniroma2.giadd.aitm.tasks.NetworkHostScannerTask;
 import it.uniroma2.giadd.aitm.utils.NetworkUtils;
@@ -61,7 +62,7 @@ public class ScannerFragment extends Fragment implements LoaderManager.LoaderCal
         recyclerView.setAdapter(networkHostsAdapter);
         // we can enable optimizations if all item views are of the same height and width for significantly smoother scrolling
         recyclerView.setHasFixedSize(true);
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new SimpleClickListener() {
             @Override
             public void onClick(View view, int position) {
                 NetworkHost networkHost = networkHosts.get(position);
@@ -152,10 +153,6 @@ public class ScannerFragment extends Fragment implements LoaderManager.LoaderCal
 
     }
 
-    public interface ClickListener {
-        void onClick(View view, int position);
 
-        void onLongClick(View view, int position);
-    }
 
 }

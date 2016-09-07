@@ -7,8 +7,8 @@ import android.util.Log;
 import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
-import it.uniroma2.giadd.aitm.managers.interfaces.OnCommandListener;
-import it.uniroma2.giadd.aitm.managers.interfaces.OnSuCommandExecuted;
+import it.uniroma2.giadd.aitm.interfaces.OnCommandListener;
+import it.uniroma2.giadd.aitm.interfaces.OnSuCommandExecuted;
 
 /**
  * Created by Alessandro Di Diego on 11/08/16.
