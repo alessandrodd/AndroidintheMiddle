@@ -35,7 +35,7 @@
 #include "quit.h"
 #include "lookup_query.h"
 
- char *
+char *
 avail_filename(struct CONN *conn_ptr,
                enum PART side, char *ext)
 /*
@@ -190,7 +190,7 @@ open_file(struct CONN *conn_ptr,
     return;
 }
 
- int
+int
 flowflush(struct CONN *conn_ptr,
           struct HOST_DESC *desc,
           u_char *buf,
@@ -204,10 +204,38 @@ flowflush(struct CONN *conn_ptr,
         out_flavour(flags.display_rebuild.flavour,
                     stdout, buf, buflen);
 
-    else if (flags.display_rebuild.side == BOTH)
+    else if (flags.display_rebuild.side == BOTH) {
+
+        // Added by Alessandro Di Diego on 9/9/2016
+        if (flags.display_rebuild.banner == 1) {
+            /* -bb */
+            fprintf(stdout,
+                    (desc->side == CLIENT)
+                    ? "\n[client] %d:%d (%d)\n"
+                    : "\n[server] %d:%d (%d)\n",
+                    desc->wlen,
+                    desc->wlen + buflen,
+                    buflen);
+        }
+        // Added by Alessandro Di Diego on 9/9/2016
+        if (flags.display_rebuild.banner2 == 1) {
+            /* -bB */
+            char *ip = (char *) lookup(desc->ip);
+            char *port = getportname(desc->port);
+            fprintf(stdout,
+                    (desc->side == CLIENT)
+                    ? "\n[client] %s:%s %d:%d (%d)\n"
+                    : "\n[server] %s:%s %d:%d (%d)\n",
+                    ip,
+                    port,
+                    desc->wlen,
+                    desc->wlen + buflen,
+                    buflen);
+        }
 
         out_flavour(flags.display_rebuild.flavour,
                     stdout, buf, buflen);
+    }
 
     /* -w set of options */
     if (desc->side == flags.writer.side) {

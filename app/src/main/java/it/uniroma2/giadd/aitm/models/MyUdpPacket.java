@@ -4,6 +4,8 @@ package it.uniroma2.giadd.aitm.models;
  * Created by Alessandro Di Diego on 22/08/16.
  */
 
+import android.os.Parcel;
+
 /**
  * 0                   1                   2                   3
  * 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -72,4 +74,39 @@ public class MyUdpPacket extends MyTransportLayerPacket {
     public void setChecksum(int checksum) {
         this.checksum = checksum;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.sourcePort);
+        dest.writeInt(this.destinationPort);
+        dest.writeInt(this.length);
+        dest.writeInt(this.checksum);
+    }
+
+    protected MyUdpPacket(Parcel in) {
+        super(in);
+        this.sourcePort = in.readInt();
+        this.destinationPort = in.readInt();
+        this.length = in.readInt();
+        this.checksum = in.readInt();
+    }
+
+    public static final Creator<MyUdpPacket> CREATOR = new Creator<MyUdpPacket>() {
+        @Override
+        public MyUdpPacket createFromParcel(Parcel source) {
+            return new MyUdpPacket(source);
+        }
+
+        @Override
+        public MyUdpPacket[] newArray(int size) {
+            return new MyUdpPacket[size];
+        }
+    };
 }

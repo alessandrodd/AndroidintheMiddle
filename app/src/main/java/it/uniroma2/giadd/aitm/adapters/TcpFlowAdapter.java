@@ -16,6 +16,7 @@ import it.uniroma2.giadd.aitm.models.MyIpPacket;
 import it.uniroma2.giadd.aitm.models.MyTcpPacket;
 import it.uniroma2.giadd.aitm.models.MyUdpPacket;
 import it.uniroma2.giadd.aitm.models.TcpFlow;
+import it.uniroma2.giadd.aitm.utils.TcpickParseUtils;
 
 import static it.uniroma2.giadd.aitm.models.MyIpPacket.IPPROTO_TCP;
 import static it.uniroma2.giadd.aitm.models.MyIpPacket.IPPROTO_UDP;
@@ -28,19 +29,16 @@ public class TcpFlowAdapter extends RecyclerView.Adapter<TcpFlowAdapter.MyViewHo
 
     private Context context;
     private List<TcpFlow> tcpFlows;
-    private String sourceIp;
-    private String destinationIp;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
-        TextView ipSource, ipDestination, portSource, portDestination, data;
+        TextView destination, ipDestination, portDestination, data;
 
         MyViewHolder(View view) {
             super(view);
             cardView = (CardView) view.findViewById(R.id.cardview);
-            ipSource = (TextView) view.findViewById(R.id.ip_source);
+            destination = (TextView) view.findViewById(R.id.destination);
             ipDestination = (TextView) view.findViewById(R.id.ip_destination);
-            portSource = (TextView) view.findViewById(R.id.port_source);
             portDestination = (TextView) view.findViewById(R.id.port_destination);
             data = (TextView) view.findViewById(R.id.data);
         }
@@ -50,13 +48,6 @@ public class TcpFlowAdapter extends RecyclerView.Adapter<TcpFlowAdapter.MyViewHo
     public TcpFlowAdapter(Context context, List<TcpFlow> tcpFlows) {
         this.context = context;
         this.tcpFlows = tcpFlows;
-    }
-
-    public TcpFlowAdapter(Context context, List<TcpFlow> tcpFlows, String sourceIp, String destinationIp) {
-        this.context = context;
-        this.tcpFlows = tcpFlows;
-        this.sourceIp = sourceIp;
-        this.destinationIp = destinationIp;
     }
 
     @Override
@@ -70,15 +61,13 @@ public class TcpFlowAdapter extends RecyclerView.Adapter<TcpFlowAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         TcpFlow tcpFlow = tcpFlows.get(position);
-        holder.ipSource.setText(tcpFlow.getSourceIp());
+        holder.destination.setText(tcpFlow.getDestination());
         holder.ipDestination.setText(tcpFlow.getDestinationIp());
-        holder.portSource.setText(tcpFlow.getSourcePort());
         holder.portDestination.setText(tcpFlow.getDestinationPort());
-        if (tcpFlow.getData() != null)
-            holder.data.setText(new String(tcpFlow.getData()));
-        if (sourceIp != null && sourceIp.equals(tcpFlow.getSourceIp())) {
+        holder.data.setText(TcpickParseUtils.byteArrayToReadableString(tcpFlow.getData()));
+        if (tcpFlow.getDestination() != null && tcpFlow.getDestination().equals("server")) {
             holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.blue));
-        } else if (destinationIp != null && destinationIp.equals(tcpFlow.getSourceIp())) {
+        } else if (tcpFlow.getDestination() != null && tcpFlow.getDestination().equals("client")) {
             holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.red));
         } else
             holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.background_dark));

@@ -12,100 +12,75 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_small">
 
-        <LinearLayout
-            android:id="@+id/linear_layout_1"
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/destination_address_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/margin_xsmall"
+            android:layout_marginRight="@dimen/margin_xsmall"
+            android:gravity="end"
+            android:text="@string/destination" />
 
-            <TextView
-                android:id="@+id/source_address_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:text="@string/source" />
 
-            <TextView
-                android:id="@+id/destination_address_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="@string/destination" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_layout_2"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/destination"
+            style="@style/TextButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/linear_layout_1"
-            android:layout_marginTop="@dimen/margin_xsmall"
-            android:orientation="horizontal">
+            android:layout_alignTop="@id/destination_address_title"
+            android:layout_toEndOf="@id/destination_address_title"
+            android:layout_toRightOf="@id/destination_address_title"
+            android:gravity="end"
+            tools:text="client" />
 
-            <TextView
-                android:id="@+id/ip_source"
-                style="@style/TextButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="192.168.1.1" />
 
-            <TextView
-                android:id="@+id/ip_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ip_title" />
-
-            <TextView
-                android:id="@+id/ip_destination"
-                style="@style/TextButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                tools:text="192.168.1.1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_layout_3"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/ip_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/linear_layout_2"
-            android:layout_marginTop="@dimen/margin_xsmall"
-            android:orientation="horizontal">
+            android:layout_below="@id/destination_address_title"
+            android:layout_marginLeft="@dimen/margin_xsmall"
+            android:layout_marginRight="@dimen/margin_xsmall"
+            android:text="@string/ip_title" />
 
-            <TextView
-                android:id="@+id/port_source"
-                style="@style/TextButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="80" />
+        <TextView
+            android:id="@+id/ip_destination"
+            style="@style/TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/ip_title"
+            android:layout_toEndOf="@id/ip_title"
+            android:layout_toRightOf="@id/ip_title"
+            android:gravity="end"
+            tools:text="192.168.1.1" />
 
-            <TextView
-                android:id="@+id/port_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/port_title" />
+        <TextView
+            android:id="@+id/port_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ip_title"
+            android:layout_marginLeft="@dimen/margin_xsmall"
+            android:layout_marginRight="@dimen/margin_xsmall"            android:text="@string/port_title" />
 
-            <TextView
-                android:id="@+id/port_destination"
-                style="@style/TextButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                tools:text="443" />
+        <TextView
+            android:id="@+id/port_destination"
+            style="@style/TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/port_title"
+            android:layout_toEndOf="@id/port_title"
+            android:layout_toRightOf="@id/port_title"
+            android:gravity="end"
+            tools:text="443" />
 
-        </LinearLayout>
 
         <View
             android:id="@+id/separator_line"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/linear_layout_3"
+            android:layout_below="@id/port_title"
             android:layout_marginTop="@dimen/margin_xsmall"
             android:background="@color/colorAccent" />
 

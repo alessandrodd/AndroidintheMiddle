@@ -138,4 +138,19 @@ public class TcpickHeader {
     public void setPacketLength(int packetLength) {
         this.packetLength = packetLength;
     }
+
+    @Override
+    public String toString() {
+        return "TcpickHeader{" +
+                "hours=" + hours +
+                ", minutes=" + minutes +
+                ", seconds=" + seconds +
+                ", sourceIp='" + sourceIp + '\'' +
+                ", sourcePort='" + sourcePort + '\'' +
+                ", packetType='" + packetType + '\'' +
+                ", destinationIp='" + destinationIp + '\'' +
+                ", destinationPort='" + destinationPort + '\'' +
+                ", packetLength=" + packetLength +
+                '}';
+    }
 }

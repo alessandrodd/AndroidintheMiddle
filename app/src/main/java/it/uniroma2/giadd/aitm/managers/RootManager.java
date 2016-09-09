@@ -121,6 +121,27 @@ public class RootManager {
                 });
     }
 
+    public void execUnprivilegedCommandAsync(final String command, final int id, final OnCommandListener callback) {
+        // start the shell in the background and keep it alive as long as the app is running
+        if (rootSession != null) {
+            execCommand(command, id, callback);
+            return;
+        }
+        rootSession = new Shell.Builder().
+                setWantSTDERR(true).setOnSTDERRLineListener(callback).
+                setMinimalLogging(false).setWatchdogTimeout(0).
+                open(new Shell.OnCommandResultListener() {
+                    @Override
+                    public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                        if (exitCode != Shell.OnCommandResultListener.SHELL_RUNNING) {
+                            if (callback != null)
+                                callback.onShellError(exitCode);
+                        } else execCommand(command, id, callback);
+
+                    }
+                });
+    }
+
     public void execSuCommandAsync(final String command, final int id, final OnCommandListener callback) {
         // start the shell in the background and keep it alive as long as the app is running
         if (rootSession != null) {

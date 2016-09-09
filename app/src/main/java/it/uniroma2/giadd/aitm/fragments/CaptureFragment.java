@@ -9,9 +9,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
@@ -31,7 +32,6 @@ import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.adapters.IpPacketAdapter;
 import it.uniroma2.giadd.aitm.interfaces.SimpleClickListener;
 import it.uniroma2.giadd.aitm.models.MyIpPacket;
-import it.uniroma2.giadd.aitm.models.MyTcpPacket;
 import it.uniroma2.giadd.aitm.models.modules.MitmModule;
 import it.uniroma2.giadd.aitm.services.ParsePcapService;
 import it.uniroma2.giadd.aitm.services.SniffService;
@@ -46,13 +46,16 @@ public class CaptureFragment extends Fragment {
 
     private final static String TAG = CaptureFragment.class.getName();
 
+    private RelativeLayout moduleLayout;
     private SwitchCompat saveCaptureSwitch;
     private SwitchCompat parseCaptureSwitch;
     private TextView moduleTitle;
     private TextView moduleMessage;
+    private CardView consoleOutputCardview;
     private TextView consoleOutputTextView;
     private ProgressBar progressBar;
     private MitmModule mitmModule;
+    private String currentDumpPath;
     private IpPacketAdapter ipPacketAdapter = null;
     private RecyclerView recyclerView;
 
@@ -67,12 +70,16 @@ public class CaptureFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_capture, parentViewGroup, false);
 
+        moduleLayout = (RelativeLayout) rootView.findViewById(R.id.module_layout);
+        moduleLayout.setVisibility(View.GONE);
         saveCaptureSwitch = (SwitchCompat) rootView.findViewById(R.id.save_capture);
         parseCaptureSwitch = (SwitchCompat) rootView.findViewById(R.id.parse_capture);
         moduleTitle = (TextView) rootView.findViewById(R.id.module_title);
         moduleMessage = (TextView) rootView.findViewById(R.id.module_message);
         TextView stopped = (TextView) rootView.findViewById(R.id.stopped);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+        consoleOutputCardview = (CardView) rootView.findViewById(R.id.cardview_console_output);
+        consoleOutputCardview.setVisibility(View.GONE);
         consoleOutputTextView = (TextView) rootView.findViewById(R.id.console_output);
         consoleOutputTextView.setMovementMethod(new ScrollingMovementMethod());
         consoleOutputTextView.setOnClickListener(new View.OnClickListener() {
@@ -99,20 +106,16 @@ public class CaptureFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         // we can enable optimizations if all item views are of the same height and width for significantly smoother scrolling
         recyclerView.setHasFixedSize(true);
+        if (ParsePcapService.parsedPackets != null) {
+            ipPacketAdapter = new IpPacketAdapter(getContext(), ParsePcapService.parsedPackets);
+            recyclerView.setAdapter(ipPacketAdapter);
+        }
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new SimpleClickListener() {
             @Override
             public void onClick(View view, int position) {
-                if (ParsePcapService.parsedPackets != null && ParsePcapService.parsedPackets.get(position) != null) {
+                if (ParsePcapService.parsedPackets != null && ParsePcapService.parsedPackets.get(position) != null && currentDumpPath != null) {
                     MyIpPacket packet = ParsePcapService.parsedPackets.get(position);
-                    if (packet.getProtocol() == MyIpPacket.IPPROTO_TCP) {
-                        MyTcpPacket tcpPacket = (MyTcpPacket) packet.getTransportLayerPacket();
-                        TcpFlowInspectionFragment fragment = TcpFlowInspectionFragment.newInstance(mitmModule.getDumpPath(), packet.getSourceIp(), tcpPacket.getSourcePort(), packet.getDestinationIp(), tcpPacket.getDestinationPort());
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                        fragmentTransaction.replace(R.id.fragment_container, fragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                    }
+                    showChooseDialog(packet);
                 }
 
             }
@@ -143,8 +146,10 @@ public class CaptureFragment extends Fragment {
                 PreferencesUtils.setParseCapture(getContext(), b);
                 if (mitmModule != null) {
                     Intent intent = new Intent(getContext(), ParsePcapService.class);
-                    if (b) intent.putExtra(ParsePcapService.PCAP_PATH, mitmModule.getDumpPath());
-                    else intent.putExtra(ParsePcapService.READ_PCAP_STOP, true);
+                    if (b) {
+                        intent.putExtra(ParsePcapService.PCAP_PATH, mitmModule.getDumpPath());
+                        currentDumpPath = mitmModule.getDumpPath();
+                    } else intent.putExtra(ParsePcapService.READ_PCAP_STOP, true);
                     getContext().startService(intent);
                 }
             }
@@ -153,13 +158,34 @@ public class CaptureFragment extends Fragment {
         return rootView;
     }
 
+    private void closeFragmentDIalogs() {
+        FragmentManager manager = getFragmentManager();
+        Fragment frag = manager.findFragmentByTag(PacketSelectedDialogFragment.TAG);
+        if (frag != null) {
+            manager.beginTransaction().remove(frag).commit();
+        }
+    }
+
+    private void showChooseDialog(MyIpPacket packet) {
+        closeFragmentDIalogs();
+        FragmentManager manager = getFragmentManager();
+        PacketSelectedDialogFragment packetSelectedDialogFragment = PacketSelectedDialogFragment.newInstance(ParsePcapService.parsedPackets, ParsePcapService.parsedPackets.indexOf(packet), currentDumpPath);
+        packetSelectedDialogFragment.show(manager, PacketSelectedDialogFragment.TAG);
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     private void setInterface() {
         if (mitmModule != null) {
+            moduleLayout.setVisibility(View.VISIBLE);
             moduleTitle.setText(mitmModule.getModuleTitle());
             moduleMessage.setText(mitmModule.getModuleMessage());
             if (mitmModule.getDumpPath() != null) {
@@ -170,6 +196,7 @@ public class CaptureFragment extends Fragment {
                 if (parseCaptureSwitch.isChecked()) {
                     Intent intent = new Intent(getContext(), ParsePcapService.class);
                     intent.putExtra(ParsePcapService.PCAP_PATH, mitmModule.getDumpPath());
+                    currentDumpPath = mitmModule.getDumpPath();
                     getContext().startService(intent);
                 }
             } else {
@@ -188,12 +215,14 @@ public class CaptureFragment extends Fragment {
             } else if (intent.getBooleanExtra(SniffService.MITM_STOP, false)) {
                 progressBar.setVisibility(View.GONE);
             } else if (intent.getStringExtra(SniffService.CONSOLE_MESSAGE) != null) {
+                consoleOutputCardview.setVisibility(View.VISIBLE);
                 consoleOutputTextView.append("\n" + intent.getStringExtra(SniffService.CONSOLE_MESSAGE));
-            }
-            if (intent.getStringExtra(ParsePcapService.ERROR_MESSAGE) != null && consoleOutputTextView != null) {
-                Snackbar.make(consoleOutputTextView, intent.getStringExtra(ParsePcapService.ERROR_MESSAGE), Snackbar.LENGTH_LONG).show();
+            } else if (intent.getStringExtra(ParsePcapService.RETRIEVE_DUMP_PATH) != null) {
+                currentDumpPath = intent.getStringExtra(ParsePcapService.RETRIEVE_DUMP_PATH);
+            } else if (intent.getStringExtra(ParsePcapService.ERROR_MESSAGE) != null && consoleOutputTextView != null) {
+                Snackbar.make(recyclerView, intent.getStringExtra(ParsePcapService.ERROR_MESSAGE), Snackbar.LENGTH_LONG).show();
             } else if (intent.getStringExtra(ParsePcapService.MESSAGE) != null && consoleOutputTextView != null) {
-                Snackbar.make(consoleOutputTextView, intent.getStringExtra(ParsePcapService.MESSAGE), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(recyclerView, intent.getStringExtra(ParsePcapService.MESSAGE), Snackbar.LENGTH_SHORT).show();
             } else if (intent.getBooleanExtra(ParsePcapService.READ_PCAP_STOP, false)) {
                 parseCaptureSwitch.setChecked(false);
             } else if (intent.getBooleanExtra(ParsePcapService.NEW_PACKET, false)) {
@@ -223,12 +252,23 @@ public class CaptureFragment extends Fragment {
         Intent i = new Intent(getContext(), SniffService.class);
         i.putExtra(SniffService.RETRIEVE_MITM_MODULE, true);
         getContext().startService(i);
+        i = new Intent(getContext(), ParsePcapService.class);
+        i.putExtra(ParsePcapService.RETRIEVE_DUMP_PATH, true);
+        getContext().startService(i);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mMessageReceiver);
+        closeFragmentDIalogs();
     }
 
+    @Override
+    public void onDestroy() {
+        Intent intent = new Intent(getContext(), ParsePcapService.class);
+        intent.putExtra(ParsePcapService.READ_PCAP_STOP, true);
+        getContext().startService(intent);
+        super.onDestroy();
+    }
 }

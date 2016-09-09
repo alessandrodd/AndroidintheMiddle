@@ -4,6 +4,9 @@ package it.uniroma2.giadd.aitm.models;
  * Created by Alessandro Di Diego on 22/08/16.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * 0                   1                   2                   3
  * 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -22,7 +25,7 @@ package it.uniroma2.giadd.aitm.models;
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  */
 
-public class MyIpPacket {
+public class MyIpPacket implements Parcelable {
 
     public static final int IPPROTO_TCP = 6;
     public static final int IPPROTO_UDP = 17;
@@ -168,4 +171,53 @@ public class MyIpPacket {
     public void setTransportLayerPacket(MyTransportLayerPacket transportLayerPacket) {
         this.transportLayerPacket = transportLayerPacket;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.sourceIp);
+        dest.writeString(this.destinationIp);
+        dest.writeInt(this.headerLength);
+        dest.writeInt(this.length);
+        dest.writeInt(this.id);
+        dest.writeInt(this.offset);
+        dest.writeInt(this.protocol);
+        dest.writeInt(this.checksum);
+        dest.writeInt(this.typeOfService);
+        dest.writeInt(this.ttl);
+        dest.writeLong(this.version);
+        dest.writeParcelable(this.transportLayerPacket, flags);
+    }
+
+    protected MyIpPacket(Parcel in) {
+        this.sourceIp = in.readString();
+        this.destinationIp = in.readString();
+        this.headerLength = in.readInt();
+        this.length = in.readInt();
+        this.id = in.readInt();
+        this.offset = (short) in.readInt();
+        this.protocol = (short) in.readInt();
+        this.checksum = in.readInt();
+        this.typeOfService = (short) in.readInt();
+        this.ttl = (short) in.readInt();
+        this.version = in.readLong();
+        this.transportLayerPacket = in.readParcelable(MyTransportLayerPacket.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<MyIpPacket> CREATOR = new Parcelable.Creator<MyIpPacket>() {
+        @Override
+        public MyIpPacket createFromParcel(Parcel source) {
+            return new MyIpPacket(source);
+        }
+
+        @Override
+        public MyIpPacket[] newArray(int size) {
+            return new MyIpPacket[size];
+        }
+    };
 }

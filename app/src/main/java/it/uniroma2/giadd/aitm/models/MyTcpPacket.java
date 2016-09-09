@@ -4,6 +4,8 @@ package it.uniroma2.giadd.aitm.models;
  * Created by Alessandro Di Diego on 22/08/16.
  */
 
+import android.os.Parcel;
+
 /**
  * 0                   1                   2                   3
  * 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -225,4 +227,65 @@ public class MyTcpPacket extends MyTransportLayerPacket {
     public void setUrg(int urg) {
         this.urg = urg;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.sourcePort);
+        dest.writeInt(this.destinationPort);
+        dest.writeLong(this.sequenceNumber);
+        dest.writeLong(this.acknowledgmentNumber);
+        dest.writeInt(this.dataOffset);
+        dest.writeInt(this.window);
+        dest.writeInt(this.checksum);
+        dest.writeInt(this.urgentPointer);
+        dest.writeLong(this.ackSequence);
+        dest.writeInt(this.cwr);
+        dest.writeInt(this.ece);
+        dest.writeInt(this.fin);
+        dest.writeInt(this.psh);
+        dest.writeInt(this.reservedBits1);
+        dest.writeInt(this.rst);
+        dest.writeInt(this.syn);
+        dest.writeInt(this.urg);
+    }
+
+    protected MyTcpPacket(Parcel in) {
+        super(in);
+        this.sourcePort = in.readInt();
+        this.destinationPort = in.readInt();
+        this.sequenceNumber = in.readLong();
+        this.acknowledgmentNumber = in.readLong();
+        this.dataOffset = in.readInt();
+        this.window = in.readInt();
+        this.checksum = in.readInt();
+        this.urgentPointer = in.readInt();
+        this.ackSequence = in.readLong();
+        this.cwr = in.readInt();
+        this.ece = in.readInt();
+        this.fin = in.readInt();
+        this.psh = in.readInt();
+        this.reservedBits1 = in.readInt();
+        this.rst = in.readInt();
+        this.syn = in.readInt();
+        this.urg = in.readInt();
+    }
+
+    public static final Creator<MyTcpPacket> CREATOR = new Creator<MyTcpPacket>() {
+        @Override
+        public MyTcpPacket createFromParcel(Parcel source) {
+            return new MyTcpPacket(source);
+        }
+
+        @Override
+        public MyTcpPacket[] newArray(int size) {
+            return new MyTcpPacket[size];
+        }
+    };
 }

@@ -57,10 +57,54 @@
     <string name="whatsapp">WhatsApp</string>
     <string name="telegram">Telegram</string>
     <string name="line">LINE</string>
+    <string name="open_pcap_description">Click on the button to open an existing *.pcap file to analyze</string>
+    <string name="choose_pcap">Choose .pcap</string>
+    <string name="scanner">Scanner</string>
+    <string name="open_pcap">Open pcap</string>
+    <string name="follow_tcp_stream">Follow TCP stream</string>
+    <string name="follow_tcp_traffic_between_hosts">Follow tcp traffic between hosts</string>
+    <string name="follow_tcp_and_udp_traffic_between_hosts">Follow TCP and UDP traffic between hosts</string>
+    <string name="follow_udp_stream">Follow UDP stream</string>
+    <string name="follow_udp_traffic_between_hosts">Follow UDP traffic between hosts</string>
+    <string name="inspect_packet">Inspect packet</string>
+    <string name="header_length">Header length</string>
+    <string name="id">Id</string>
+    <string name="offset">Offset</string>
+    <string name="checksum">Checksum</string>
+    <string name="type_of_service">Type of service</string>
+    <string name="ttl">TTL</string>
+    <string name="version">Version</string>
+    <string name="ip_details">IP DETAILS</string>
+    <string name="tcp_details">TCP DETAILS</string>
+    <string name="udp_details">UDP DETAILS</string>
+    <string name="source_port_title">Source port</string>
+    <string name="destination_port_title">Destination port</string>
+    <string name="sequence_number">Sequence number</string>
+    <string name="ack_number">Ack number</string>
+    <string name="data_offset">Data offset</string>
+    <string name="window">Window</string>
+    <string name="urgent_ptr">Urgent PTR</string>
+    <string name="ack_sequence">ACK sequence</string>
+    <string name="urg">URG</string>
+    <string name="cwr">CWR</string>
+    <string name="ece">ECE</string>
+    <string name="fin">FIN</string>
+    <string name="psh">PSH</string>
+    <string name="reserved_bits_1">Reserved Bits 1</string>
+    <string name="rst">RST</string>
+    <string name="syn">SYN</string>
+    <string name="packet">Packet</string>
+    <string name="payload">PAYLOAD</string>
+    <string name="monitoring_pcap_file">Monitoring pcap file: %s</string>
+    <string name="no_tcp_flow_data">No TCP flow data. Try inspecting single packet.</string>
 
     <string-array name="options_array">
         <item>Network Interface</item>
         <item> </item>
+    </string-array>
+    <string-array name="drawer_list">
+        <item>Scanner</item>
+        <item>Open .pcap file</item>
     </string-array>
     <string-array name="protocols">
         H<item>OPOPT</item>

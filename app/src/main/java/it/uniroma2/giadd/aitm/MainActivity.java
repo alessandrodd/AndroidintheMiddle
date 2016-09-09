@@ -11,19 +11,24 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.io.File;
 
+import it.uniroma2.giadd.aitm.fragments.OpenPcapFragment;
 import it.uniroma2.giadd.aitm.fragments.ScannerFragment;
 import it.uniroma2.giadd.aitm.tasks.InitializeBinariesTask;
-import it.uniroma2.giadd.aitm.tasks.ParsePcapTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,9 +46,13 @@ public class MainActivity extends AppCompatActivity {
     private static final int WRITE_PERMISSION_CODE = 1;
     private static final int READ_PERMISSION_CODE = 2;
     private static final int ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 3;
+    private static final String FRAGMENT_SAVE_KEY = "FRAGMENT_SAVE_KEY";
 
     private ProgressDialog progress;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
     private AsyncTask asyncTask;
+    private Fragment fragment;
     private Context context;
     private Activity activity;
 
@@ -58,11 +67,85 @@ public class MainActivity extends AppCompatActivity {
         // setting toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_navigation_menu);
+        }
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout.setVisibility(View.GONE);
+        // Find our drawer view
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        // Setup drawer view
+        setupDrawerContent(navigationView);
+
+        if (savedInstanceState != null && getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_SAVE_KEY) != null) {
+            fragment = getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_SAVE_KEY);
+        } else {
+            fragment = new ScannerFragment();
+            setTitle(R.string.scanner);
+        }
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commitAllowingStateLoss();
+        // Highlight the selected item has been done by NavigationView
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
-        } else startScanner();
+        } else {
+            initializeBinaries();
+            drawerLayout.setVisibility(View.VISIBLE);
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
     }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
+    }
+
+    public void selectDrawerItem(MenuItem menuItem) {
+        // Create a new fragment and specify the fragment to show based on nav item clicked
+        Class fragmentClass;
+        switch (menuItem.getItemId()) {
+            case R.id.nav_first_fragment:
+                fragmentClass = ScannerFragment.class;
+                break;
+            case R.id.nav_second_fragment:
+                fragmentClass = OpenPcapFragment.class;
+                break;
+            case R.id.action_settings:
+                Intent intent = new Intent(this, OptionsActivity.class);
+                startActivity(intent);
+                return;
+            default:
+                fragmentClass = ScannerFragment.class;
+        }
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commitAllowingStateLoss();
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        drawerLayout.closeDrawers();
+    }
+
 
     //This method will be called when the user will tap on allow or deny
     @Override
@@ -77,7 +160,11 @@ public class MainActivity extends AppCompatActivity {
                     Snackbar.make(activity.findViewById(R.id.activity_main), getString(R.string.error_unable_create_folder), Snackbar.LENGTH_LONG).show();
                 } else {
                     // We got permissions; let's start the real behavior
-                    startScanner();
+                    initializeBinaries();
+                    if (drawerLayout != null) {
+                        drawerLayout.setVisibility(View.VISIBLE);
+                        drawerLayout.openDrawer(GravityCompat.START);
+                    }
                 }
             } else {
                 Snackbar.make(activity.findViewById(R.id.activity_main), R.string.error_permission_denied, Snackbar.LENGTH_LONG).show();
@@ -85,15 +172,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void startScanner() {
-        // initializing Activity with the first fragment
-        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) == null) {
-            // Create a new Fragment to be placed in the activity layout
-            ScannerFragment scannerFragment = new ScannerFragment();
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).add(R.id.fragment_container, scannerFragment).commitAllowingStateLoss();
-        }
-
+    private void initializeBinaries() {
         asyncTask = new InitializeBinariesTask(this) {
             @Override
             protected void onPreExecute() {
@@ -135,6 +214,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 Intent intent = new Intent(this, OptionsActivity.class);
                 startActivity(intent);
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
             default:
                 break;
         }
@@ -147,4 +229,22 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         if (asyncTask != null) asyncTask.cancel(true);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //Save the fragment's instance
+        if (fragment != null)
+            getSupportFragmentManager().putFragment(outState, FRAGMENT_SAVE_KEY, fragment);
+        super.onSaveInstanceState(outState);
+
+    }
+
+    // `onPostCreate` called when activity start-up is complete after `onStart()`
+    // NOTE! Make sure to override the method with only a single `Bundle` argument
+    // needed to show hamburger button
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+    }
+
 }

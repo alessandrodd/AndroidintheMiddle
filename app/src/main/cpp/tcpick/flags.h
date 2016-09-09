@@ -35,58 +35,63 @@
  */
 
 enum FLAVOUR {
-	RAW = 'R',
-	PRINTABLE = 'P',
-	HEX = 'H',
-	HEX_NON_PRINT = 'U',
-	HEX_DUMP = 'x',
-	HEX_ASCII_DUMP = 'X' ,
-	SILENT = 's',
-	OTHER /* i.e. packet and status banners */
+    RAW = 'R',
+    PRINTABLE = 'P',
+    HEX = 'H',
+    HEX_NON_PRINT = 'U',
+    HEX_DUMP = 'x',
+    HEX_ASCII_DUMP = 'X',
+    SILENT = 's',
+    OTHER /* i.e. packet and status banners */
 };
 
 enum DISPLAYTIME {
-	NOTHING_TIME = 0, /* default */
-	ONLYTIME,
-	TIMEDATE,
-	ONLYDATE /* not implemented */
+    NOTHING_TIME = 0, /* default */
+            ONLYTIME,
+    TIMEDATE,
+    ONLYDATE /* not implemented */
 };
 
 struct FLAGS {
-	int verbosity;
-	int file;
-	int filenaming;
-	int dirs;
-	int maxconns; /* FIXME: should be developed; 
-			 in the sense of SYN_SENT ?? */
-	int trackonly;
-	int trackonly_first;
-	int exitpackets;
-	int exitclosed;
-	int exitclosed_first;
-	enum DISPLAYTIME displaytime;
-	int header;
-	int separator;
-	int displayoffsets;
-	int notpromisc;
-	int notstatus;
-	enum FLAVOUR display_payload;
-	struct {
-		enum FLAVOUR flavour;
-		enum PART side;
-	} display_rebuild;
-	struct {
-		enum FLAVOUR flavour;
-		enum {SEPARATE = 0, UNIQUE} type;
-		int banner;
-		enum PART side;
-	} writer;
-	int helpandquit;
-	int versionandquit;
-	int lookup;
-	int numericalports;
-	int color;
-	int colortrack;
-	int timeout;
+    int verbosity;
+    int file;
+    int filenaming;
+    int dirs;
+    int maxconns;
+    /* FIXME: should be developed;
+                in the sense of SYN_SENT ?? */
+    int trackonly;
+    int trackonly_first;
+    int exitpackets;
+    int exitclosed;
+    int exitclosed_first;
+    enum DISPLAYTIME displaytime;
+    int header;
+    int separator;
+    int displayoffsets;
+    int notpromisc;
+    int notstatus;
+    enum FLAVOUR display_payload;
+    struct {
+        enum FLAVOUR flavour;
+        int banner;
+        int banner2;
+        enum PART side;
+    } display_rebuild;
+    struct {
+        enum FLAVOUR flavour;
+        enum {
+            SEPARATE = 0, UNIQUE
+        } type;
+        int banner;
+        enum PART side;
+    } writer;
+    int helpandquit;
+    int versionandquit;
+    int lookup;
+    int numericalports;
+    int color;
+    int colortrack;
+    int timeout;
 };
 #endif

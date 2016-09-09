@@ -1,0 +1,913 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/ip_details"
+            style="@style/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_small"
+            android:freezesText="true"
+            android:gravity="end"
+            android:text="@string/ip_details"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview"
+            style="@style/CardViewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/source_address_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:text="@string/source" />
+
+                    <TextView
+                        android:id="@+id/destination_address_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="@string/destination" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/linear_layout_1"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/ip_source"
+                        style="@style/TextButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:freezesText="true"
+                        tools:text="192.168.1.1" />
+
+                    <TextView
+                        android:id="@+id/ip_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ip_title" />
+
+                    <TextView
+                        android:id="@+id/ip_destination"
+                        style="@style/TextButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:freezesText="true"
+                        android:gravity="end"
+                        tools:text="192.168.1.1" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/protocol_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/linear_layout_2"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/protocol_title" />
+
+                <TextView
+                    android:id="@+id/protocol"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/protocol_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/protocol_title"
+                    android:layout_toRightOf="@id/protocol_title"
+                    android:freezesText="true"
+                    tools:text="TCP" />
+
+                <TextView
+                    android:id="@+id/header_length_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/protocol_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/header_length" />
+
+                <TextView
+                    android:id="@+id/header_length"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/header_length_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/header_length_title"
+                    android:layout_toRightOf="@id/header_length_title"
+                    android:freezesText="true"
+                    tools:text="200" />
+
+                <TextView
+                    android:id="@+id/length_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/header_length_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/length" />
+
+                <TextView
+                    android:id="@+id/length"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/length_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/length_title"
+                    android:layout_toRightOf="@id/length_title"
+                    android:freezesText="true"
+                    tools:text="2839" />
+
+                <TextView
+                    android:id="@+id/id_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/length_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/id" />
+
+                <TextView
+                    android:id="@+id/id_value"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/id_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/id_title"
+                    android:layout_toRightOf="@id/id_title"
+                    android:freezesText="true"
+                    tools:text="31" />
+
+                <TextView
+                    android:id="@+id/offset_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/id_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/offset" />
+
+                <TextView
+                    android:id="@+id/offset"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/offset_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/offset_title"
+                    android:layout_toRightOf="@id/offset_title"
+                    android:freezesText="true"
+                    tools:text="44" />
+
+                <TextView
+                    android:id="@+id/checksum_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/offset_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/checksum" />
+
+                <TextView
+                    android:id="@+id/checksum"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/checksum_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/checksum_title"
+                    android:layout_toRightOf="@id/checksum_title"
+                    android:freezesText="true"
+                    tools:text="43134" />
+
+                <TextView
+                    android:id="@+id/type_of_service_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/checksum_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/type_of_service" />
+
+                <TextView
+                    android:id="@+id/type_of_service"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/type_of_service_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/type_of_service_title"
+                    android:layout_toRightOf="@id/type_of_service_title"
+                    android:freezesText="true"
+                    tools:text="3" />
+
+                <TextView
+                    android:id="@+id/ttl_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/type_of_service_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/ttl" />
+
+                <TextView
+                    android:id="@+id/ttl"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/ttl_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/ttl_title"
+                    android:layout_toRightOf="@id/ttl_title"
+                    android:freezesText="true"
+                    tools:text="11" />
+
+                <TextView
+                    android:id="@+id/version_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/ttl_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/version" />
+
+                <TextView
+                    android:id="@+id/version"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/version_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/version_title"
+                    android:layout_toRightOf="@id/version_title"
+                    android:freezesText="true"
+                    tools:text="1" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/tcp_details"
+            style="@style/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="end"
+            android:text="@string/tcp_details"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/tcp_cardview"
+            style="@style/CardViewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small">
+
+                <LinearLayout
+                    android:id="@+id/port_title_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/source_port_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:text="@string/source_port_title" />
+
+                    <TextView
+                        android:id="@+id/destination_port_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="@string/destination_port_title" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/port_value_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/port_title_layout"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tcp_port_source"
+                        style="@style/TextButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:freezesText="true"
+                        tools:text="80" />
+
+                    <TextView
+                        android:id="@+id/tcp_port_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/port_title" />
+
+                    <TextView
+                        android:id="@+id/tcp_port_destination"
+                        style="@style/TextButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:freezesText="true"
+                        android:gravity="end"
+                        tools:text="443" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/sequence_number_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/port_value_layout"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/sequence_number" />
+
+                <TextView
+                    android:id="@+id/sequence_number"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/sequence_number_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/sequence_number_title"
+                    android:layout_toRightOf="@id/sequence_number_title"
+                    android:freezesText="true"
+                    tools:text="33" />
+
+                <TextView
+                    android:id="@+id/ack_number_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/sequence_number_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/ack_number" />
+
+                <TextView
+                    android:id="@+id/ack_number"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/ack_number_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/ack_number_title"
+                    android:layout_toRightOf="@id/ack_number_title"
+                    android:freezesText="true"
+                    tools:text="39" />
+
+                <TextView
+                    android:id="@+id/data_offset_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/ack_number_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/data_offset" />
+
+                <TextView
+                    android:id="@+id/data_offset"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/data_offset_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/data_offset_title"
+                    android:layout_toRightOf="@id/data_offset_title"
+                    android:freezesText="true"
+                    tools:text="98" />
+
+                <TextView
+                    android:id="@+id/window_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/data_offset_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/window" />
+
+                <TextView
+                    android:id="@+id/window"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/window_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/window_title"
+                    android:layout_toRightOf="@id/window_title"
+                    android:freezesText="true"
+                    tools:text="20" />
+
+                <TextView
+                    android:id="@+id/checksum_tcp_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/window_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/checksum" />
+
+                <TextView
+                    android:id="@+id/checksum_tcp"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/checksum_tcp_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/checksum_tcp_title"
+                    android:layout_toRightOf="@id/checksum_tcp_title"
+                    android:freezesText="true"
+                    tools:text="1328" />
+
+                <TextView
+                    android:id="@+id/urgent_ptr_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/checksum_tcp_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/urgent_ptr" />
+
+                <TextView
+                    android:id="@+id/urgent_ptr"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/urgent_ptr_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/urgent_ptr_title"
+                    android:layout_toRightOf="@id/urgent_ptr_title"
+                    android:freezesText="true"
+                    tools:text="312" />
+
+                <TextView
+                    android:id="@+id/ack_sequence_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/urgent_ptr_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/ack_sequence" />
+
+                <TextView
+                    android:id="@+id/ack_sequence"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/ack_sequence_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/ack_sequence_title"
+                    android:layout_toRightOf="@id/ack_sequence_title"
+                    android:freezesText="true"
+                    tools:text="316" />
+
+                <TextView
+                    android:id="@+id/cwr_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/ack_sequence_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/cwr" />
+
+                <TextView
+                    android:id="@+id/cwr"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/cwr_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/cwr_title"
+                    android:layout_toRightOf="@id/cwr_title"
+                    android:freezesText="true"
+                    tools:text="0" />
+
+                <TextView
+                    android:id="@+id/ece_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/cwr_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/ece" />
+
+                <TextView
+                    android:id="@+id/ece"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/ece_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/ece_title"
+                    android:layout_toRightOf="@id/ece_title"
+                    android:freezesText="true"
+                    tools:text="0" />
+
+                <TextView
+                    android:id="@+id/fin_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/ece_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/fin" />
+
+                <TextView
+                    android:id="@+id/fin"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/fin_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/fin_title"
+                    android:layout_toRightOf="@id/fin_title"
+                    android:freezesText="true"
+                    tools:text="0" />
+
+                <TextView
+                    android:id="@+id/psh_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/fin_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/psh" />
+
+                <TextView
+                    android:id="@+id/psh"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/psh_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/psh_title"
+                    android:layout_toRightOf="@id/psh_title"
+                    android:freezesText="true"
+                    tools:text="0" />
+
+                <TextView
+                    android:id="@+id/reserved_bits_1_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/psh_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/reserved_bits_1" />
+
+                <TextView
+                    android:id="@+id/reserved_bits_1"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/reserved_bits_1_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/reserved_bits_1_title"
+                    android:layout_toRightOf="@id/reserved_bits_1_title"
+                    android:freezesText="true"
+                    tools:text="1101" />
+
+                <TextView
+                    android:id="@+id/rst_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/reserved_bits_1_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/rst" />
+
+                <TextView
+                    android:id="@+id/rst"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/rst_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/rst_title"
+                    android:layout_toRightOf="@id/rst_title"
+                    android:freezesText="true"
+                    tools:text="0" />
+
+                <TextView
+                    android:id="@+id/syn_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/rst_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/syn" />
+
+                <TextView
+                    android:id="@+id/syn"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/syn_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/syn_title"
+                    android:layout_toRightOf="@id/syn_title"
+                    android:freezesText="true"
+                    tools:text="1" />
+
+                <TextView
+                    android:id="@+id/urg_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/syn_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/urg" />
+
+                <TextView
+                    android:id="@+id/urg"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/urg_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/urg_title"
+                    android:layout_toRightOf="@id/urg_title"
+                    android:freezesText="true"
+                    tools:text="0" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/udp_details"
+            style="@style/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="end"
+            android:text="@string/udp_details"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/udp_cardview"
+            style="@style/CardViewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small">
+
+                <LinearLayout
+                    android:id="@+id/udp_port_title_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/udp_source_port_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:text="@string/source_port_title" />
+
+                    <TextView
+                        android:id="@+id/udp_destination_port_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="@string/destination_port_title" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/udp_port_value_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/udp_port_title_layout"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/udp_port_source"
+                        style="@style/TextButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:freezesText="true"
+                        tools:text="80" />
+
+                    <TextView
+                        android:id="@+id/udp_port_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/port_title" />
+
+                    <TextView
+                        android:id="@+id/udp_port_destination"
+                        style="@style/TextButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:freezesText="true"
+                        android:gravity="end"
+                        tools:text="443" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/length_udp_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/udp_port_value_layout"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/length" />
+
+                <TextView
+                    android:id="@+id/length_udp"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/length_udp_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/length_udp_title"
+                    android:layout_toRightOf="@id/length_udp_title"
+                    android:freezesText="true"
+                    tools:text="1231" />
+
+                <TextView
+                    android:id="@+id/checksum_udp_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/length_udp_title"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:text="@string/checksum" />
+
+                <TextView
+                    android:id="@+id/checksum_udp"
+                    style="@style/TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/checksum_udp_title"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_toEndOf="@id/checksum_udp_title"
+                    android:layout_toRightOf="@id/checksum_udp_title"
+                    android:freezesText="true"
+                    tools:text="1231" />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/payload_title"
+            style="@style/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="end"
+            android:text="@string/payload"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/payload_cardview"
+            style="@style/CardViewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/data"
+                style="@style/TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
+                tools:text="HTTP/1.1 200 OK
+Date: Wed, 17 Aug 2016 11:05:03 GMT
+Server: Apache/2.2.22
+Last-Modified: Mon, 03 Feb 2014 08:06:06 GMT
+        Accept-Ranges: bytes
+        Vary: Accept-Encoding
+        Content-Encoding: gzip
+        Content-Length: 878
+        Keep-Alive: timeout=5, max=97
+        Connection: Keep-Alive
+        Content-Type: application/javascript
+
+        ...........Wmk.0..._!.B.6q..e.,.v.:.........h8....m...d[.....n....p.;.=...2. ..}.p........O......eqwweqweqwqe" />
+
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

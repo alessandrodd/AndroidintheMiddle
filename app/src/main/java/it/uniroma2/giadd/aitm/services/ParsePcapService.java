@@ -31,6 +31,7 @@ public class ParsePcapService extends Service {
     public static final String MESSAGE = "MESSAGE";
     public static final String ERROR_MESSAGE = "ERROR_MESSAGE";
     public static final String NEW_PACKET = "NEW_PACKET";
+    public static final String RETRIEVE_DUMP_PATH = "RETRIEVE_DUMP_PATH";
 
     public static ArrayList<MyIpPacket> parsedPackets = new ArrayList<>();
 
@@ -65,6 +66,8 @@ public class ParsePcapService extends Service {
                 }
             }.execute();
             showNotification();
+        } else if (intent.getBooleanExtra(RETRIEVE_DUMP_PATH, false)) {
+            sendDumpPath();
         }
         return Service.START_NOT_STICKY;
     }
@@ -73,6 +76,7 @@ public class ParsePcapService extends Service {
     public void onDestroy() {
         stopForeground(true);
         stopParsing();
+        parsedPackets = new ArrayList<>();
         super.onDestroy();
     }
 
@@ -85,7 +89,7 @@ public class ParsePcapService extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
         Notification notification = builder.setSmallIcon(R.drawable.ic_antenna).setTicker(getString(R.string.parsing_pcap_message))
                 .setAutoCancel(false).setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.parsing_pcap_message)).addAction(R.drawable.ic_action_stop, getString(R.string.stop_parsing_pcap), stopPendingIntent).setContentIntent(pendingIntent).build();
+                .setContentText(String.format(getString(R.string.monitoring_pcap_file), currentPcapPath)).addAction(R.drawable.ic_action_stop, getString(R.string.stop_parsing_pcap), stopPendingIntent).setContentIntent(pendingIntent).build();
         startForeground(ONGOING_NOTIFICATION_ID, notification);
     }
 
@@ -101,6 +105,12 @@ public class ParsePcapService extends Service {
     private void sendStopMessage() {
         Intent intent = new Intent(TAG);
         intent.putExtra(READ_PCAP_STOP, true);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+    private void sendDumpPath() {
+        Intent intent = new Intent(TAG);
+        intent.putExtra(RETRIEVE_DUMP_PATH, currentPcapPath);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 

@@ -1,32 +1,21 @@
 package it.uniroma2.giadd.aitm;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.io.File;
-
 import it.uniroma2.giadd.aitm.fragments.CaptureFragment;
-import it.uniroma2.giadd.aitm.fragments.ScannerFragment;
-import it.uniroma2.giadd.aitm.tasks.InitializeBinariesTask;
 
 public class CaptureActivity extends AppCompatActivity {
 
+    private static final String FRAGMENT_SAVE_KEY = "FRAGMENT_SAVE_KEY";
+
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +26,17 @@ public class CaptureActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // initializing Activity with the first fragment
-        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) == null) {
-            // Create a new Fragment to be placed in the activity layout
-            CaptureFragment captureFragment = new CaptureFragment();
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).add(R.id.fragment_container, captureFragment).commitAllowingStateLoss();
+        if (savedInstanceState != null && getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_SAVE_KEY) != null) {
+            fragment = getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_SAVE_KEY);
         }
+        // initializing Activity with the first fragment
+        else if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) == null) {
+            // Create a new Fragment to be placed in the activity layout
+            fragment = new CaptureFragment();
+            // Add the fragment to the 'fragment_container' FrameLayout
+        }
+        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).add(R.id.fragment_container, fragment).commitAllowingStateLoss();
+
     }
 
     @Override
@@ -78,4 +71,14 @@ public class CaptureActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //Save the fragment's instance
+        if (fragment != null)
+            getSupportFragmentManager().putFragment(outState, FRAGMENT_SAVE_KEY, fragment);
+        super.onSaveInstanceState(outState);
+
+    }
+
 }

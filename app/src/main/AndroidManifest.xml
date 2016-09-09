@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".OptionsActivity" />
         <activity android:name=".CaptureActivity" />
+        <activity android:name=".PacketDetailActivity" />
 
         <service
             android:name="it.uniroma2.giadd.aitm.services.SniffService"

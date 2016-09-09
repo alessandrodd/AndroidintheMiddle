@@ -5,18 +5,17 @@ package it.uniroma2.giadd.aitm.models;
  */
 
 public class TcpFlow {
-    private String sourceIp;
+    private String destination;
     private String destinationIp;
-    private String sourcePort;
     private String destinationPort;
     private byte[] data;
 
-    public String getSourceIp() {
-        return sourceIp;
+    public String getDestination() {
+        return destination;
     }
 
-    public void setSourceIp(String sourceIp) {
-        this.sourceIp = sourceIp;
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
     public String getDestinationIp() {
@@ -25,14 +24,6 @@ public class TcpFlow {
 
     public void setDestinationIp(String destinationIp) {
         this.destinationIp = destinationIp;
-    }
-
-    public String getSourcePort() {
-        return sourcePort;
-    }
-
-    public void setSourcePort(String sourcePort) {
-        this.sourcePort = sourcePort;
     }
 
     public String getDestinationPort() {
