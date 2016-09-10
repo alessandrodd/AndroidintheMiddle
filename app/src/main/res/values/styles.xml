@@ -19,6 +19,7 @@
     </style>
 
     <style name="TextEngraved" parent="TextButton">
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">2dp</item>

@@ -24,7 +24,7 @@
     <string name="change_network_interface">Change Network Interface</string>
     <string name="default_choice">Default</string>
     <string name="error_sniff_all_module">"Error in SnifAllModule: "</string>
-    <string name="mitm_started">MitM started...</string>
+    <string name="mitm_started">MitM started…</string>
     <string name="stop_mitm">Stop MitM</string>
     <string name="title_set_capture_filename">Set capture file name</string>
     <string name="error_illegal_character">"Error: illegal character: "</string>
@@ -32,15 +32,15 @@
     <string name="error_unable_create_folder">Error: unable to create folder pcaps in external storage.</string>
     <string name="error_permission_denied">Error: write and read permissions are needed to capture packets!\nYou will not be able to capture packets.</string>
     <string name="module_sniffall_title">Sniff All</string>
-    <string name="module_sniffall_message">Capturing all traffic...</string>
-    <string name="module_killconnection_message">Killing connection...</string>
+    <string name="module_sniffall_message">Capturing all traffic…</string>
+    <string name="module_killconnection_message">Killing connection…</string>
     <string name="module_killconnection_title">Kill Connection</string>
     <string name="module_mitm_title">MitM Module</string>
     <string name="module_mitm_message">Generic MitM module</string>
     <string name="save_capture">Save capture</string>
     <string name="error_parsing_pcap">"Error parsing pcap file: "</string>
-    <string name="message_parsed_pcap">Succesfully parsed %d bytes</string>
-    <string name="parsing_pcap_message">Parsing pcap file...</string>
+    <string name="message_parsed_pcap">Successfully parsed %d bytes</string>
+    <string name="parsing_pcap_message">Parsing pcap file…</string>
     <string name="stop_parsing_pcap">Stop parsing pcap</string>
     <string name="parse_capture">Parse capture</string>
     <string name="parse_pcap_service">Parse Pcap service</string>
@@ -97,6 +97,12 @@
     <string name="payload">PAYLOAD</string>
     <string name="monitoring_pcap_file">Monitoring pcap file: %s</string>
     <string name="no_tcp_flow_data">No TCP flow data. Try inspecting single packet.</string>
+    <string name="module_sniffwhatsapp_title">WhatsApp Sniffer</string>
+    <string name="module_sniffwhatsapp_message">Sniffing WhatsApp traffic…</string>
+    <string name="whatsapp_cidr_update_message">Trying to update whatsapp server info...</string>
+    <string name="error_cidr_retrieve">Error: unable to retrieve WhatsApp net lists!</string>
+    <string name="error_cidr_parse">"Error: unable to parse cidr file! "</string>
+    <string name="ok">OK</string>
 
     <string-array name="options_array">
         <item>Network Interface</item>

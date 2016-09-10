@@ -58,6 +58,7 @@ public class CaptureFragment extends Fragment {
     private String currentDumpPath;
     private IpPacketAdapter ipPacketAdapter = null;
     private RecyclerView recyclerView;
+    private boolean switchActivated = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +75,10 @@ public class CaptureFragment extends Fragment {
         moduleLayout.setVisibility(View.GONE);
         saveCaptureSwitch = (SwitchCompat) rootView.findViewById(R.id.save_capture);
         parseCaptureSwitch = (SwitchCompat) rootView.findViewById(R.id.parse_capture);
+        saveCaptureSwitch.setFocusableInTouchMode(false);
+        saveCaptureSwitch.setFocusable(false);
+        parseCaptureSwitch.setFocusableInTouchMode(false);
+        parseCaptureSwitch.setFocusable(false);
         moduleTitle = (TextView) rootView.findViewById(R.id.module_title);
         moduleMessage = (TextView) rootView.findViewById(R.id.module_message);
         TextView stopped = (TextView) rootView.findViewById(R.id.stopped);
@@ -139,22 +144,22 @@ public class CaptureFragment extends Fragment {
                 }
             }
         });
-        parseCaptureSwitch.setOnClickListener(new View.OnClickListener() {
+        parseCaptureSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                boolean b = parseCaptureSwitch.isChecked();
-                PreferencesUtils.setParseCapture(getContext(), b);
-                if (mitmModule != null) {
-                    Intent intent = new Intent(getContext(), ParsePcapService.class);
-                    if (b) {
-                        intent.putExtra(ParsePcapService.PCAP_PATH, mitmModule.getDumpPath());
-                        currentDumpPath = mitmModule.getDumpPath();
-                    } else intent.putExtra(ParsePcapService.READ_PCAP_STOP, true);
-                    getContext().startService(intent);
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (switchActivated) {
+                    PreferencesUtils.setParseCapture(getContext(), b);
+                    if (mitmModule != null) {
+                        Intent intent = new Intent(getContext(), ParsePcapService.class);
+                        if (b) {
+                            intent.putExtra(ParsePcapService.PCAP_PATH, mitmModule.getDumpPath());
+                            currentDumpPath = mitmModule.getDumpPath();
+                        } else intent.putExtra(ParsePcapService.READ_PCAP_STOP, true);
+                        getContext().startService(intent);
+                    }
                 }
             }
         });
-
         return rootView;
     }
 
@@ -224,7 +229,9 @@ public class CaptureFragment extends Fragment {
             } else if (intent.getStringExtra(ParsePcapService.MESSAGE) != null && consoleOutputTextView != null) {
                 Snackbar.make(recyclerView, intent.getStringExtra(ParsePcapService.MESSAGE), Snackbar.LENGTH_SHORT).show();
             } else if (intent.getBooleanExtra(ParsePcapService.READ_PCAP_STOP, false)) {
+                switchActivated = false;
                 parseCaptureSwitch.setChecked(false);
+                switchActivated = true;
             } else if (intent.getBooleanExtra(ParsePcapService.NEW_PACKET, false)) {
                 if (ipPacketAdapter != null)
                     ipPacketAdapter.notifyDataSetChanged();

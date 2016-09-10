@@ -7,6 +7,8 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
@@ -33,6 +35,7 @@ import it.uniroma2.giadd.aitm.models.modules.KillConnectionModule;
 import it.uniroma2.giadd.aitm.models.modules.SniffAllModule;
 import it.uniroma2.giadd.aitm.services.SniffService;
 import it.uniroma2.giadd.aitm.tasks.CheckHostTask;
+import it.uniroma2.giadd.aitm.utils.FileUtilities;
 import it.uniroma2.giadd.aitm.utils.PermissionUtils;
 
 /**
@@ -43,7 +46,6 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
 
     private static final String TAG = TargetFragment.class.getName();
     private static final String HOST_KEY = "host";
-    private static final char[] ILLEGAL_CHARACTERS = {'/', '\n', '\r', '\t', '\0', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':'};
 
 
     private TargetFragment thisFragment;
@@ -86,7 +88,6 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
                             Snackbar.make(getView(), R.string.error_write_permissions, Snackbar.LENGTH_LONG).show();
                         break;
                     }
-
                     final AlertDialog.Builder popDialog = new AlertDialog.Builder(getContext());
                     final EditText fileNameEditText = new EditText(getContext());
                     Date now = new Date(); // java.util.Date, NOT java.sql.Date or java.sql.Timestamp!
@@ -94,19 +95,17 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
                     fileNameEditText.setText(dateString);
                     popDialog.setTitle(R.string.title_set_capture_filename);
                     popDialog.setView(fileNameEditText);
-                    popDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    popDialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             String insertedString = fileNameEditText.getText().toString();
-                            for (Character character : ILLEGAL_CHARACTERS) {
-                                if (insertedString.indexOf(character) != -1 && getView() != null) {
-                                    Snackbar.make(getView(), getString(R.string.error_illegal_character) + " " + character, Snackbar.LENGTH_SHORT).show();
-                                    return;
-                                }
+                            if (FileUtilities.getInvalidCharacter(insertedString) != null && getView() != null) {
+                                Snackbar.make(getView(), getString(R.string.error_illegal_character) + " " + FileUtilities.getInvalidCharacter(insertedString), Snackbar.LENGTH_SHORT).show();
+                                return;
                             }
                             Intent i = new Intent(getContext(), SniffService.class);
                             SniffAllModule module;
                             try {
-                                module = new SniffAllModule(getContext(), host.getIp(), null, Environment.getExternalStorageDirectory() + "/pcaps" + "/" + insertedString + ".pcap");
+                                module = new SniffAllModule(getContext(), host.getIp(), Environment.getExternalStorageDirectory() + "/pcaps" + "/" + insertedString + ".pcap", null);
                                 i.putExtra(SniffService.MITM_MODULE, module);
                                 getContext().startService(i);
                                 i = new Intent(getContext(), CaptureActivity.class);
@@ -118,11 +117,16 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
                             }
                         }
                     });
-
                     popDialog.create();
                     popDialog.show();
                     break;
                 case R.id.button_mitm_messages:
+                    MessagingAppsFragment messagingAppsFragment = MessagingAppsFragment.newInstance(host);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    fragmentTransaction.replace(R.id.fragment_container, messagingAppsFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
                     break;
 
             }
