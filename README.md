@@ -13,6 +13,17 @@ TODO:
   - ~~implement C/C++ code that continuosly read and parse packet from opened .pcap file using libpcap~~
   - compile tcpdump and iptables in order to support non-arm CPUs
 
+Analyzed Messaging Apps:
+- Whatsapp
+-   Certificate pinning
+- Mxit
+-   Everything clear text
+- VK
+-   Everything clear text as URL parameter
+- QQ
+-   Account ID in cleartext in each message
+-   
+
 Con l'arp spoofing redirigiamo il traffico di un target verso di noi. Con iptables e altri parametri del kernel, configuriamo il telefono come forwarder, ovvero se ci arrivano dei pacchetti che non sono destinati a noi li ridirigiamo verso la destinazione voluta. Con tcpdump siamo in grado di catturare in un file .pcap tutto il traffico [diretto a/ricevuto da] il target. Noi vogliamo però osservare in tempo reale il traffico catturato (ed eventualmente, in futuro, se avremo tempo e risorse, modificarlo). Tcpdump permette, oltre a catturare il traffico con eventuali filtri, di leggere un file pcap.
 
   Problema 1) tcpdump, per decodificare un file pcap, prima lo legge tutto e poi risponde. Per questo motivo, non è possibile dare in pasto a tcpdump un flusso con "tail" (ovvero un file che viene scritto di continuo e che ogni volta che ha un aggiornamento viene invocato).
@@ -22,3 +33,5 @@ Con l'arp spoofing redirigiamo il traffico di un target verso di noi. Con iptabl
   Possibile soluzione 2) Creare del codice in C/C++ che sfrutti libpcap per decodificare di continuo un file in modo che ogni pacchetto venga messo in una struttura C/C++ che distingua frame ethernet, header tcp/udp, payload etc.
   
   **Soluziona adottata**: parsing nativo del file pcap in strutture C e classi Java 
+  
+  
