@@ -15,6 +15,7 @@ TODO:
 
 Analyzed Messaging Apps:
 - Whatsapp [Certificate pinning]
+- Telegram [Certificate pinning]
 - Mxit [Everything clear text]
 - VK [Everything clear text as URL parameter]
 - QQ [Account ID in cleartext in each message]
