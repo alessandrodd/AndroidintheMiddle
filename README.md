@@ -22,41 +22,42 @@ e) The act of sending or receiving a message is recognizable by packet inspectio
 f) Does the app use Certificate Pinning?
 
 Analyzed Messaging Apps:
-1) Whatsapp
-    a) cidr (https://www.whatsapp.com/cidr.txt)
-    b) No
-    c) No
-    d) No
-    e) Not sure
-    f) Yes
-2) Telegram
-    a) AS Number (AS62041)
-    b) No
-    c) Not sure
-    d) Not sure
-    e) Not sure
-    f) Yes
-3) Mxit [Everything clear text]
-    a) Port Number (9119, 9229)
-    b) Yes
-    c) Yes
-    d) Not sure
-    e) Yes
-    f) No encryption at all
-4) VK
-    a) AS Number (AS47541)
-    b) Yes (check URL parameters)
-    c) Not sure
-    d) Yes (check uid (sender or receiver?))
-    e) Yes (special GET request)
-    f) No encryption at all
-5) QQ
-    a) Not sure
-    b) Not sure
-    c) Not sure
-    d) Yes (account ID (sender or receiver?))
-    e) Not sure
-    f) Not sure
+
+    1) Whatsapp
+        a) cidr (https://www.whatsapp.com/cidr.txt)
+        b) No
+        c) No
+        d) No
+        e) Not sure
+        f) Yes
+    2) Telegram
+        a) AS Number (AS62041)
+        b) No
+        c) Not sure
+        d) Not sure
+        e) Not sure
+        f) Yes
+    3) Mxit [Everything clear text]
+        a) Port Number (9119, 9229)
+        b) Yes
+        c) Yes
+        d) Not sure
+        e) Yes
+        f) No encryption at all
+    4) VK
+        a) AS Number (AS47541)
+        b) Yes (check URL parameters)
+        c) Not sure
+        d) Yes (check uid (sender or receiver?))
+        e) Yes (special GET request)
+        f) No encryption at all
+    5) QQ
+        a) Not sure
+        b) Not sure
+        c) Not sure
+        d) Yes (account ID (sender or receiver?))
+        e) Not sure
+        f) Not sure
 
 
 
