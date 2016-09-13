@@ -13,14 +13,15 @@ TODO:
   - ~~implement C/C++ code that continuosly read and parse packet from opened .pcap file using libpcap~~
   - compile tcpdump and iptables in order to support non-arm CPUs
 
+
 What to check for each messaging app:
 
-a) How to filter the specific traffic (specific port(s), packet fingerprint, AS Number...)
-b) Are messages transmitted in clear text?
-c) Are "Personal Status", avatar etc. transmitted in clear?
-d) Are there any constant IDs transmitted in clear (something to link an user to a specific id)?
-e) The act of sending or receiving a message is recognizable by packet inspection?
-f) Does the app use Certificate Pinning?
+    a) How to filter the specific traffic (specific port(s), packet fingerprint, AS Number...)
+    b) Are messages transmitted in clear text?
+    c) Are "Personal Status", avatar etc. transmitted in clear?
+    d) Are there any constant IDs transmitted in clear (something to link an user to a specific id)?
+    e) The act of sending or receiving a message is recognizable by packet inspection?
+    f) Does the app use Certificate Pinning?
 
 Analyzed Messaging Apps:
 
