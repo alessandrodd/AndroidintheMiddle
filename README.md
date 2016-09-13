@@ -14,6 +14,7 @@ TODO:
   - compile tcpdump and iptables in order to support non-arm CPUs
 
 What to check for each messaging app:
+
 a) How to filter the specific traffic (specific port(s), packet fingerprint, AS Number...)
 b) Are messages transmitted in clear text?
 c) Are "Personal Status", avatar etc. transmitted in clear?
