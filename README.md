@@ -39,7 +39,7 @@ Analyzed Messaging Apps:
         d) Not sure
         e) Not sure
         f) Yes
-    3) Mxit [Everything clear text]
+    3) Mxit
         a) Port Number (9119, 9229)
         b) Yes
         c) Yes
