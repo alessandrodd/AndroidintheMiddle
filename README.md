@@ -22,6 +22,8 @@ What to check for each messaging app:
     d) Are there any constant IDs transmitted in clear (something to link an user to a specific id)?
     e) The act of sending or receiving a message is recognizable by packet inspection?
     f) Does the app use Certificate Pinning?
+    g) Number of downloads
+    h) Date of latest app's update
 
 Analyzed Messaging Apps:
 
@@ -32,13 +34,19 @@ Analyzed Messaging Apps:
         d) No
         e) Not sure
         f) Yes
+        g) 1-5 billion
+        h) Frequently
+
     2) Telegram
         a) AS Number (AS62041)
         b) No
-        c) Not sure
-        d) Not sure
+        c) No
+        d) No
         e) Not sure
         f) Yes
+        g) 100-500 millions
+        h) 9-08-16
+
     3) Mxit
         a) Port Number (9119, 9229)
         b) Yes
@@ -46,20 +54,71 @@ Analyzed Messaging Apps:
         d) Not sure
         e) Yes
         f) No encryption at all
+        g) 1-5 millions
+        h) 20-01-16
+
     4) VK
-        a) AS Number (AS47541)
+        a) AS Number (AS47541), fields "host" contains "api.vk.com"
         b) Yes (check URL parameters)
-        c) Not sure
-        d) Yes (check uid (sender or receiver?))
+        c) yes (Also typing)
+        d) Yes (uid sender)
         e) Yes (special GET request)
         f) No encryption at all
+        g) 100-500 millions
+        h) 15-07-16
+
     5) QQ
         a) Not sure
-        b) Not sure
-        c) Not sure
-        d) Yes (account ID (sender or receiver?))
-        e) Not sure
+        b) No
+        c) No
+        d) Yes (account ID (sender))
+        e) No
         f) Not sure
+        g) 10-50 millions
+        h) 6-05-16
+
+    6) TextPlus
+        a) Not sure
+        b) No
+        c) yes (During change of profile picture, is possible to see the link of the img)
+        d) no
+        e) No
+        f) Not sure
+        g) 10-50 millions
+        h) 7-09-16
+
+    7) Talkray
+        a) Not sure
+        b) No
+        c) no
+        d) no
+        e) No
+        f) Not sure
+        g) 10-50 millions
+        h) 15-09-16
+
+    8) BBM
+        a) Not sure
+        b) No
+        c) no
+        d) no
+        e) No
+        f) Not sure
+        g) 100-500 millions
+        h) 30-08-16
+
+    9) Instagram
+        a) Not sure
+        b) No
+        c) no (sometimes, images of the past conversations are requested without encryption)
+        d) no
+        e) No
+        f) Not sure
+        g) 1-5 billion
+        h) 13-09-16
+
+
+
 
 
 
