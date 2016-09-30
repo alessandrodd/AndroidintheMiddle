@@ -20,10 +20,11 @@ What to check for each messaging app:
     b) Are messages transmitted in clear text?
     c) Are "Personal Status", avatar etc. transmitted in clear?
     d) Are there any constant IDs transmitted in clear (something to link an user to a specific id)?
-    e) The act of sending or receiving a message is recognizable by packet inspection?
+    e) Are there any metadata in plan text?
     f) Does the app use Certificate Pinning?
     g) Number of downloads
-    h) Date of latest app's update
+    h) App version 
+    i) Link
 
 Analyzed Messaging Apps:
 
@@ -32,20 +33,22 @@ Analyzed Messaging Apps:
         b) No
         c) No
         d) No
-        e) Not sure
+        e) No (https://www.whatsapp.com/security/WhatsApp-Security-Whitepaper.pdf)
         f) Yes
         g) 1-5 billion
-        h) Frequently
+        h) 2.16.193 (30/09/16)
+        i) https://play.google.com/store/apps/details?id=com.whatsapp
 
     2) Telegram
         a) AS Number (AS62041)
         b) No
         c) No
         d) No
-        e) Not sure
+        e) No
         f) Yes
         g) 100-500 millions
-        h) 9-08-16
+        h) 3.12.0 (30/09/16)
+        i) https://play.google.com/store/apps/details?id=org.telegram.messenger
 
     3) Mxit
         a) Port Number (9119, 9229)
@@ -55,17 +58,33 @@ Analyzed Messaging Apps:
         e) Yes
         f) No encryption at all
         g) 1-5 millions
-        h) 20-01-16
+        h) 7.3.0.0  (01/09/2016)
+        i) https://play.google.com/store/apps/details?id=com.mxit.android
 
     4) VK
+        a) AS Number (AS47541)
+        b) Not sure
+        c) Not sure
+        d) Not sure
+        e) Not sure
+        f) Not sure
+        g) 100-500 millions
+        h) 
+        i) https://play.google.com/store/apps/details?id=com.vkontakte.android
+
+    4) VK Chat
         a) AS Number (AS47541), fields "host" contains "api.vk.com"
         b) Yes (check URL parameters)
         c) yes (Also typing)
         d) Yes (uid sender)
-        e) Yes (special GET request)
+        e) Yes (act
+           key 
+           access_token => OAuth2 access tokens 
+           sig ) (https://vk.com/dev/methods for full description)
         f) No encryption at all
-        g) 100-500 millions
-        h) 15-07-16
+        g) 1-5 millions
+        h) 1.2 (15/07/16)
+        i) https://play.google.com/store/apps/details?id=ru.st1ng.vk
 
     5) QQ
         a) Not sure
@@ -75,7 +94,8 @@ Analyzed Messaging Apps:
         e) No
         f) Not sure
         g) 10-50 millions
-        h) 6-05-16
+        h) 5.9.7 (30/09/16)
+        i) https://play.google.com/store/apps/details?id=com.tencent.mobileqq
 
     6) TextPlus
         a) Not sure
