@@ -1,4 +1,4 @@
-# Android-in-the-Middle
+version# Android-in-the-Middle
 Repository for Android in the Middle app
 - ~~interazione con ROOT (richiesta permessi, check permessi)~~ [Facile]
 - ~~ricerca utenti sulla rete (ping degli host, host scanner)~~ [Medio]
@@ -54,7 +54,7 @@ Analyzed Messaging Apps:
         a) Port Number (9119, 9229)
         b) Yes
         c) Yes
-        d) Not sure
+        d) Yes
         e) Yes
         f) No encryption at all
         g) 1-5 millions
@@ -63,13 +63,13 @@ Analyzed Messaging Apps:
 
     4) VK
         a) AS Number (AS47541)
-        b) Not sure
-        c) Not sure
-        d) Not sure
-        e) Not sure
-        f) Not sure
+        b) No
+        c) No
+        d) No
+        e) No
+        f) Yes
         g) 100-500 millions
-        h) 
+        h) 4.4.1 (01/10/16)
         i) https://play.google.com/store/apps/details?id=com.vkontakte.android
 
     4) VK Chat
@@ -87,17 +87,17 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=ru.st1ng.vk
 
     5) QQ
-        a) Not sure
+        a) *.qq.com, port 80 8080 8000 15000
         b) No
         c) No
         d) Yes (account ID (sender))
         e) No
-        f) Not sure
+        f) No HTTPS
         g) 10-50 millions
         h) 5.9.7 (30/09/16)
         i) https://play.google.com/store/apps/details?id=com.tencent.mobileqq
 
-    6) TextPlus
+    6) textPlus
         a) Not sure
         b) No
         c) yes (During change of profile picture, is possible to see the link of the img)
@@ -105,7 +105,8 @@ Analyzed Messaging Apps:
         e) No
         f) Not sure
         g) 10-50 millions
-        h) 7-09-16
+        h) 6.2.1 (01/10/16)
+        i) https://play.google.com/store/apps/details?id=com.gogii.textplus
 
     7) Talkray
         a) Not sure
