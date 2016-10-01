@@ -99,10 +99,20 @@
     <string name="no_tcp_flow_data">No TCP flow data. Try inspecting single packet.</string>
     <string name="module_sniffwhatsapp_title">WhatsApp Sniffer</string>
     <string name="module_sniffwhatsapp_message">Sniffing WhatsApp traffic…</string>
-    <string name="whatsapp_cidr_update_message">Trying to update whatsapp server info...</string>
+    <string name="whatsapp_cidr_update_message">Trying to update whatsapp server info…</string>
     <string name="error_cidr_retrieve">Error: unable to retrieve WhatsApp net lists!</string>
     <string name="error_cidr_parse">"Error: unable to parse cidr file! "</string>
     <string name="ok">OK</string>
+    <string name="module_snifftelegram_title">Telegram Sniffer</string>
+    <string name="module_snifftelegram_message">Sniffing Telegram traffic…</string>
+    <string name="error_retrieve_announced_prefixes">Unable to retrieve announced prefixes.</string>
+    <string name="module_sniffmxit_title">Mxit Sniffer</string>
+    <string name="module_sniffmxit_message">Sniffing Mxit traffic…</string>
+    <string name="mxit">Mxit</string>
+    <string name="vkontakte">VKontakte</string>
+    <string name="module_sniffvk_title">Vkontakte Sniffer</string>
+    <string name="module_sniffvk_message">Sniffing VKontakte traffic…</string>
+    <string name="error_unable_parse_prefixes">Error: unable to parse announced prefixes</string>
 
     <string-array name="options_array">
         <item>Network Interface</item>

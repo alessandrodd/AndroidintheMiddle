@@ -62,7 +62,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ip_title"
             android:layout_marginLeft="@dimen/margin_xsmall"
-            android:layout_marginRight="@dimen/margin_xsmall"            android:text="@string/port_title" />
+            android:layout_marginRight="@dimen/margin_xsmall"
+            android:text="@string/port_title" />
 
         <TextView
             android:id="@+id/port_destination"
@@ -91,6 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/separator_line"
             android:layout_marginTop="@dimen/margin_xsmall"
+            android:textIsSelectable="true"
             tools:text="HTTP/1.1 200 OK
 Date: Wed, 17 Aug 2016 11:05:03 GMT
 Server: Apache/2.2.22

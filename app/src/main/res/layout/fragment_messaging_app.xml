@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:id="@+id/fragment_target"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -15,7 +16,6 @@
             style="@style/CardViewButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             app:cardBackgroundColor="@color/whatsapp">
 
             <TextView
@@ -34,7 +34,6 @@
             style="@style/CardViewButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/button_whatsapp"
             app:cardBackgroundColor="@color/telegram">
 
             <TextView
@@ -49,12 +48,11 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/button_line"
+            android:id="@+id/button_mxit"
             style="@style/CardViewButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/button_telegram"
-            app:cardBackgroundColor="@color/line">
+            app:cardBackgroundColor="@color/mxit">
 
             <TextView
                 style="@style/TextEngraved"
@@ -63,9 +61,26 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_standard"
                 android:gravity="center"
-                android:text="@string/line" />
+                android:text="@string/mxit" />
 
         </android.support.v7.widget.CardView>
 
-    </RelativeLayout>
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_vk"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/vk">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/vkontakte" />
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
 </ScrollView>

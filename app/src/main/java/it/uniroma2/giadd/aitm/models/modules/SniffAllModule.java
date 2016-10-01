@@ -5,9 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import java.net.SocketException;
-import java.util.List;
-
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.interfaces.OnCommandListener;
 import it.uniroma2.giadd.aitm.managers.RootManager;
@@ -23,22 +20,27 @@ public class SniffAllModule extends MitmModule implements Parcelable {
     private static final String TCPDUMP_COMMAND = "tcpdump host <target> -i <interface> -XSs 0 -U -w <path> and not arp and not rarp";
     private static final String TCPDUMP_COMMAND_NO_DUMP = "tcpdump host <target> -i <interface> -XSs 0 and not arp and not rarp";
 
-    public SniffAllModule(Context context, String target, String path, List<String> additionalCommands) throws SocketException {
-        super(context, true, target, path, additionalCommands);
+    protected SniffAllModule() {
+        super();
+    }
 
+    @Override
+    public void initialize(Context context) {
+        super.initialize(context);
+        setForwardConnections(true);
         setModuleTitle(context.getString(R.string.module_sniffall_title));
         setModuleMessage(context.getString(R.string.module_sniffall_message));
 
         //dump to file
         setDumpToFile(false);
         String command = context.getFilesDir() + "/" + TCPDUMP_COMMAND_NO_DUMP;
-        if (path != null && !path.isEmpty()) {
+        if (getDumpPath() != null && !getDumpPath().isEmpty()) {
             setDumpToFile(true);
             command = context.getFilesDir() + "/" + TCPDUMP_COMMAND;
-            command = command.replaceAll("<path>", path);
+            command = command.replaceAll("<path>", getDumpPath());
         }
         command = command.replaceAll("<interface>", getInterfaceName());
-        command = command.replaceAll("<target>", target);
+        command = command.replaceAll("<target>", getTarget());
         commands.add(command);
     }
 

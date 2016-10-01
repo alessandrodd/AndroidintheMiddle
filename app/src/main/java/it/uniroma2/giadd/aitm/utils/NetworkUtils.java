@@ -9,7 +9,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
-import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -17,8 +16,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-
-import it.uniroma2.giadd.aitm.models.NetworkHost;
 
 import static android.content.Context.WIFI_SERVICE;
 
@@ -105,7 +102,7 @@ public class NetworkUtils {
         return interfaces;
     }
 
-    public static String getActiveInterface(Context context) throws SocketException {
+    public static String getActiveInterface(Context context) {
         WifiManager wifiManager = (WifiManager) context.getSystemService(WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         @SuppressLint("HardwareIds")
@@ -133,7 +130,13 @@ public class NetworkUtils {
             return getNetworkInterfacesList().get(0).getName();
         }
         for (NetworkInterface currentInterface : getNetworkInterfacesList()) {
-            byte[] hardwareAddress = currentInterface.getHardwareAddress();
+            byte[] hardwareAddress = new byte[0];
+            try {
+                hardwareAddress = currentInterface.getHardwareAddress();
+            } catch (SocketException e) {
+                e.printStackTrace();
+                break;
+            }
             if (hardwareAddress != null) {
                 String currentMac = byteArrayToMacAddress(hardwareAddress);
                 Log.d("DBG", "current interface: " + currentInterface.getName() + " mac: " + currentMac + " wifimac: " + wifiMacString);

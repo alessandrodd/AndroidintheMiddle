@@ -1,6 +1,5 @@
 package it.uniroma2.giadd.aitm.fragments;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,23 +18,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-
-import java.io.File;
-import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import it.uniroma2.giadd.aitm.CaptureActivity;
 import it.uniroma2.giadd.aitm.R;
+import it.uniroma2.giadd.aitm.interfaces.AutonomousSystemGrabber;
+import it.uniroma2.giadd.aitm.interfaces.OnAutonomousSystemGrabbedListener;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
-import it.uniroma2.giadd.aitm.models.exceptions.ParsingWhatsappCidrException;
+import it.uniroma2.giadd.aitm.models.modules.MitmModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffMxitModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffTelegramModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffVkModule;
 import it.uniroma2.giadd.aitm.models.modules.SniffWhatsAppModule;
+import it.uniroma2.giadd.aitm.models.modules.TelegramASGrabber;
+import it.uniroma2.giadd.aitm.models.modules.VkASGrabber;
+import it.uniroma2.giadd.aitm.models.modules.WhatsappASGrabber;
 import it.uniroma2.giadd.aitm.services.SniffService;
 import it.uniroma2.giadd.aitm.utils.FileUtilities;
-import it.uniroma2.giadd.aitm.utils.PermissionUtils;
 
 /**
  * Created by Alessandro Di Diego
@@ -45,7 +47,6 @@ public class MessagingAppsFragment extends Fragment {
 
     private static final String TAG = MessagingAppsFragment.class.getName();
     private static final String HOST_KEY = "HOST_KEY";
-    private static final String WHATSAPP_CIDR_URI = "https://www.whatsapp.com/cidr.txt";
 
     private NetworkHost host;
 
@@ -57,41 +58,85 @@ public class MessagingAppsFragment extends Fragment {
         return myFragment;
     }
 
-    View.OnClickListener buttonManager = new View.OnClickListener() {
+    public View.OnClickListener buttonManager = new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void onClick(final View view) {
             final AlertDialog.Builder popDialog = new AlertDialog.Builder(getContext());
             final EditText fileNameEditText = new EditText(getContext());
             Date now = new Date(); // java.util.Date, NOT java.sql.Date or java.sql.Timestamp!
             String filenameString = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(now);
             popDialog.setTitle(R.string.title_set_capture_filename);
             popDialog.setView(fileNameEditText);
+            final MitmModule module;
+            final AutonomousSystemGrabber grabber;
             switch (view.getId()) {
                 case R.id.button_whatsapp:
-                    if (!PermissionUtils.isWriteStorageAllowed(getContext())) {
-                        if (getView() != null)
-                            Snackbar.make(getView(), R.string.error_write_permissions, Snackbar.LENGTH_LONG).show();
-                        break;
-                    }
-                    filenameString = "whatsapp_" + filenameString;
-                    fileNameEditText.setText(filenameString);
-                    popDialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            String insertedString = fileNameEditText.getText().toString();
-                            if (FileUtilities.getInvalidCharacter(insertedString) != null && getView() != null) {
-                                Snackbar.make(getView(), getString(R.string.error_illegal_character) + " " + FileUtilities.getInvalidCharacter(insertedString), Snackbar.LENGTH_SHORT).show();
-                                return;
-                            }
-                            updateCidrAndStartWhatsappSniffing(Environment.getExternalStorageDirectory() + "/pcaps" + "/" + insertedString + ".pcap");
-                        }
-                    });
-                    popDialog.create();
-                    popDialog.show();
+                    filenameString = SniffWhatsAppModule.PREFIX + filenameString;
+                    module = new SniffWhatsAppModule();
+                    grabber = new WhatsappASGrabber();
                     break;
                 case R.id.button_telegram:
+                    filenameString = SniffTelegramModule.PREFIX + filenameString;
+                    module = new SniffTelegramModule();
+                    grabber = new TelegramASGrabber();
                     break;
+                case R.id.button_mxit:
+                    filenameString = SniffMxitModule.PREFIX + filenameString;
+                    module = new SniffMxitModule();
+                    grabber = null;
+                    break;
+                case R.id.button_vk:
+                    filenameString = SniffVkModule.PREFIX + filenameString;
+                    module = new SniffVkModule();
+                    grabber = new VkASGrabber();
+                    break;
+                default:
+                    module = null;
+                    grabber = null;
             }
+            fileNameEditText.setText(filenameString);
+            popDialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    String insertedString = fileNameEditText.getText().toString();
+                    if (FileUtilities.getInvalidCharacter(insertedString) != null && getView() != null) {
+                        Snackbar.make(getView(), getString(R.string.error_illegal_character) + " " + FileUtilities.getInvalidCharacter(insertedString), Snackbar.LENGTH_SHORT).show();
+                        return;
+                    }
+                    final String desiredPcapPath = Environment.getExternalStorageDirectory() + "/pcaps" + "/" + insertedString + ".pcap";
+                    if (grabber != null) {
+                        grabber.getRoutingPrefixes(getContext(), new OnAutonomousSystemGrabbedListener() {
+                            @Override
+                            public void onSuccess(List<String> prefixes) {
+                                module.setDumpPath(desiredPcapPath);
+                                module.setNets(prefixes);
+                                module.setTarget(host.getIp());
+                                module.initialize(getContext());
+                                Intent i = new Intent(getContext(), SniffService.class);
+                                i.putExtra(SniffService.MITM_MODULE, module);
+                                getContext().startService(i);
+                                i = new Intent(getContext(), CaptureActivity.class);
+                                startActivity(i);
+                            }
 
+                            @Override
+                            public void onError(String message) {
+                                Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+                            }
+                        });
+                    } else if (module != null) {
+                        module.setDumpPath(desiredPcapPath);
+                        module.setTarget(host.getIp());
+                        module.initialize(getContext());
+                        Intent i = new Intent(getContext(), SniffService.class);
+                        i.putExtra(SniffService.MITM_MODULE, module);
+                        getContext().startService(i);
+                        i = new Intent(getContext(), CaptureActivity.class);
+                        startActivity(i);
+                    }
+                }
+            });
+            popDialog.create();
+            popDialog.show();
         }
     };
 
@@ -113,57 +158,13 @@ public class MessagingAppsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_messaging_app, parentViewGroup, false);
         CardView whatsappButton = (CardView) rootView.findViewById(R.id.button_whatsapp);
         CardView telegramButton = (CardView) rootView.findViewById(R.id.button_telegram);
+        CardView mxitButton = (CardView) rootView.findViewById(R.id.button_mxit);
         if (host != null) {
             whatsappButton.setOnClickListener(buttonManager);
             telegramButton.setOnClickListener(buttonManager);
+            mxitButton.setOnClickListener(buttonManager);
         } else Log.e(TAG, "Error: host cannot be null!");
         return rootView;
-    }
-
-    private void updateCidrAndStartWhatsappSniffing(final String desiredPcapPath) {
-        final String whatsappCidrPath = getContext().getFilesDir() + "/cidr.txt";
-        final ProgressDialog whatsappUpdateProgressDialog = new ProgressDialog(getContext());
-        whatsappUpdateProgressDialog.setMessage(getString(R.string.whatsapp_cidr_update_message));
-        whatsappUpdateProgressDialog.setCancelable(false);
-        whatsappUpdateProgressDialog.show();
-        Ion.with(getContext())
-                .load(WHATSAPP_CIDR_URI)
-                .progressDialog(whatsappUpdateProgressDialog)
-                .write(new File(whatsappCidrPath))
-                .setCallback(new FutureCallback<File>() {
-                    @Override
-                    public void onCompleted(Exception e, File file) {
-                        whatsappUpdateProgressDialog.dismiss();
-                        String cidrPath;
-                        if (e != null) {
-                            File cidr = new File(whatsappCidrPath);
-                            if (cidr.exists() && cidr.length() > 0) {
-                                cidrPath = cidr.getPath();
-                            } else {
-                                if (getView() != null)
-                                    Snackbar.make(getView(), R.string.error_cidr_retrieve, Snackbar.LENGTH_LONG).show();
-                                return;
-                            }
-                        } else cidrPath = file.getPath();
-                        Intent i = new Intent(getContext(), SniffService.class);
-                        SniffWhatsAppModule module;
-                        try {
-                            module = new SniffWhatsAppModule(getContext(), host.getIp(), desiredPcapPath, cidrPath, null);
-                            i.putExtra(SniffService.MITM_MODULE, module);
-                            getContext().startService(i);
-                            i = new Intent(getContext(), CaptureActivity.class);
-                            startActivity(i);
-                        } catch (SocketException e1) {
-                            e1.printStackTrace();
-                            if (getView() != null)
-                                Snackbar.make(getView(), getString(R.string.error_sniff_all_module) + e1.getMessage(), Snackbar.LENGTH_LONG).show();
-                        } catch (ParsingWhatsappCidrException e1) {
-                            e1.printStackTrace();
-                            if (getView() != null)
-                                Snackbar.make(getView(), getString(R.string.error_cidr_parse) + e1.getMessage(), Snackbar.LENGTH_LONG).show();
-                        }
-                    }
-                });
     }
 
     @Override

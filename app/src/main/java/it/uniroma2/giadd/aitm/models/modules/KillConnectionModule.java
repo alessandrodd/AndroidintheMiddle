@@ -4,9 +4,6 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.net.SocketException;
-import java.util.List;
-
 import it.uniroma2.giadd.aitm.R;
 
 /**
@@ -17,9 +14,10 @@ public class KillConnectionModule extends MitmModule implements Parcelable {
 
     private static final String TAG = KillConnectionModule.class.getName();
 
-    public KillConnectionModule(Context context, String target, List<String> additionalCommands) throws SocketException {
-        super(context, false, target, null, additionalCommands);
-
+    @Override
+    public void initialize(Context context) {
+        super.initialize(context);
+        setForwardConnections(false);
         setModuleTitle(context.getString(R.string.module_killconnection_title));
         setModuleMessage(context.getString(R.string.module_killconnection_message));
     }

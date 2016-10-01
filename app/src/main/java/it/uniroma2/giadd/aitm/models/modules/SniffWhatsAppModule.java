@@ -3,21 +3,11 @@ package it.uniroma2.giadd.aitm.models.modules;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.util.Log;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.SocketException;
-import java.nio.Buffer;
-import java.util.ArrayList;
-import java.util.List;
 
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.interfaces.OnCommandListener;
 import it.uniroma2.giadd.aitm.managers.RootManager;
-import it.uniroma2.giadd.aitm.models.exceptions.ParsingWhatsappCidrException;
 
 /**
  * Created by Alessandro Di Diego on 13/08/16.
@@ -26,31 +16,34 @@ import it.uniroma2.giadd.aitm.models.exceptions.ParsingWhatsappCidrException;
 public class SniffWhatsAppModule extends MitmModule implements Parcelable {
 
     private static final String TAG = SniffWhatsAppModule.class.getName();
+    public static final String PREFIX = "whatsapp_";
 
     private static final String TCPDUMP_COMMAND = "tcpdump host <target> -i <interface> -XSs 0 -U -w <path> and not arp and not rarp and \\(<whatsappfilter>\\)";
 
-    public SniffWhatsAppModule(Context context, String target, @NonNull String path, String cidrTxtPath, List<String> additionalCommands) throws SocketException, ParsingWhatsappCidrException {
-        super(context, true, target, path, additionalCommands);
 
+    public SniffWhatsAppModule() {
+        super();
+    }
+
+    @Override
+    public void initialize(Context context) {
+        super.initialize(context);
+        setForwardConnections(true);
         setModuleTitle(context.getString(R.string.module_sniffwhatsapp_title));
         setModuleMessage(context.getString(R.string.module_sniffwhatsapp_message));
 
-        if (cidrTxtPath == null || cidrTxtPath.isEmpty())
-            throw new ParsingWhatsappCidrException("cidrTextPath cannot be null or empty");
-
-        ArrayList<String> whatsappNets = parseCidr(cidrTxtPath);
         String whatsappFilter = "";
         int i;
-        for (i = 0; i < whatsappNets.size(); i++) {
-            whatsappFilter += "net " + whatsappNets.get(i);
-            if (i < (whatsappNets.size() - 1)) whatsappFilter += " or ";
+        for (i = 0; i < getNets().size(); i++) {
+            whatsappFilter += "net " + getNets().get(i);
+            if (i < (getNets().size() - 1)) whatsappFilter += " or ";
         }
         //dump to file
         setDumpToFile(true);
         String command = context.getFilesDir() + "/" + TCPDUMP_COMMAND;
-        command = command.replaceAll("<path>", path);
+        command = command.replaceAll("<path>", getDumpPath());
         command = command.replaceAll("<interface>", getInterfaceName());
-        command = command.replaceAll("<target>", target);
+        command = command.replaceAll("<target>", getTarget());
         command = command.replace("<whatsappfilter>", whatsappFilter);
         commands.add(command);
         largeLog(TAG, command);
@@ -64,22 +57,6 @@ public class SniffWhatsAppModule extends MitmModule implements Parcelable {
             Log.d(tag, content);
         }
     }
-
-    private ArrayList<String> parseCidr(String cidrTxtPath) throws ParsingWhatsappCidrException {
-        ArrayList<String> whatsappNets = new ArrayList<>();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(cidrTxtPath));
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (!line.trim().isEmpty()) whatsappNets.add(line.trim());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new ParsingWhatsappCidrException("Unable to parse cidr: " + e.getMessage());
-        }
-        return whatsappNets;
-    }
-
 
     @Override
     public void onModuleTermination(Context context) {

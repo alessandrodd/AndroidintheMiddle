@@ -892,6 +892,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_small"
+                android:textIsSelectable="true"
                 tools:text="HTTP/1.1 200 OK
 Date: Wed, 17 Aug 2016 11:05:03 GMT
 Server: Apache/2.2.22

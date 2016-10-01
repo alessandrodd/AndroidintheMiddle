@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import java.io.File;
-import java.net.SocketException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,6 +21,7 @@ import it.uniroma2.giadd.aitm.utils.NetworkUtils;
 public class MitmModule implements Parcelable {
 
     private static final String TAG = MitmModule.class.getName();
+    public static final String PREFIX = "";
 
     // enable/disable kernel routing
     private static final String COMMAND_KERNEL_ROUTING = "echo <0or1> > /proc/sys/net/ipv4/ip_forward";
@@ -41,41 +41,28 @@ public class MitmModule implements Parcelable {
     protected boolean dumpToFile = false;
     protected boolean forwardConnections = false;
     protected String target;
+    protected List<String> nets;
     protected String binaryFolder;
     protected String dumpPath = null;
     protected String moduleTitle;
     protected String moduleMessage;
     protected String interfaceName;
 
-
-    protected MitmModule(Context context, boolean forwardConnections, String target, String dumpPath, List<String> additionalCommands) throws SocketException {
-        this(context, forwardConnections, target, dumpPath);
-        if (additionalCommands != null)
-            commands.addAll(additionalCommands);
+    protected MitmModule() {
     }
 
-    protected MitmModule(Context context, boolean forwardConnections, String target, String dumpPath) throws SocketException {
-        this.moduleTitle = context.getString(R.string.module_mitm_title);
-        this.moduleMessage = context.getString(R.string.module_mitm_message);
-        this.forwardConnections = forwardConnections;
-        this.target = target;
-        this.dumpPath = dumpPath;
-        this.binaryFolder = context.getFilesDir() + "/";
-        setupMitm(context);
-    }
-
-
-    private void setupMitm(Context context) throws SocketException {
+    public void initialize(Context context) {
+        commands.clear();
+        moduleTitle = context.getString(R.string.module_mitm_title);
+        moduleMessage = context.getString(R.string.module_mitm_message);
+        binaryFolder = context.getFilesDir() + "/";
         addKernelRoutingCommand(this.forwardConnections);
         // spoof client connection to gateway
         String command = context.getFilesDir() + "/" + ARP_SPOOF_COMMAND;
         interfaceName = NetworkUtils.getActiveInterface(context);
-        if (interfaceName == null) {
-            Log.e(TAG, "Unable to get interface name!");
-            interfaceName = "wlan0";
-        }
         command = command.replaceAll("<interface>", this.interfaceName);
-        command = command.replaceAll("<target>", this.target);
+        if (target != null)
+            command = command.replaceAll("<target>", this.target);
         String gateway = NetworkUtils.getWifiGateway(context);
         if (gateway == null) {
             Log.e(TAG, "Unable to get wifi gateway!");
@@ -85,7 +72,24 @@ public class MitmModule implements Parcelable {
         commands.add(command);
     }
 
-    protected MitmModule() {
+    protected void setCommands(List<String> commands) {
+        this.commands = commands;
+    }
+
+    public boolean isForwardConnections() {
+        return forwardConnections;
+    }
+
+    protected void setForwardConnections(boolean forwardConnections) {
+        this.forwardConnections = forwardConnections;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
     }
 
     protected List<String> getKernelRoutingCommands(boolean enabled) {
@@ -101,6 +105,14 @@ public class MitmModule implements Parcelable {
             commandList.add(binaryFolder + COMMAND_IPTABLES_MASQUERADING_DISABLE);
         }
         return commandList;
+    }
+
+    protected void setModuleMessage(String moduleMessage) {
+        this.moduleMessage = moduleMessage;
+    }
+
+    protected void setModuleTitle(String moduleTitle) {
+        this.moduleTitle = moduleTitle;
     }
 
     protected void addKernelRoutingCommand(boolean enabled) {
@@ -158,20 +170,21 @@ public class MitmModule implements Parcelable {
         return moduleTitle;
     }
 
-    public void setModuleTitle(String moduleTitle) {
-        this.moduleTitle = moduleTitle;
-    }
-
     public String getModuleMessage() {
         return moduleMessage;
     }
 
-    public void setModuleMessage(String moduleMessage) {
-        this.moduleMessage = moduleMessage;
-    }
 
     public String getInterfaceName() {
         return interfaceName;
+    }
+
+    public List<String> getNets() {
+        return nets;
+    }
+
+    public void setNets(List<String> nets) {
+        this.nets = nets;
     }
 
     @Override
@@ -186,6 +199,7 @@ public class MitmModule implements Parcelable {
         if (commands != null ? !commands.equals(that.commands) : that.commands != null)
             return false;
         if (target != null ? !target.equals(that.target) : that.target != null) return false;
+        if (nets != null ? !nets.equals(that.nets) : that.nets != null) return false;
         if (binaryFolder != null ? !binaryFolder.equals(that.binaryFolder) : that.binaryFolder != null)
             return false;
         if (dumpPath != null ? !dumpPath.equals(that.dumpPath) : that.dumpPath != null)
@@ -204,6 +218,7 @@ public class MitmModule implements Parcelable {
         result = 31 * result + (dumpToFile ? 1 : 0);
         result = 31 * result + (forwardConnections ? 1 : 0);
         result = 31 * result + (target != null ? target.hashCode() : 0);
+        result = 31 * result + (nets != null ? nets.hashCode() : 0);
         result = 31 * result + (binaryFolder != null ? binaryFolder.hashCode() : 0);
         result = 31 * result + (dumpPath != null ? dumpPath.hashCode() : 0);
         result = 31 * result + (moduleTitle != null ? moduleTitle.hashCode() : 0);
@@ -224,6 +239,7 @@ public class MitmModule implements Parcelable {
         dest.writeByte(this.dumpToFile ? (byte) 1 : (byte) 0);
         dest.writeByte(this.forwardConnections ? (byte) 1 : (byte) 0);
         dest.writeString(this.target);
+        dest.writeStringList(this.nets);
         dest.writeString(this.binaryFolder);
         dest.writeString(this.dumpPath);
         dest.writeString(this.moduleTitle);
@@ -236,6 +252,7 @@ public class MitmModule implements Parcelable {
         this.dumpToFile = in.readByte() != 0;
         this.forwardConnections = in.readByte() != 0;
         this.target = in.readString();
+        this.nets = in.createStringArrayList();
         this.binaryFolder = in.readString();
         this.dumpPath = in.readString();
         this.moduleTitle = in.readString();
