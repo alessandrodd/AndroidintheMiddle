@@ -18,7 +18,7 @@ public class SniffMxitModule extends MitmModule implements Parcelable {
     private static final String TAG = SniffMxitModule.class.getName();
     public static final String PREFIX = "mxit_";
 
-    private static final String TCPDUMP_COMMAND = "tcpdump host <target> -i <interface> -XSs 0 -U -w <path> and not arp and not rarp and \\(port 9119 or port 9229\\)";
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (port 9119 or port 9229)\"";
 
     public SniffMxitModule() {
         super();

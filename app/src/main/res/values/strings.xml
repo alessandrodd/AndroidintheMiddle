@@ -113,6 +113,12 @@
     <string name="module_sniffvk_title">Vkontakte Sniffer</string>
     <string name="module_sniffvk_message">Sniffing VKontakte traffic…</string>
     <string name="error_unable_parse_prefixes">Error: unable to parse announced prefixes</string>
+    <string name="module_sniffqq_message">Sniffing QQ traffic...</string>
+    <string name="module_sniffqq_title">QQ Sniffer</string>
+    <string name="module_snifftextplus_title">textPlus Sniffer</string>
+    <string name="module_snifftextplus_message">Sniffing textPlus traffic...</string>
+    <string name="qq">QQ</string>
+    <string name="textplus">textPlus</string>
 
     <string-array name="options_array">
         <item>Network Interface</item>

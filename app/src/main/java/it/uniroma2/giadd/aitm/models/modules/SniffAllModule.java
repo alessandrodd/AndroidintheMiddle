@@ -17,8 +17,8 @@ public class SniffAllModule extends MitmModule implements Parcelable {
 
     private static final String TAG = SniffAllModule.class.getName();
 
-    private static final String TCPDUMP_COMMAND = "tcpdump host <target> -i <interface> -XSs 0 -U -w <path> and not arp and not rarp";
-    private static final String TCPDUMP_COMMAND_NO_DUMP = "tcpdump host <target> -i <interface> -XSs 0 and not arp and not rarp";
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and not arp and not rarp";
+    private static final String TCPDUMP_COMMAND_NO_DUMP = "tcpdump -i <interface> -XSs 0 host <target> and not arp and not rarp";
 
     public SniffAllModule() {
         super();

@@ -18,7 +18,7 @@ public class SniffWhatsAppModule extends MitmModule implements Parcelable {
     private static final String TAG = SniffWhatsAppModule.class.getName();
     public static final String PREFIX = "whatsapp_";
 
-    private static final String TCPDUMP_COMMAND = "tcpdump host <target> -i <interface> -XSs 0 -U -w <path> and not arp and not rarp and \\(<whatsappfilter>\\)";
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (<whatsappfilter>)\"";
 
 
     public SniffWhatsAppModule() {

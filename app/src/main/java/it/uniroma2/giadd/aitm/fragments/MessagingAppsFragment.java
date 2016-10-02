@@ -30,10 +30,13 @@ import it.uniroma2.giadd.aitm.interfaces.OnAutonomousSystemGrabbedListener;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
 import it.uniroma2.giadd.aitm.models.modules.MitmModule;
 import it.uniroma2.giadd.aitm.models.modules.SniffMxitModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffQqModule;
 import it.uniroma2.giadd.aitm.models.modules.SniffTelegramModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffTextPlusModule;
 import it.uniroma2.giadd.aitm.models.modules.SniffVkModule;
 import it.uniroma2.giadd.aitm.models.modules.SniffWhatsAppModule;
 import it.uniroma2.giadd.aitm.models.modules.TelegramASGrabber;
+import it.uniroma2.giadd.aitm.models.modules.TextPlusASGrabber;
 import it.uniroma2.giadd.aitm.models.modules.VkASGrabber;
 import it.uniroma2.giadd.aitm.models.modules.WhatsappASGrabber;
 import it.uniroma2.giadd.aitm.services.SniffService;
@@ -89,6 +92,16 @@ public class MessagingAppsFragment extends Fragment {
                     filenameString = SniffVkModule.PREFIX + filenameString;
                     module = new SniffVkModule();
                     grabber = new VkASGrabber();
+                    break;
+                case R.id.button_qq:
+                    filenameString = SniffQqModule.PREFIX + filenameString;
+                    module = new SniffQqModule();
+                    grabber = null;
+                    break;
+                case R.id.button_textplus:
+                    filenameString = SniffTextPlusModule.PREFIX + filenameString;
+                    module = new SniffTextPlusModule();
+                    grabber = new TextPlusASGrabber();
                     break;
                 default:
                     module = null;
@@ -160,11 +173,15 @@ public class MessagingAppsFragment extends Fragment {
         CardView telegramButton = (CardView) rootView.findViewById(R.id.button_telegram);
         CardView mxitButton = (CardView) rootView.findViewById(R.id.button_mxit);
         CardView vkButton = (CardView) rootView.findViewById(R.id.button_vk);
+        CardView qqButton = (CardView) rootView.findViewById(R.id.button_qq);
+        CardView textplusButton = (CardView) rootView.findViewById(R.id.button_textplus);
         if (host != null) {
             whatsappButton.setOnClickListener(buttonManager);
             telegramButton.setOnClickListener(buttonManager);
             mxitButton.setOnClickListener(buttonManager);
             vkButton.setOnClickListener(buttonManager);
+            qqButton.setOnClickListener(buttonManager);
+            textplusButton.setOnClickListener(buttonManager);
         } else Log.e(TAG, "Error: host cannot be null!");
         return rootView;
     }

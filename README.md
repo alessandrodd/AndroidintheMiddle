@@ -6,12 +6,13 @@ Repository for Android in the Middle app
 - ~~MitM e interpretazione dei pacchetti (solo lettura)~~ [Difficile]
 - ~~creazione Activity e servizi~~ [Medio/Facile ma lungo]
 - ~~creazione interfaccia~~ [Facile-Medio a seconda di quanto vogliamo complicarci la vita]
-- MitM dei pacchetti (modifica on-the-fly)[Difficile]
 - creazione filtri ad hoc [Medio]
 
 TODO:
   - ~~implement C/C++ code that continuosly read and parse packet from opened .pcap file using libpcap~~
   - compile tcpdump and iptables in order to support non-arm CPUs
+  - use tshark instead of tcpdump
+  - tcp proxy (modify packets on-the-fly)
 
 
 What to check for each messaging app:
@@ -21,7 +22,7 @@ What to check for each messaging app:
     c) Are "Personal Status", avatar etc. transmitted in clear?
     d) Are there any constant IDs transmitted in clear (something to link an user to a specific id)?
     e) Are there any metadata in plan text?
-    f) Does the app use Certificate Pinning?
+    f) Does the app accepts self-signed certificate?
     g) Number of downloads
     h) App version 
     i) Link
@@ -34,7 +35,7 @@ Analyzed Messaging Apps:
         c) No
         d) No
         e) No (https://www.whatsapp.com/security/WhatsApp-Security-Whitepaper.pdf)
-        f) Yes
+        f) No
         g) 1-5 billion
         h) 2.16.193 (30/09/16)
         i) https://play.google.com/store/apps/details?id=com.whatsapp
@@ -45,7 +46,7 @@ Analyzed Messaging Apps:
         c) No
         d) No
         e) No
-        f) Yes
+        f) No
         g) 100-500 millions
         h) 3.12.0 (30/09/16)
         i) https://play.google.com/store/apps/details?id=org.telegram.messenger
@@ -67,7 +68,7 @@ Analyzed Messaging Apps:
         c) No
         d) No
         e) No
-        f) Yes
+        f) No
         g) 100-500 millions
         h) 4.4.1 (01/10/16)
         i) https://play.google.com/store/apps/details?id=com.vkontakte.android
@@ -98,12 +99,12 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=com.tencent.mobileqq
 
     6) textPlus
-        a) Not sure
+        a) *.app.nextplus.me (mhs.app.nextplus.me ums.app.nextplus.me ces.app.nextplus.me vhs.app.nextplus.me xmpp.app.nextplus.me) *pic.nextplus.me ads.nexage.com, port 443 80
         b) No
         c) yes (During change of profile picture, is possible to see the link of the img)
         d) no
         e) No
-        f) Not sure
+        f) Yes, partially (unable to open the app when using a fake cert, but if the cert is provided during a chat session it's possible to completly sniff the communication, except for the images sent/received. Probabily the cert isn't checked for the domain xmpp.app.nextplus.me).
         g) 10-50 millions
         h) 6.2.1 (01/10/16)
         i) https://play.google.com/store/apps/details?id=com.gogii.textplus

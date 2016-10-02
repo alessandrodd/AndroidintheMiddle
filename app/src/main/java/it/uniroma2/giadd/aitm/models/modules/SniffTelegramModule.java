@@ -18,7 +18,7 @@ public class SniffTelegramModule extends MitmModule implements Parcelable {
     private static final String TAG = SniffTelegramModule.class.getName();
     public static final String PREFIX = "telegram_";
 
-    private static final String TCPDUMP_COMMAND = "tcpdump host <target> -i <interface> -XSs 0 -U -w <path> and not arp and not rarp and \\(<telegramfilter>\\)";
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (<telegramfilter>)\"";
 
     public SniffTelegramModule() {
         super();
