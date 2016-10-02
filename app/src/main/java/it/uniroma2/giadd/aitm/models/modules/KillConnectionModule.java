@@ -14,10 +14,14 @@ public class KillConnectionModule extends MitmModule implements Parcelable {
 
     private static final String TAG = KillConnectionModule.class.getName();
 
+    public KillConnectionModule() {
+        super();
+        setForwardConnections(false);
+    }
+
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setForwardConnections(false);
         setModuleTitle(context.getString(R.string.module_killconnection_title));
         setModuleMessage(context.getString(R.string.module_killconnection_message));
     }

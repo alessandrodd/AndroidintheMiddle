@@ -23,12 +23,12 @@ public class SniffWhatsAppModule extends MitmModule implements Parcelable {
 
     public SniffWhatsAppModule() {
         super();
+        setForwardConnections(true);
     }
 
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setForwardConnections(true);
         setModuleTitle(context.getString(R.string.module_sniffwhatsapp_title));
         setModuleMessage(context.getString(R.string.module_sniffwhatsapp_message));
 

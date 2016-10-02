@@ -20,14 +20,14 @@ public class SniffAllModule extends MitmModule implements Parcelable {
     private static final String TCPDUMP_COMMAND = "tcpdump host <target> -i <interface> -XSs 0 -U -w <path> and not arp and not rarp";
     private static final String TCPDUMP_COMMAND_NO_DUMP = "tcpdump host <target> -i <interface> -XSs 0 and not arp and not rarp";
 
-    protected SniffAllModule() {
+    public SniffAllModule() {
         super();
+        setForwardConnections(true);
     }
 
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setForwardConnections(true);
         setModuleTitle(context.getString(R.string.module_sniffall_title));
         setModuleMessage(context.getString(R.string.module_sniffall_message));
 

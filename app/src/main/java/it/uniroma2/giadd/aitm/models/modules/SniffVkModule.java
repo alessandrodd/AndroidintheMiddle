@@ -22,12 +22,12 @@ public class SniffVkModule extends MitmModule implements Parcelable {
 
     public SniffVkModule() {
         super();
+        setForwardConnections(true);
     }
 
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setForwardConnections(true);
         setModuleTitle(context.getString(R.string.module_sniffvk_title));
         setModuleMessage(context.getString(R.string.module_sniffvk_message));
 
@@ -37,7 +37,6 @@ public class SniffVkModule extends MitmModule implements Parcelable {
             vkfilter += "net " + getNets().get(i);
             if (i < (getNets().size() - 1)) vkfilter += " or ";
         }
-        //dump to file
         setDumpToFile(true);
         String command = context.getFilesDir() + "/" + TCPDUMP_COMMAND;
         command = command.replaceAll("<path>", getDumpPath());

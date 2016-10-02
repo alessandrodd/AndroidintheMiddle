@@ -159,10 +159,12 @@ public class MessagingAppsFragment extends Fragment {
         CardView whatsappButton = (CardView) rootView.findViewById(R.id.button_whatsapp);
         CardView telegramButton = (CardView) rootView.findViewById(R.id.button_telegram);
         CardView mxitButton = (CardView) rootView.findViewById(R.id.button_mxit);
+        CardView vkButton = (CardView) rootView.findViewById(R.id.button_vk);
         if (host != null) {
             whatsappButton.setOnClickListener(buttonManager);
             telegramButton.setOnClickListener(buttonManager);
             mxitButton.setOnClickListener(buttonManager);
+            vkButton.setOnClickListener(buttonManager);
         } else Log.e(TAG, "Error: host cannot be null!");
         return rootView;
     }

@@ -23,7 +23,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -70,17 +69,13 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
                 case R.id.button_kill_connection:
                     Intent i = new Intent(getContext(), SniffService.class);
                     KillConnectionModule module;
-                    try {
-                        module = new KillConnectionModule(getContext(), host.getIp(), null);
-                        i.putExtra(SniffService.MITM_MODULE, module);
-                        getContext().startService(i);
-                        i = new Intent(getContext(), CaptureActivity.class);
-                        startActivity(i);
-                    } catch (SocketException e) {
-                        e.printStackTrace();
-                        if (getView() != null)
-                            Snackbar.make(getView(), getString(R.string.error_kill_module) + e.getMessage(), Snackbar.LENGTH_LONG).show();
-                    }
+                    module = new KillConnectionModule();
+                    module.setTarget(host.getIp());
+                    module.initialize(getContext());
+                    i.putExtra(SniffService.MITM_MODULE, module);
+                    getContext().startService(i);
+                    i = new Intent(getContext(), CaptureActivity.class);
+                    startActivity(i);
                     break;
                 case R.id.button_mitm_all:
                     if (!PermissionUtils.isWriteStorageAllowed(getContext())) {
@@ -104,17 +99,14 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
                             }
                             Intent i = new Intent(getContext(), SniffService.class);
                             SniffAllModule module;
-                            try {
-                                module = new SniffAllModule(getContext(), host.getIp(), Environment.getExternalStorageDirectory() + "/pcaps" + "/" + insertedString + ".pcap", null);
-                                i.putExtra(SniffService.MITM_MODULE, module);
-                                getContext().startService(i);
-                                i = new Intent(getContext(), CaptureActivity.class);
-                                startActivity(i);
-                            } catch (SocketException e) {
-                                e.printStackTrace();
-                                if (getView() != null)
-                                    Snackbar.make(getView(), getString(R.string.error_sniff_all_module) + e.getMessage(), Snackbar.LENGTH_LONG).show();
-                            }
+                            module = new SniffAllModule();
+                            module.setTarget(host.getIp());
+                            module.setDumpPath(Environment.getExternalStorageDirectory() + "/pcaps" + "/" + insertedString + ".pcap");
+                            module.initialize(getContext());
+                            i.putExtra(SniffService.MITM_MODULE, module);
+                            getContext().startService(i);
+                            i = new Intent(getContext(), CaptureActivity.class);
+                            startActivity(i);
                         }
                     });
                     popDialog.create();

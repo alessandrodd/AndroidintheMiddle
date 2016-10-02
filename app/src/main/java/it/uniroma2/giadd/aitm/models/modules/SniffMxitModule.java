@@ -22,12 +22,12 @@ public class SniffMxitModule extends MitmModule implements Parcelable {
 
     public SniffMxitModule() {
         super();
+        setForwardConnections(true);
     }
 
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setForwardConnections(true);
         setModuleTitle(context.getString(R.string.module_sniffmxit_title));
         setModuleMessage(context.getString(R.string.module_sniffmxit_message));
 

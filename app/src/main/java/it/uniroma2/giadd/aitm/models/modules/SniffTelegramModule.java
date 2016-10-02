@@ -22,12 +22,12 @@ public class SniffTelegramModule extends MitmModule implements Parcelable {
 
     public SniffTelegramModule() {
         super();
+        setForwardConnections(true);
     }
 
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setForwardConnections(true);
         setModuleTitle(context.getString(R.string.module_snifftelegram_title));
         setModuleMessage(context.getString(R.string.module_snifftelegram_message));
 
