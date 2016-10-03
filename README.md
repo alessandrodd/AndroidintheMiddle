@@ -118,6 +118,7 @@ Analyzed Messaging Apps:
         f) Not sure
         g) 10-50 millions
         h) 15-09-16
+        i) https://play.google.com/store/apps/details?id=com.talkray.client
 
     8) BBM
         a) *.blackberry.net, port 443
@@ -128,17 +129,28 @@ Analyzed Messaging Apps:
         f) No
         g) 100-500 millions
         h) 3.0.1.25 (03/10/16)
+        i) https://play.google.com/store/apps/details?id=com.bbm
 
     9) Instagram
-        a) Not sure
+        a) 
         b) No
         c) no (sometimes, images of the past conversations are requested without encryption)
         d) no
         e) No
         f) Not sure
         g) 1-5 billion
-        h) 13-09-16
-
+        h) 9.4.5 (03/10/2016)
+        i) https://play.google.com/store/apps/details?id=com.instagram.android
+        
+    10) Yahoo Messenger
+        a) 
+        b)
+        c)
+        d)
+        e)
+        f)
+        g)
+        h)
 
 
 
