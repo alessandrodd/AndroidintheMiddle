@@ -112,22 +112,22 @@ Analyzed Messaging Apps:
     7) Talkray
         a) Not sure
         b) No
-        c) no
-        d) no
+        c) No
+        d) No
         e) No
         f) Not sure
         g) 10-50 millions
         h) 15-09-16
 
     8) BBM
-        a) Not sure
+        a) *.blackberry.net, port 443
         b) No
-        c) no
-        d) no
+        c) No
+        d) No
         e) No
-        f) Not sure
+        f) No
         g) 100-500 millions
-        h) 30-08-16
+        h) 3.0.1.25 (03/10/16)
 
     9) Instagram
         a) Not sure
