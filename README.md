@@ -151,6 +151,18 @@ Analyzed Messaging Apps:
         f)
         g)
         h)
+        i)
+        
+    10) Maaii
+        a) 
+        b) No
+        c) No
+        d) No
+        e) No
+        f) Not sure
+        g) 1-5 millions
+        h) 2.6.1.3 (20/06/2016)
+        i) https://play.google.com/store/apps/details?id=com.maaii.maaii&hl=it
 
 
 
