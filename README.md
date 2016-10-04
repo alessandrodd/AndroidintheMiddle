@@ -111,14 +111,14 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=com.gogii.textplus
 
     7) Talkray
-        a) Not sure
+        a) *.amazonaws.com, port 8576 443
         b) No
         c) No
         d) No
         e) No
-        f) Not sure
+        f) No
         g) 10-50 millions
-        h) 15-09-16
+        h) 3.134 (04/10/16)
         i) https://play.google.com/store/apps/details?id=com.talkray.client
 
     8) BBM
@@ -155,15 +155,37 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=com.yahoo.mobile.client.android.im
         
     11) Maaii
-        a) 
+        a) *.amazonaws, port 443; http host cds-gateway.aviary.com
+        b) No
+        c) No
+        d) No
+        e) Yes, apiKey contentGroup osVersion platform resolution sdkVersion versionKey signature (see traffico_interessante.txt)
+        f) No
+        g) 1-5 millions
+        h) 2.6.1.3 (20/06/2016)
+        i) https://play.google.com/store/apps/details?id=com.maaii.maaii&hl=it
+        
+       12) GroupMe
+        a) api.groupme.com *.amazonaws.com, port 443
         b) No
         c) No
         d) No
         e) No
-        f) Not sure
-        g) 1-5 millions
-        h) 2.6.1.3 (20/06/2016)
-        i) https://play.google.com/store/apps/details?id=com.maaii.maaii&hl=it
+        f) No
+        g) 10-50 millions
+        h) 5.6.1 (04/10/2016)
+        i) https://play.google.com/store/apps/details?id=com.groupme.android
+        
+       12) KakaoTalk
+        a) api.groupme.com *.amazonaws.com, port 443
+        b) 
+        c) 
+        d) 
+        e) 
+        f) 
+        g) 100-500 millions
+        h) 5.8.5 (04/10/2016)
+        i) https://play.google.com/store/apps/details?id=com.kakao.talk
 
 
 
