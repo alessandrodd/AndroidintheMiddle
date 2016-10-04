@@ -13,6 +13,7 @@ TODO:
   - compile tcpdump and iptables in order to support non-arm CPUs
   - use tshark instead of tcpdump
   - tcp proxy (modify packets on-the-fly)
+  - use advanced https fingerprint (https://github.com/LeeBrotherston/tls-fingerprinting)
 
 
 What to check for each messaging app:
@@ -132,26 +133,26 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=com.bbm
 
     9) Instagram
-        a) 
+        a) *.fbcdn.net *.facebook.com, port 443
         b) No
-        c) no (sometimes, images of the past conversations are requested without encryption)
-        d) no
+        c) No
+        d) No
         e) No
-        f) Not sure
+        f) No
         g) 1-5 billion
         h) 9.4.5 (03/10/2016)
         i) https://play.google.com/store/apps/details?id=com.instagram.android
         
     10) Yahoo Messenger
-        a) 
-        b)
-        c)
-        d)
-        e)
-        f)
-        g)
-        h)
-        i)
+        a) gw1.iris.vip.bf1.yahoo.com gw.iris.vip.bf1.yahoo.com ct1.ycs.vip.deb.yahoo.net, port 443
+        b) No
+        c) No
+        d) No
+        e) No
+        f) No
+        g) 50-100 millions
+        h) 2.2.0 (04/10/2016)
+        i) https://play.google.com/store/apps/details?id=com.yahoo.mobile.client.android.im
         
     11) Maaii
         a) 
