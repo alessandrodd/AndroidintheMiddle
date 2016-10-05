@@ -60,7 +60,7 @@ Analyzed Messaging Apps:
         e) Yes
         f) No encryption at all
         g) 1-5 millions
-        h) 7.3.0.0  (01/09/2016)
+        h) 7.3.0.0  (01/09/16)
         i) https://play.google.com/store/apps/details?id=com.mxit.android
 
     4) VK
@@ -177,15 +177,37 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=com.groupme.android
         
        12) KakaoTalk
-        a) api.groupme.com *.amazonaws.com, port 443
-        b) 
-        c) 
-        d) 
-        e) 
-        f) 
+        a) AS45991 AS10158
+        b) No (LOCO protocol)
+        c) No
+        d) No
+        e) No
+        f) No
         g) 100-500 millions
         h) 5.8.5 (04/10/2016)
         i) https://play.google.com/store/apps/details?id=com.kakao.talk
+        
+       13) Nimbuzz
+        a) AS51089, port 80 5222; HTTP "Host: nimbuzz.com.s3.amazonaws.com" 
+        b) Uses XMPP protocol with TLS encryption for text, HTTP for sending/receiving images, videos, contacts VCARD, audio file and message (all in clear)
+        c) 
+        d) 
+        e) yes, image/video/contact/audio sender username, image/video/contact/audio receiver username, image/video/contact filename, audio file path
+        f) No HTTPS
+        g) 10-50 millions
+        h) 4.6.0 (05/10/2016)
+        i) https://play.google.com/store/apps/details?id=com.nimbuzz
+        
+       14) Hike
+        a) 
+        b) 
+        c) 
+        d) 
+        e)
+        f) Yes
+        g) 50-100 millions
+        h) 4.3.0.83 (05/10/2016)
+        i) https://play.google.com/store/apps/details?id=com.bsb.hike
 
 
 
