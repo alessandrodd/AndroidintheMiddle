@@ -188,26 +188,39 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=com.kakao.talk
         
        13) Nimbuzz
-        a) AS51089, port 80 5222; HTTP "Host: nimbuzz.com.s3.amazonaws.com" 
+        a) AS51089, port 80 5222; HTTP "Host: nimbuzz.com.s3.amazonaws.com"; *.amazonaws.com, port 443
         b) Uses XMPP protocol with TLS encryption for text, HTTP for sending/receiving images, videos, contacts VCARD, audio file and message (all in clear)
-        c) 
-        d) 
-        e) yes, image/video/contact/audio sender username, image/video/contact/audio receiver username, image/video/contact filename, audio file path
-        f) No HTTPS
+        c) Avatar transmitted in clear text
+        d) yes when changing avatar (user id), when sending image/video/contact/audio (sender user id and receiver user id), when contacting ads provider mobileads.nimbuzz.com (user id), when another user changes his avatar (user id and avatar), 
+        e) yes, image/video/contact/audio sender username, image/video/contact/audio receiver username, image/video/contact filename, audio file path, user position (geographic coordinates) when logging in
+        f) No
         g) 10-50 millions
         h) 4.6.0 (05/10/2016)
         i) https://play.google.com/store/apps/details?id=com.nimbuzz
         
        14) Hike
+        a) *.amazonaws.com, port 443
+        b) No
+        c) No
+        d) No
+        e) Not in clear text, but you can build HTTP requests to stalk your Hike friends and check if a number is on Hike and with which username (check traffico_interessante.txt)
+        f) Yes; using a self-signed certificate, everything is readable (messages, images, files, VCARD, audio, video)
+        g) 50-100 millions
+        h) 4.3.0.83 (05/10/2016)
+        i) https://play.google.com/store/apps/details?id=com.bsb.hike
+        
+       15) ZapZap Messenger
         a) 
         b) 
         c) 
         d) 
-        e)
-        f) Yes
-        g) 50-100 millions
-        h) 4.3.0.83 (05/10/2016)
-        i) https://play.google.com/store/apps/details?id=com.bsb.hike
+        e) 
+        f) 
+        g) 
+        h) 5-10 millions
+        i) https://play.google.com/store/apps/details?id=org.telegram.messenger.erick
+        
+        
 
 
 
