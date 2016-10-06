@@ -209,16 +209,16 @@ Analyzed Messaging Apps:
         h) 4.3.0.83 (05/10/2016)
         i) https://play.google.com/store/apps/details?id=com.bsb.hike
         
-       15) ZapZap Messenger
-        a) 
-        b) 
+       15) Zalo
+        a) ptr.vng.vn and/or AS38244, port 80 8080 3001
+        b) No (Check protocol)
         c) 
         d) 
         e) 
         f) 
         g) 
-        h) 5-10 millions
-        i) https://play.google.com/store/apps/details?id=org.telegram.messenger.erick
+        h) 100-500 millions
+        i) https://play.google.com/store/apps/details?id=com.zing.zalo
         
         
 
