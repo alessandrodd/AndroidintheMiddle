@@ -211,23 +211,23 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=com.bsb.hike
         
        15) Zalo
-        a) ptr.vng.vn or AS38244, port 80 8080 3001
+        a) ptr.vng.vn or AS38244, port 80 8080 3001 443
         b) No
         c) No (uses HTTPS to change profile informations)
         d) Yes, victim phone IMEI is transmitted in clear text
-        e) Yes, victim phone IMEI and model 
+        e) Yes, victim phone IMEI and model, victim's friend shared photo, victim's friend avatar, victim's friend cover photo
         f) No
         g) 100-500 millions
         h) 3.1.2.r2 (06/10/2016)
         i) https://play.google.com/store/apps/details?id=com.zing.zalo
         
        16) imo
-        a) AS36131
-        b) 
-        c) 
-        d) 
-        e) 
-        f) 
+        a) AS36131, port 443 5222 5223 5228
+        b) No
+        c) No
+        d) No
+        e) No
+        f) No
         g) 100-500 millions
         h) 9.8.000000003241 (06/10/2016)
         i) https://play.google.com/store/apps/details?id=com.imo.android.imoim
