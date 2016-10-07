@@ -14,6 +14,7 @@ TODO:
   - use tshark instead of tcpdump
   - tcp proxy (modify packets on-the-fly)
   - use advanced https fingerprint (https://github.com/LeeBrotherston/tls-fingerprinting)
+  - extract images, files etc.
 
 
 What to check for each messaging app:
@@ -22,7 +23,7 @@ What to check for each messaging app:
     b) Are messages transmitted in clear text?
     c) Are "Personal Status", avatar etc. transmitted in clear?
     d) Are there any constant IDs transmitted in clear (something to link an user to a specific id)?
-    e) Are there any metadata in plan text?
+    e) Are there any metadata in plan text?
     f) Does the app accepts self-signed certificate?
     g) Number of downloads
     h) App version 
@@ -38,7 +39,7 @@ Analyzed Messaging Apps:
         e) No (https://www.whatsapp.com/security/WhatsApp-Security-Whitepaper.pdf)
         f) No
         g) 1-5 billion
-        h) 2.16.193 (30/09/16)
+        h) 2.16.193 (30/09/2016)
         i) https://play.google.com/store/apps/details?id=com.whatsapp
 
     2) Telegram
@@ -49,7 +50,7 @@ Analyzed Messaging Apps:
         e) No
         f) No
         g) 100-500 millions
-        h) 3.12.0 (30/09/16)
+        h) 3.12.0 (30/09/2016)
         i) https://play.google.com/store/apps/details?id=org.telegram.messenger
 
     3) Mxit
@@ -60,7 +61,7 @@ Analyzed Messaging Apps:
         e) Yes
         f) No encryption at all
         g) 1-5 millions
-        h) 7.3.0.0  (01/09/16)
+        h) 7.3.0.0  (01/09/2016)
         i) https://play.google.com/store/apps/details?id=com.mxit.android
 
     4) VK
@@ -71,7 +72,7 @@ Analyzed Messaging Apps:
         e) No
         f) No
         g) 100-500 millions
-        h) 4.4.1 (01/10/16)
+        h) 4.4.1 (01/10/2016)
         i) https://play.google.com/store/apps/details?id=com.vkontakte.android
 
     4) VK Chat
@@ -85,7 +86,7 @@ Analyzed Messaging Apps:
            sig ) (https://vk.com/dev/methods for full description)
         f) No encryption at all
         g) 1-5 millions
-        h) 1.2 (15/07/16)
+        h) 1.2 (15/07/2016)
         i) https://play.google.com/store/apps/details?id=ru.st1ng.vk
 
     5) QQ
@@ -96,7 +97,7 @@ Analyzed Messaging Apps:
         e) No
         f) No HTTPS
         g) 10-50 millions
-        h) 5.9.7 (30/09/16)
+        h) 5.9.7 (30/09/2016)
         i) https://play.google.com/store/apps/details?id=com.tencent.mobileqq
 
     6) textPlus
@@ -107,7 +108,7 @@ Analyzed Messaging Apps:
         e) No
         f) Yes, partially (unable to open the app when using a fake cert, but if the cert is provided during a chat session it's possible to completly sniff the communication, except for the images sent/received. Probabily the cert isn't checked for the domain xmpp.app.nextplus.me).
         g) 10-50 millions
-        h) 6.2.1 (01/10/16)
+        h) 6.2.1 (01/10/2016)
         i) https://play.google.com/store/apps/details?id=com.gogii.textplus
 
     7) Talkray
@@ -118,7 +119,7 @@ Analyzed Messaging Apps:
         e) No
         f) No
         g) 10-50 millions
-        h) 3.134 (04/10/16)
+        h) 3.134 (04/10/2016)
         i) https://play.google.com/store/apps/details?id=com.talkray.client
 
     8) BBM
@@ -129,7 +130,7 @@ Analyzed Messaging Apps:
         e) No
         f) No
         g) 100-500 millions
-        h) 3.0.1.25 (03/10/16)
+        h) 3.0.1.25 (03/10/2016)
         i) https://play.google.com/store/apps/details?id=com.bbm
 
     9) Instagram
@@ -210,15 +211,26 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=com.bsb.hike
         
        15) Zalo
-        a) ptr.vng.vn and/or AS38244, port 80 8080 3001
-        b) No (Check protocol)
+        a) ptr.vng.vn or AS38244, port 80 8080 3001
+        b) No
+        c) No (uses HTTPS to change profile informations)
+        d) Yes, victim phone IMEI is transmitted in clear text
+        e) Yes, victim phone IMEI and model 
+        f) No
+        g) 100-500 millions
+        h) 3.1.2.r2 (06/10/2016)
+        i) https://play.google.com/store/apps/details?id=com.zing.zalo
+        
+       16) imo
+        a) AS36131
+        b) 
         c) 
         d) 
         e) 
         f) 
-        g) 
-        h) 100-500 millions
-        i) https://play.google.com/store/apps/details?id=com.zing.zalo
+        g) 100-500 millions
+        h) 9.8.000000003241 (06/10/2016)
+        i) https://play.google.com/store/apps/details?id=com.imo.android.imoim
         
         
 
