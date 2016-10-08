@@ -24,7 +24,7 @@ What to check for each messaging app:
     c) Are files transmitted in clear text? Which types? [Victim, Contact]
     d) Are "Personal Status", avatar etc. transmitted in clear? [Victim, Contact]
     e) Are there any constant IDs transmitted in clear (something to link an user to a specific id)? [Victim, Contact]
-    f) Are there any metadata in plan text?
+    f) Are there any metadata in plan text?
     g) Does the app accepts self-signed certificate?
     h) Number of downloads
     i) App version 
