@@ -62,7 +62,7 @@ Analyzed Messaging Apps:
         c) Yes, images, both
         d) Yes, both
         e) Yes, both
-        f) Yes (which ones?)
+        f) Yes, Victim's phone number (ms), both complete profile (gender, full name, relationship, lastmodified, birthdate...)
         g) No encryption at all
         h) 1-5 millions
         i) 7.3.0.0  (01/09/2016)
@@ -83,13 +83,13 @@ Analyzed Messaging Apps:
     4) VK Chat
         a) AS47541, fields "host" contains "api.vk.com"
         b) Yes, both (check URL parameters)
-        c) Yes, images, both
+        c) Yes images, both; map location, both; document, Contact
         d) Yes (Also typing), both
-        e) Yes (uid sender), CHECK
+        e) Yes (sender uid, both), https://vk.com/id[UID] to identify the user
         f) Yes (act
            key 
            access_token => OAuth2 access tokens 
-           sig ) (https://vk.com/dev/methods for full description)
+           sig ) (https://vk.com/dev/methods for full description), user position (geographical coordinates),
         g) No encryption at all
         h) 1-5 millions
         i) 1.2 (15/07/2016)
