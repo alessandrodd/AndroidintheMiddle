@@ -32,7 +32,7 @@ What to check for each messaging app:
 Analyzed Messaging Apps:
 
     1) Whatsapp
-        a) cidr (https://www.whatsapp.com/cidr.txt)
+        a) cidr (https://www.whatsapp.com/cidr.txt), port 80 443 4244 5222 5223 5228 5242 
         b) No
         c) No
         d) No
@@ -43,7 +43,7 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=com.whatsapp
 
     2) Telegram
-        a) AS Number (AS62041)
+        a) AS62041
         b) No
         c) No
         d) No
@@ -54,7 +54,7 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=org.telegram.messenger
 
     3) Mxit
-        a) Port Number (9119, 9229)
+        a) port 9119 9229
         b) Yes
         c) Yes
         d) Yes
@@ -65,7 +65,7 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=com.mxit.android
 
     4) VK
-        a) AS Number (AS47541)
+        a) AS47541
         b) No
         c) No
         d) No
@@ -76,7 +76,7 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=com.vkontakte.android
 
     4) VK Chat
-        a) AS Number (AS47541), fields "host" contains "api.vk.com"
+        a) AS47541, fields "host" contains "api.vk.com"
         b) Yes (check URL parameters)
         c) yes (Also typing)
         d) Yes (uid sender)
@@ -145,7 +145,7 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=com.instagram.android
         
     10) Yahoo Messenger
-        a) gw1.iris.vip.bf1.yahoo.com gw.iris.vip.bf1.yahoo.com ct1.ycs.vip.deb.yahoo.net, port 443
+        a) AS26101 (maybe only gw1.iris.vip.bf1.yahoo.com gw.iris.vip.bf1.yahoo.com ct1.ycs.vip.deb.yahoo.net), port 443
         b) No
         c) No
         d) No
@@ -156,7 +156,7 @@ Analyzed Messaging Apps:
         i) https://play.google.com/store/apps/details?id=com.yahoo.mobile.client.android.im
         
     11) Maaii
-        a) *.amazonaws, port 443; http host cds-gateway.aviary.com
+        a) *.amazonaws.com, port 443; http host cds-gateway.aviary.com
         b) No
         c) No
         d) No
