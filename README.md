@@ -15,7 +15,8 @@ TODO:
   - tcp proxy (modify packets on-the-fly)
   - use advanced https fingerprint (https://github.com/LeeBrotherston/tls-fingerprinting)
   - extract images, files etc.
-
+  - add criteria to display particular set of packets
+  - multiple sniffing
 
 What to check for each messaging app:
 
