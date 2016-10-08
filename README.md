@@ -80,7 +80,7 @@ Analyzed Messaging Apps:
         i) 4.4.1 (01/10/2016)
         j) https://play.google.com/store/apps/details?id=com.vkontakte.android
 
-    4) VK Chat
+    5) VK Chat
         a) AS47541, fields "host" contains "api.vk.com"
         b) Yes, both (check URL parameters)
         c) Yes images, both; map location, both; document, Contact
@@ -95,7 +95,7 @@ Analyzed Messaging Apps:
         i) 1.2 (15/07/2016)
         j) https://play.google.com/store/apps/details?id=ru.st1ng.vk
 
-    5) QQ
+    6) QQ
         a) *.qq.com, port 80 8080 8000 15000
         b) No
         c) No
@@ -107,7 +107,7 @@ Analyzed Messaging Apps:
         i) 5.9.7 (30/09/2016)
         j) https://play.google.com/store/apps/details?id=com.tencent.mobileqq
 
-    6) textPlus
+    7) textPlus
         a) *.app.nextplus.me (mhs.app.nextplus.me ums.app.nextplus.me ces.app.nextplus.me vhs.app.nextplus.me xmpp.app.nextplus.me) *pic.nextplus.me ads.nexage.com, port 443 80
         b) No
         c) No
@@ -119,7 +119,7 @@ Analyzed Messaging Apps:
         i) 6.2.1 (01/10/2016)
         j) https://play.google.com/store/apps/details?id=com.gogii.textplus
 
-    7) Talkray
+    8) Talkray
         a) *.amazonaws.com, port 8576 443
         b) No
         c) No
@@ -131,7 +131,7 @@ Analyzed Messaging Apps:
         i) 3.134 (04/10/2016)
         j) https://play.google.com/store/apps/details?id=com.talkray.client
 
-    8) BBM
+    9) BBM
         a) *.blackberry.net, port 443
         b) No
         c) No
@@ -143,7 +143,7 @@ Analyzed Messaging Apps:
         i) 3.0.1.25 (03/10/2016)
         j) https://play.google.com/store/apps/details?id=com.bbm
 
-    9) Instagram
+       10) Instagram
         a) *.fbcdn.net *.facebook.com, port 443
         b) No
         c) No
@@ -155,7 +155,7 @@ Analyzed Messaging Apps:
         i) 9.4.5 (03/10/2016)
         j) https://play.google.com/store/apps/details?id=com.instagram.android
         
-    10) Yahoo Messenger
+       11) Yahoo Messenger
         a) AS26101 (maybe only gw1.iris.vip.bf1.yahoo.com gw.iris.vip.bf1.yahoo.com ct1.ycs.vip.deb.yahoo.net), port 443
         b) No
         c) No
@@ -167,7 +167,7 @@ Analyzed Messaging Apps:
         i) 2.2.0 (04/10/2016)
         j) https://play.google.com/store/apps/details?id=com.yahoo.mobile.client.android.im
         
-    11) Maaii
+       12) Maaii
         a) *.amazonaws.com, port 443; http host cds-gateway.aviary.com
         b) No
         c) No
@@ -179,7 +179,7 @@ Analyzed Messaging Apps:
         i) 2.6.1.3 (20/06/2016)
         j) https://play.google.com/store/apps/details?id=com.maaii.maaii&hl=it
         
-       12) GroupMe
+       13) GroupMe
         a) api.groupme.com *.amazonaws.com, port 443
         b) No
         c) No
@@ -191,7 +191,7 @@ Analyzed Messaging Apps:
         i) 5.6.1 (04/10/2016)
         j) https://play.google.com/store/apps/details?id=com.groupme.android
         
-       12) KakaoTalk
+       14) KakaoTalk
         a) AS45991 AS10158
         b) No (LOCO protocol)
         c) No
@@ -203,7 +203,7 @@ Analyzed Messaging Apps:
         i) 5.8.5 (04/10/2016)
         j) https://play.google.com/store/apps/details?id=com.kakao.talk
         
-       13) Nimbuzz
+       15) Nimbuzz
         a) AS51089, port 80 5222; HTTP "Host: nimbuzz.com.s3.amazonaws.com"; *.amazonaws.com, port 443
         b) No (uses XMPP protocol with TLS encryption for text)
         c) Yes (HTTP for sending/receiving images, videos, contacts VCARD, audio file and message, both)
@@ -215,7 +215,7 @@ Analyzed Messaging Apps:
         i) 4.6.0 (05/10/2016)
         j) https://play.google.com/store/apps/details?id=com.nimbuzz
         
-       14) Hike
+       16) Hike
         a) *.amazonaws.com, port 443
         b) No
         c) No
@@ -227,7 +227,7 @@ Analyzed Messaging Apps:
         i) 4.3.0.83 (05/10/2016)
         j) https://play.google.com/store/apps/details?id=com.bsb.hike
         
-       15) Zalo
+       17) Zalo
         a) ptr.vng.vn or AS38244, port 80 8080 3001 443
         b) No
         c) No
@@ -239,7 +239,7 @@ Analyzed Messaging Apps:
         i) 3.1.2.r2 (06/10/2016)
         j) https://play.google.com/store/apps/details?id=com.zing.zalo
         
-       16) imo
+       18) imo
         a) AS36131, port 443 5222 5223 5228
         b) No
         c) No
