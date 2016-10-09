@@ -116,5 +116,192 @@
                 android:text="@string/textplus" />
         </android.support.v7.widget.CardView>
 
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_talkray"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/talkray">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/talkray" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_bbm"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/bbm">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/bbm" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_instagram"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/instagram">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/instagram" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_yahoo_messenger"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/yahoo_messenger">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/yahoo_messenger" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_maai"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/maai">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/maai" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_groupme"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/groupme">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/groupme" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_kakaotalk"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/kakaotalk">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/kakaotalk" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_nimbuzz"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/nimbuzz">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/nimbuzz" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_hike"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/hike">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/hike" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_zalo"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/zalo">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/zalo" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/button_imo"
+            style="@style/CardViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/imo">
+
+            <TextView
+                style="@style/TextEngraved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_standard"
+                android:gravity="center"
+                android:text="@string/imo" />
+        </android.support.v7.widget.CardView>
+
     </LinearLayout>
 </ScrollView>

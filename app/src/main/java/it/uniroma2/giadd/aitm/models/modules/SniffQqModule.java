@@ -20,7 +20,7 @@ public class SniffQqModule extends MitmModule implements Parcelable {
     private static final String TAG = SniffQqModule.class.getName();
     public static final String PREFIX = "qq_";
 
-    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (port 80  or port 8080 or port 8000 or port 150000)\"";
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (port 80 or port 8080 or port 8000 or port 150000)\"";
 
     public SniffQqModule() {
         super();

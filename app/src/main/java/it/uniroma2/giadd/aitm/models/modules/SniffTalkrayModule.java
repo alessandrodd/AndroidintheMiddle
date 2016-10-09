@@ -13,14 +13,16 @@ import it.uniroma2.giadd.aitm.managers.RootManager;
  * Created by Alessandro Di Diego on 13/08/16.
  */
 
-public class SniffVkModule extends MitmModule implements Parcelable {
+// TODO: filter by *.amazonaws.com
 
-    private static final String TAG = SniffVkModule.class.getName();
-    public static final String PREFIX = "vk_";
+public class SniffTalkrayModule extends MitmModule implements Parcelable {
 
-    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (<netfilter>)\"";
+    private static final String TAG = SniffTalkrayModule.class.getName();
+    public static final String PREFIX = "talkray_";
 
-    public SniffVkModule() {
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (port 8576  or port 443)\"";
+
+    public SniffTalkrayModule() {
         super();
         setForwardConnections(true);
     }
@@ -28,32 +30,16 @@ public class SniffVkModule extends MitmModule implements Parcelable {
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setModuleTitle(context.getString(R.string.module_sniffvk_title));
-        setModuleMessage(context.getString(R.string.module_sniffvk_message));
+        setModuleTitle(context.getString(R.string.module_snifftalkray_title));
+        setModuleMessage(context.getString(R.string.module_snifftalkray_message));
 
-        String netfilter = "";
-        int i;
-        for (i = 0; i < getNets().size(); i++) {
-            netfilter += "net " + getNets().get(i);
-            if (i < (getNets().size() - 1)) netfilter += " or ";
-        }
+        //dump to file
         setDumpToFile(true);
         String command = context.getFilesDir() + "/" + TCPDUMP_COMMAND;
         command = command.replaceAll("<path>", getDumpPath());
         command = command.replaceAll("<interface>", getInterfaceName());
-        command = command.replaceAll("<target>", getTarget());
-        command = command.replace("<netfilter>", netfilter);
+        command = command.replaceAll("<target>", target);
         commands.add(command);
-        largeLog(TAG, command);
-    }
-
-    private static void largeLog(String tag, String content) {
-        if (content.length() > 4000) {
-            Log.d(tag, content.substring(0, 4000));
-            largeLog(tag, content.substring(4000));
-        } else {
-            Log.d(tag, content);
-        }
     }
 
     @Override
@@ -87,19 +73,19 @@ public class SniffVkModule extends MitmModule implements Parcelable {
         super.writeToParcel(dest, flags);
     }
 
-    protected SniffVkModule(Parcel in) {
+    protected SniffTalkrayModule(Parcel in) {
         super(in);
     }
 
-    public static final Creator<SniffVkModule> CREATOR = new Creator<SniffVkModule>() {
+    public static final Creator<SniffTalkrayModule> CREATOR = new Creator<SniffTalkrayModule>() {
         @Override
-        public SniffVkModule createFromParcel(Parcel source) {
-            return new SniffVkModule(source);
+        public SniffTalkrayModule createFromParcel(Parcel source) {
+            return new SniffTalkrayModule(source);
         }
 
         @Override
-        public SniffVkModule[] newArray(int size) {
-            return new SniffVkModule[size];
+        public SniffTalkrayModule[] newArray(int size) {
+            return new SniffTalkrayModule[size];
         }
     };
 }

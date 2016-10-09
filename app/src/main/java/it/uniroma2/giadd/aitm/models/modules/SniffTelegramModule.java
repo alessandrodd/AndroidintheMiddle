@@ -18,7 +18,7 @@ public class SniffTelegramModule extends MitmModule implements Parcelable {
     private static final String TAG = SniffTelegramModule.class.getName();
     public static final String PREFIX = "telegram_";
 
-    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (<telegramfilter>)\"";
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (<netfilter>)\"";
 
     public SniffTelegramModule() {
         super();
@@ -31,11 +31,11 @@ public class SniffTelegramModule extends MitmModule implements Parcelable {
         setModuleTitle(context.getString(R.string.module_snifftelegram_title));
         setModuleMessage(context.getString(R.string.module_snifftelegram_message));
 
-        String telegramfilter = "";
+        String netfilter = "";
         int i;
         for (i = 0; i < getNets().size(); i++) {
-            telegramfilter += "net " + getNets().get(i);
-            if (i < (getNets().size() - 1)) telegramfilter += " or ";
+            netfilter += "net " + getNets().get(i);
+            if (i < (getNets().size() - 1)) netfilter += " or ";
         }
         //dump to file
         setDumpToFile(true);
@@ -43,7 +43,7 @@ public class SniffTelegramModule extends MitmModule implements Parcelable {
         command = command.replaceAll("<path>", getDumpPath());
         command = command.replaceAll("<interface>", getInterfaceName());
         command = command.replaceAll("<target>", getTarget());
-        command = command.replace("<telegramfilter>", telegramfilter);
+        command = command.replace("<netfilter>", netfilter);
         commands.add(command);
         largeLog(TAG, command);
     }

@@ -28,22 +28,41 @@ import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.interfaces.AutonomousSystemGrabber;
 import it.uniroma2.giadd.aitm.interfaces.OnAutonomousSystemGrabbedListener;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
+import it.uniroma2.giadd.aitm.models.modules.ImoASGrabber;
+import it.uniroma2.giadd.aitm.models.modules.KakaoTalkASGrabber;
 import it.uniroma2.giadd.aitm.models.modules.MitmModule;
+import it.uniroma2.giadd.aitm.models.modules.NimbuzzASGrabber;
+import it.uniroma2.giadd.aitm.models.modules.SniffBbmModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffGroupMeModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffHikeModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffImoModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffInstagramModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffKakaoTalkModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffMaaiModule;
 import it.uniroma2.giadd.aitm.models.modules.SniffMxitModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffNimbuzzModule;
 import it.uniroma2.giadd.aitm.models.modules.SniffQqModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffTalkrayModule;
 import it.uniroma2.giadd.aitm.models.modules.SniffTelegramModule;
 import it.uniroma2.giadd.aitm.models.modules.SniffTextPlusModule;
 import it.uniroma2.giadd.aitm.models.modules.SniffVkModule;
 import it.uniroma2.giadd.aitm.models.modules.SniffWhatsAppModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffYahooModule;
+import it.uniroma2.giadd.aitm.models.modules.SniffZaloModule;
 import it.uniroma2.giadd.aitm.models.modules.TelegramASGrabber;
 import it.uniroma2.giadd.aitm.models.modules.TextPlusASGrabber;
 import it.uniroma2.giadd.aitm.models.modules.VkASGrabber;
 import it.uniroma2.giadd.aitm.models.modules.WhatsappASGrabber;
+import it.uniroma2.giadd.aitm.models.modules.YahooASGrabber;
+import it.uniroma2.giadd.aitm.models.modules.ZaloASGrabber;
 import it.uniroma2.giadd.aitm.services.SniffService;
 import it.uniroma2.giadd.aitm.utils.FileUtilities;
 
 /**
  * Created by Alessandro Di Diego
+ */
+
+/** TODO: awful, horrible code; optimize this class (RecyclerView instead of tens of buttons for example)
  */
 
 public class MessagingAppsFragment extends Fragment {
@@ -102,6 +121,61 @@ public class MessagingAppsFragment extends Fragment {
                     filenameString = SniffTextPlusModule.PREFIX + filenameString;
                     module = new SniffTextPlusModule();
                     grabber = new TextPlusASGrabber();
+                    break;
+                case R.id.button_talkray:
+                    filenameString = SniffTalkrayModule.PREFIX + filenameString;
+                    module = new SniffTalkrayModule();
+                    grabber = null;
+                    break;
+                case R.id.button_bbm:
+                    filenameString = SniffBbmModule.PREFIX + filenameString;
+                    module = new SniffBbmModule();
+                    grabber = null;
+                    break;
+                case R.id.button_instagram:
+                    filenameString = SniffInstagramModule.PREFIX + filenameString;
+                    module = new SniffInstagramModule();
+                    grabber = new TelegramASGrabber();
+                    break;
+                case R.id.button_yahoo_messenger:
+                    filenameString = SniffYahooModule.PREFIX + filenameString;
+                    module = new SniffYahooModule();
+                    grabber = new YahooASGrabber();
+                    break;
+                case R.id.button_maai:
+                    filenameString = SniffMaaiModule.PREFIX + filenameString;
+                    module = new SniffMaaiModule();
+                    grabber = null;
+                    break;
+                case R.id.button_groupme:
+                    filenameString = SniffGroupMeModule.PREFIX + filenameString;
+                    module = new SniffGroupMeModule();
+                    grabber = null;
+                    break;
+                case R.id.button_kakaotalk:
+                    filenameString = SniffKakaoTalkModule.PREFIX + filenameString;
+                    module = new SniffKakaoTalkModule();
+                    grabber = new KakaoTalkASGrabber();
+                    break;
+                case R.id.button_nimbuzz:
+                    filenameString = SniffNimbuzzModule.PREFIX + filenameString;
+                    module = new SniffNimbuzzModule();
+                    grabber = new NimbuzzASGrabber();
+                    break;
+                case R.id.button_hike:
+                    filenameString = SniffHikeModule.PREFIX + filenameString;
+                    module = new SniffHikeModule();
+                    grabber = null;
+                    break;
+                case R.id.button_zalo:
+                    filenameString = SniffZaloModule.PREFIX + filenameString;
+                    module = new SniffZaloModule();
+                    grabber = new ZaloASGrabber();
+                    break;
+                case R.id.button_imo:
+                    filenameString = SniffImoModule.PREFIX + filenameString;
+                    module = new SniffImoModule();
+                    grabber = new ImoASGrabber();
                     break;
                 default:
                     module = null;
@@ -175,6 +249,17 @@ public class MessagingAppsFragment extends Fragment {
         CardView vkButton = (CardView) rootView.findViewById(R.id.button_vk);
         CardView qqButton = (CardView) rootView.findViewById(R.id.button_qq);
         CardView textplusButton = (CardView) rootView.findViewById(R.id.button_textplus);
+        CardView talkrayButton = (CardView) rootView.findViewById(R.id.button_talkray);
+        CardView bbmButton = (CardView) rootView.findViewById(R.id.button_bbm);
+        CardView instagramButton = (CardView) rootView.findViewById(R.id.button_instagram);
+        CardView yahooMessengerButton = (CardView) rootView.findViewById(R.id.button_yahoo_messenger);
+        CardView maaiButton = (CardView) rootView.findViewById(R.id.button_maai);
+        CardView groupmeButton = (CardView) rootView.findViewById(R.id.button_groupme);
+        CardView kakaotalkButton = (CardView) rootView.findViewById(R.id.button_kakaotalk);
+        CardView nimbuzzButton = (CardView) rootView.findViewById(R.id.button_nimbuzz);
+        CardView hikeButton = (CardView) rootView.findViewById(R.id.button_hike);
+        CardView zaloButton = (CardView) rootView.findViewById(R.id.button_zalo);
+        CardView imoButton = (CardView) rootView.findViewById(R.id.button_imo);
         if (host != null) {
             whatsappButton.setOnClickListener(buttonManager);
             telegramButton.setOnClickListener(buttonManager);
@@ -182,6 +267,18 @@ public class MessagingAppsFragment extends Fragment {
             vkButton.setOnClickListener(buttonManager);
             qqButton.setOnClickListener(buttonManager);
             textplusButton.setOnClickListener(buttonManager);
+            talkrayButton.setOnClickListener(buttonManager);
+            bbmButton.setOnClickListener(buttonManager);
+            instagramButton.setOnClickListener(buttonManager);
+            yahooMessengerButton.setOnClickListener(buttonManager);
+            maaiButton.setOnClickListener(buttonManager);
+            groupmeButton.setOnClickListener(buttonManager);
+            kakaotalkButton.setOnClickListener(buttonManager);
+            nimbuzzButton.setOnClickListener(buttonManager);
+            hikeButton.setOnClickListener(buttonManager);
+            zaloButton.setOnClickListener(buttonManager);
+            imoButton.setOnClickListener(buttonManager);
+
         } else Log.e(TAG, "Error: host cannot be null!");
         return rootView;
     }

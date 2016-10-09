@@ -14,5 +14,16 @@
     <color name="vk">#45668e</color>
     <color name="qq">#000000</color>
     <color name="textplus">#00ba55</color>
+    <color name="talkray">#10b799</color>
+    <color name="bbm">#404040</color>
+    <color name="instagram">#a83db4</color>
+    <color name="yahoo_messenger">#45009b</color>
+    <color name="maai">#10c5ff</color>
+    <color name="groupme">#03afef</color>
+    <color name="kakaotalk">#fae100</color>
+    <color name="nimbuzz">#ff9309</color>
+    <color name="hike">#39affb</color>
+    <color name="zalo">#0083cc</color>
+    <color name="imo">#205aaf</color>
 
 </resources>

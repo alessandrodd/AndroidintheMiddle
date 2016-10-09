@@ -33,6 +33,7 @@
             android:layout_toEndOf="@id/destination_address_title"
             android:layout_toRightOf="@id/destination_address_title"
             android:gravity="end"
+            android:textIsSelectable="true"
             tools:text="client" />
 
 
@@ -54,6 +55,7 @@
             android:layout_toEndOf="@id/ip_title"
             android:layout_toRightOf="@id/ip_title"
             android:gravity="end"
+            android:textIsSelectable="true"
             tools:text="192.168.1.1" />
 
         <TextView
@@ -74,6 +76,7 @@
             android:layout_toEndOf="@id/port_title"
             android:layout_toRightOf="@id/port_title"
             android:gravity="end"
+            android:textIsSelectable="true"
             tools:text="443" />
 
 

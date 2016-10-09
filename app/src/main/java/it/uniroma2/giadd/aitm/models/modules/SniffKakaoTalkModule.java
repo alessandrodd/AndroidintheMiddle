@@ -13,14 +13,14 @@ import it.uniroma2.giadd.aitm.managers.RootManager;
  * Created by Alessandro Di Diego on 13/08/16.
  */
 
-public class SniffVkModule extends MitmModule implements Parcelable {
+public class SniffKakaoTalkModule extends MitmModule implements Parcelable {
 
-    private static final String TAG = SniffVkModule.class.getName();
-    public static final String PREFIX = "vk_";
+    private static final String TAG = SniffKakaoTalkModule.class.getName();
+    public static final String PREFIX = "kakaotalk_";
 
     private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (<netfilter>)\"";
 
-    public SniffVkModule() {
+    public SniffKakaoTalkModule() {
         super();
         setForwardConnections(true);
     }
@@ -28,8 +28,8 @@ public class SniffVkModule extends MitmModule implements Parcelable {
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setModuleTitle(context.getString(R.string.module_sniffvk_title));
-        setModuleMessage(context.getString(R.string.module_sniffvk_message));
+        setModuleTitle(context.getString(R.string.module_sniffkakaotalk_title));
+        setModuleMessage(context.getString(R.string.module_sniffkakaotalk_message));
 
         String netfilter = "";
         int i;
@@ -37,6 +37,7 @@ public class SniffVkModule extends MitmModule implements Parcelable {
             netfilter += "net " + getNets().get(i);
             if (i < (getNets().size() - 1)) netfilter += " or ";
         }
+        //dump to file
         setDumpToFile(true);
         String command = context.getFilesDir() + "/" + TCPDUMP_COMMAND;
         command = command.replaceAll("<path>", getDumpPath());
@@ -87,19 +88,19 @@ public class SniffVkModule extends MitmModule implements Parcelable {
         super.writeToParcel(dest, flags);
     }
 
-    protected SniffVkModule(Parcel in) {
+    protected SniffKakaoTalkModule(Parcel in) {
         super(in);
     }
 
-    public static final Creator<SniffVkModule> CREATOR = new Creator<SniffVkModule>() {
+    public static final Creator<SniffKakaoTalkModule> CREATOR = new Creator<SniffKakaoTalkModule>() {
         @Override
-        public SniffVkModule createFromParcel(Parcel source) {
-            return new SniffVkModule(source);
+        public SniffKakaoTalkModule createFromParcel(Parcel source) {
+            return new SniffKakaoTalkModule(source);
         }
 
         @Override
-        public SniffVkModule[] newArray(int size) {
-            return new SniffVkModule[size];
+        public SniffKakaoTalkModule[] newArray(int size) {
+            return new SniffKakaoTalkModule[size];
         }
     };
 }
