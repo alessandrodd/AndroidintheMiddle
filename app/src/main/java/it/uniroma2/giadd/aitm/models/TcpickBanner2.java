@@ -15,7 +15,7 @@ public class TcpickBanner2 {
     private static final String re4 = "( )";    // White Space 1
     private static final String re5 = "((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(?![\\d])";    // IPv4 IP Address 1
     private static final String re6 = "(:)";    // Any Single Character 3
-    private static final String re7 = "((?:[A-z0-9_]*))";    // Variable Name 1
+    private static final String re7 = "((?:.+))";    // Any Variable Name 1
     private static final String re8 = "( )";    // White Space 2
     private static final String re9 = "(\\d+)";    // Any Digit 1
     private static final String re10 = "(:)";    // Any Single Character 4
