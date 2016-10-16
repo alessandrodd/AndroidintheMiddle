@@ -178,7 +178,7 @@ Analyzed Messaging Apps:
         g) No
         h) 1-5 millions
         i) 2.6.1.3 (20/06/2016)
-        j) https://play.google.com/store/apps/details?id=com.maaii.maaii&hl=it
+        j) https://play.google.com/store/apps/details?id=com.maaii.maaii
         
        13) GroupMe
         a) api.groupme.com *.amazonaws.com, port 443
