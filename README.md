@@ -6,7 +6,7 @@ Repository for Android in the Middle app
 - ~~MitM e interpretazione dei pacchetti (solo lettura)~~ [Difficile]
 - ~~creazione Activity e servizi~~ [Medio/Facile ma lungo]
 - ~~creazione interfaccia~~ [Facile-Medio a seconda di quanto vogliamo complicarci la vita]
-- creazione filtri ad hoc [Medio]
+- ~~creazione filtri ad hoc~~ [Medio]
 
 TODO:
   - ~~implement C/C++ code that continuosly read and parse packet from opened .pcap file using libpcap~~
