@@ -6,7 +6,7 @@ Repository for Android in the Middle app
 - ~~MitM e interpretazione dei pacchetti (solo lettura)~~ [Difficile]
 - ~~creazione Activity e servizi~~ [Medio/Facile ma lungo]
 - ~~creazione interfaccia~~ [Facile-Medio a seconda di quanto vogliamo complicarci la vita]
-- creazione filtri ad hoc [Medio]
+- ~~creazione filtri ad hoc~~ [Medio]
 
 TODO:
   - ~~implement C/C++ code that continuosly read and parse packet from opened .pcap file using libpcap~~
@@ -109,7 +109,7 @@ Analyzed Messaging Apps:
         j) https://play.google.com/store/apps/details?id=com.tencent.mobileqq
 
     7) textPlus
-        a) *.app.nextplus.me (mhs.app.nextplus.me ums.app.nextplus.me ces.app.nextplus.me vhs.app.nextplus.me xmpp.app.nextplus.me) *pic.nextplus.me ads.nexage.com, port 443 80
+        a) *.app.nextplus.me (mhs.app.nextplus.me md.app.nextplus.me ums.app.nextplus.me ces.app.nextplus.me vhs.app.nextplus.me xmpp.app.nextplus.me) *pic.nextplus.me ads.nexage.com, port 443 80
         b) No
         c) No
         d) Yes (During change of profile picture, is possible to see the link of the img, Victim)
