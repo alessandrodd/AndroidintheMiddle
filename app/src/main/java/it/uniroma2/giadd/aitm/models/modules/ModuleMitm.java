@@ -18,9 +18,9 @@ import it.uniroma2.giadd.aitm.utils.NetworkUtils;
  * Created by Alessandro Di Diego on 13/08/16.
  */
 
-public class MitmModule implements Parcelable {
+public class ModuleMitm implements Parcelable {
 
-    private static final String TAG = MitmModule.class.getName();
+    private static final String TAG = ModuleMitm.class.getName();
     public static final String PREFIX = "";
 
     // enable/disable kernel routing
@@ -48,7 +48,7 @@ public class MitmModule implements Parcelable {
     protected String moduleMessage;
     protected String interfaceName;
 
-    protected MitmModule() {
+    protected ModuleMitm() {
     }
 
     public void initialize(Context context) {
@@ -192,7 +192,7 @@ public class MitmModule implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MitmModule that = (MitmModule) o;
+        ModuleMitm that = (ModuleMitm) o;
 
         if (dumpToFile != that.dumpToFile) return false;
         if (forwardConnections != that.forwardConnections) return false;
@@ -247,7 +247,7 @@ public class MitmModule implements Parcelable {
         dest.writeString(this.interfaceName);
     }
 
-    protected MitmModule(Parcel in) {
+    protected ModuleMitm(Parcel in) {
         this.commands = in.createStringArrayList();
         this.dumpToFile = in.readByte() != 0;
         this.forwardConnections = in.readByte() != 0;
@@ -260,15 +260,15 @@ public class MitmModule implements Parcelable {
         this.interfaceName = in.readString();
     }
 
-    public static final Creator<MitmModule> CREATOR = new Creator<MitmModule>() {
+    public static final Creator<ModuleMitm> CREATOR = new Creator<ModuleMitm>() {
         @Override
-        public MitmModule createFromParcel(Parcel source) {
-            return new MitmModule(source);
+        public ModuleMitm createFromParcel(Parcel source) {
+            return new ModuleMitm(source);
         }
 
         @Override
-        public MitmModule[] newArray(int size) {
-            return new MitmModule[size];
+        public ModuleMitm[] newArray(int size) {
+            return new ModuleMitm[size];
         }
     };
 }

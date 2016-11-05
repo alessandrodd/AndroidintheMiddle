@@ -13,16 +13,14 @@ import it.uniroma2.giadd.aitm.managers.RootManager;
  * Created by Alessandro Di Diego on 13/08/16.
  */
 
-// TODO: filter by *.blackberry.net
+public class ModuleSniffZalo extends ModuleMitm implements Parcelable {
 
-public class SniffBbmModule extends MitmModule implements Parcelable {
+    private static final String TAG = ModuleSniffZalo.class.getName();
+    public static final String PREFIX = "zalo_";
 
-    private static final String TAG = SniffBbmModule.class.getName();
-    public static final String PREFIX = "bbm_";
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (<netfilter>) and (port 80 or port 8080 or port 3001 or port 443)\"";
 
-    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (port 443)\"";
-
-    public SniffBbmModule() {
+    public ModuleSniffZalo() {
         super();
         setForwardConnections(true);
     }
@@ -30,16 +28,33 @@ public class SniffBbmModule extends MitmModule implements Parcelable {
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setModuleTitle(context.getString(R.string.module_sniffbbm_title));
-        setModuleMessage(context.getString(R.string.module_sniffbbm_message));
+        setModuleTitle(context.getString(R.string.module_sniffzalo_title));
+        setModuleMessage(context.getString(R.string.module_sniffzalo_message));
 
+        String netfilter = "";
+        int i;
+        for (i = 0; i < getNets().size(); i++) {
+            netfilter += "net " + getNets().get(i);
+            if (i < (getNets().size() - 1)) netfilter += " or ";
+        }
         //dump to file
         setDumpToFile(true);
         String command = context.getFilesDir() + "/" + TCPDUMP_COMMAND;
         command = command.replaceAll("<path>", getDumpPath());
         command = command.replaceAll("<interface>", getInterfaceName());
-        command = command.replaceAll("<target>", target);
+        command = command.replaceAll("<target>", getTarget());
+        command = command.replace("<netfilter>", netfilter);
         commands.add(command);
+        largeLog(TAG, command);
+    }
+
+    private static void largeLog(String tag, String content) {
+        if (content.length() > 4000) {
+            Log.d(tag, content.substring(0, 4000));
+            largeLog(tag, content.substring(4000));
+        } else {
+            Log.d(tag, content);
+        }
     }
 
     @Override
@@ -73,19 +88,19 @@ public class SniffBbmModule extends MitmModule implements Parcelable {
         super.writeToParcel(dest, flags);
     }
 
-    protected SniffBbmModule(Parcel in) {
+    protected ModuleSniffZalo(Parcel in) {
         super(in);
     }
 
-    public static final Creator<SniffBbmModule> CREATOR = new Creator<SniffBbmModule>() {
+    public static final Creator<ModuleSniffZalo> CREATOR = new Creator<ModuleSniffZalo>() {
         @Override
-        public SniffBbmModule createFromParcel(Parcel source) {
-            return new SniffBbmModule(source);
+        public ModuleSniffZalo createFromParcel(Parcel source) {
+            return new ModuleSniffZalo(source);
         }
 
         @Override
-        public SniffBbmModule[] newArray(int size) {
-            return new SniffBbmModule[size];
+        public ModuleSniffZalo[] newArray(int size) {
+            return new ModuleSniffZalo[size];
         }
     };
 }

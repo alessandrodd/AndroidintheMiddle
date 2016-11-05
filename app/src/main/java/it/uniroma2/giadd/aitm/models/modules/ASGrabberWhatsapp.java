@@ -22,7 +22,7 @@ import it.uniroma2.giadd.aitm.utils.PermissionUtils;
  * Created by Alessandro Di Diego on 01/10/16.
  */
 
-public class WhatsappASGrabber implements AutonomousSystemGrabber {
+public class ASGrabberWhatsapp implements AutonomousSystemGrabber {
 
     private static final String WHATSAPP_CIDR_URI = "https://www.whatsapp.com/cidr.txt";
 

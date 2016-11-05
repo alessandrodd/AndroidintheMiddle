@@ -13,16 +13,14 @@ import it.uniroma2.giadd.aitm.managers.RootManager;
  * Created by Alessandro Di Diego on 13/08/16.
  */
 
-// TODO: filter by *.amazonaws.com
+public class ModuleSniffKakaoTalk extends ModuleMitm implements Parcelable {
 
-public class SniffMaaiModule extends MitmModule implements Parcelable {
+    private static final String TAG = ModuleSniffKakaoTalk.class.getName();
+    public static final String PREFIX = "kakaotalk_";
 
-    private static final String TAG = SniffMaaiModule.class.getName();
-    public static final String PREFIX = "maai_";
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (<netfilter>)\"";
 
-    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and port 443\"";
-
-    public SniffMaaiModule() {
+    public ModuleSniffKakaoTalk() {
         super();
         setForwardConnections(true);
     }
@@ -30,16 +28,33 @@ public class SniffMaaiModule extends MitmModule implements Parcelable {
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setModuleTitle(context.getString(R.string.module_sniffmaai_title));
-        setModuleMessage(context.getString(R.string.module_sniffmaai_message));
+        setModuleTitle(context.getString(R.string.module_sniffkakaotalk_title));
+        setModuleMessage(context.getString(R.string.module_sniffkakaotalk_message));
 
+        String netfilter = "";
+        int i;
+        for (i = 0; i < getNets().size(); i++) {
+            netfilter += "net " + getNets().get(i);
+            if (i < (getNets().size() - 1)) netfilter += " or ";
+        }
         //dump to file
         setDumpToFile(true);
         String command = context.getFilesDir() + "/" + TCPDUMP_COMMAND;
         command = command.replaceAll("<path>", getDumpPath());
         command = command.replaceAll("<interface>", getInterfaceName());
-        command = command.replaceAll("<target>", target);
+        command = command.replaceAll("<target>", getTarget());
+        command = command.replace("<netfilter>", netfilter);
         commands.add(command);
+        largeLog(TAG, command);
+    }
+
+    private static void largeLog(String tag, String content) {
+        if (content.length() > 4000) {
+            Log.d(tag, content.substring(0, 4000));
+            largeLog(tag, content.substring(4000));
+        } else {
+            Log.d(tag, content);
+        }
     }
 
     @Override
@@ -73,19 +88,19 @@ public class SniffMaaiModule extends MitmModule implements Parcelable {
         super.writeToParcel(dest, flags);
     }
 
-    protected SniffMaaiModule(Parcel in) {
+    protected ModuleSniffKakaoTalk(Parcel in) {
         super(in);
     }
 
-    public static final Creator<SniffMaaiModule> CREATOR = new Creator<SniffMaaiModule>() {
+    public static final Creator<ModuleSniffKakaoTalk> CREATOR = new Creator<ModuleSniffKakaoTalk>() {
         @Override
-        public SniffMaaiModule createFromParcel(Parcel source) {
-            return new SniffMaaiModule(source);
+        public ModuleSniffKakaoTalk createFromParcel(Parcel source) {
+            return new ModuleSniffKakaoTalk(source);
         }
 
         @Override
-        public SniffMaaiModule[] newArray(int size) {
-            return new SniffMaaiModule[size];
+        public ModuleSniffKakaoTalk[] newArray(int size) {
+            return new ModuleSniffKakaoTalk[size];
         }
     };
 }

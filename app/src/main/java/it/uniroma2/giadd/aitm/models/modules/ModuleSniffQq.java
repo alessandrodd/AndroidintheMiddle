@@ -13,16 +13,16 @@ import it.uniroma2.giadd.aitm.managers.RootManager;
  * Created by Alessandro Di Diego on 13/08/16.
  */
 
-// TODO: filter by api.groupme.com *.amazonaws.com
+// TODO: filter by *.qq.com
 
-public class SniffGroupMeModule extends MitmModule implements Parcelable {
+public class ModuleSniffQq extends ModuleMitm implements Parcelable {
 
-    private static final String TAG = SniffGroupMeModule.class.getName();
-    public static final String PREFIX = "groupme_";
+    private static final String TAG = ModuleSniffQq.class.getName();
+    public static final String PREFIX = "qq_";
 
-    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and port 443\"";
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (port 80 or port 8080 or port 8000 or port 150000)\"";
 
-    public SniffGroupMeModule() {
+    public ModuleSniffQq() {
         super();
         setForwardConnections(true);
     }
@@ -30,8 +30,8 @@ public class SniffGroupMeModule extends MitmModule implements Parcelable {
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setModuleTitle(context.getString(R.string.module_sniffgroupme_title));
-        setModuleMessage(context.getString(R.string.module_sniffgroupme_message));
+        setModuleTitle(context.getString(R.string.module_sniffqq_title));
+        setModuleMessage(context.getString(R.string.module_sniffqq_message));
 
         //dump to file
         setDumpToFile(true);
@@ -73,19 +73,19 @@ public class SniffGroupMeModule extends MitmModule implements Parcelable {
         super.writeToParcel(dest, flags);
     }
 
-    protected SniffGroupMeModule(Parcel in) {
+    protected ModuleSniffQq(Parcel in) {
         super(in);
     }
 
-    public static final Creator<SniffGroupMeModule> CREATOR = new Creator<SniffGroupMeModule>() {
+    public static final Creator<ModuleSniffQq> CREATOR = new Creator<ModuleSniffQq>() {
         @Override
-        public SniffGroupMeModule createFromParcel(Parcel source) {
-            return new SniffGroupMeModule(source);
+        public ModuleSniffQq createFromParcel(Parcel source) {
+            return new ModuleSniffQq(source);
         }
 
         @Override
-        public SniffGroupMeModule[] newArray(int size) {
-            return new SniffGroupMeModule[size];
+        public ModuleSniffQq[] newArray(int size) {
+            return new ModuleSniffQq[size];
         }
     };
 }

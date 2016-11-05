@@ -18,7 +18,7 @@ import it.uniroma2.giadd.aitm.CaptureActivity;
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.managers.RootManager;
 import it.uniroma2.giadd.aitm.interfaces.OnCommandListener;
-import it.uniroma2.giadd.aitm.models.modules.MitmModule;
+import it.uniroma2.giadd.aitm.models.modules.ModuleMitm;
 
 /**
  * Created by Alessandro Di Diego on 13/08/16.
@@ -38,13 +38,14 @@ public class SniffService extends Service implements OnCommandListener {
 
     private PowerManager.WakeLock wakeLock;
     private WifiManager.WifiLock wifiLock;
-    private MitmModule mitmModule;
+    private ModuleMitm mitmModule;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent.getBooleanExtra(MITM_STOP, false)) {
             stopSelf();
         } else if (intent.getParcelableExtra(MITM_MODULE) != null) {
+            // New MITM module received; let's execute the contained commands
             mitmModule = intent.getParcelableExtra(MITM_MODULE);
             if (mitmModule.getCommands() != null && mitmModule.getCommands().size() > 0) {
                 acquireLock();

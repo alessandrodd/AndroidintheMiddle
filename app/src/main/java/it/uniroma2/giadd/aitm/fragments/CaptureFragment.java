@@ -32,7 +32,7 @@ import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.adapters.IpPacketAdapter;
 import it.uniroma2.giadd.aitm.interfaces.SimpleClickListener;
 import it.uniroma2.giadd.aitm.models.MyIpPacket;
-import it.uniroma2.giadd.aitm.models.modules.MitmModule;
+import it.uniroma2.giadd.aitm.models.modules.ModuleMitm;
 import it.uniroma2.giadd.aitm.services.ParsePcapService;
 import it.uniroma2.giadd.aitm.services.SniffService;
 import it.uniroma2.giadd.aitm.utils.PreferencesUtils;
@@ -54,7 +54,7 @@ public class CaptureFragment extends Fragment {
     private CardView consoleOutputCardview;
     private TextView consoleOutputTextView;
     private ProgressBar progressBar;
-    private MitmModule mitmModule;
+    private ModuleMitm mitmModule;
     private String currentDumpPath;
     private IpPacketAdapter ipPacketAdapter = null;
     private RecyclerView recyclerView;

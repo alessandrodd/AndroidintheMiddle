@@ -30,8 +30,8 @@ import java.util.Locale;
 import it.uniroma2.giadd.aitm.CaptureActivity;
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
-import it.uniroma2.giadd.aitm.models.modules.KillConnectionModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffAllModule;
+import it.uniroma2.giadd.aitm.models.modules.ModuleKillConnection;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffAll;
 import it.uniroma2.giadd.aitm.services.SniffService;
 import it.uniroma2.giadd.aitm.tasks.CheckHostTask;
 import it.uniroma2.giadd.aitm.utils.FileUtilities;
@@ -68,8 +68,8 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
                     break;
                 case R.id.button_kill_connection:
                     Intent i = new Intent(getContext(), SniffService.class);
-                    KillConnectionModule module;
-                    module = new KillConnectionModule();
+                    ModuleKillConnection module;
+                    module = new ModuleKillConnection();
                     module.setTarget(host.getIp());
                     module.initialize(getContext());
                     i.putExtra(SniffService.MITM_MODULE, module);
@@ -98,8 +98,8 @@ public class TargetFragment extends Fragment implements LoaderManager.LoaderCall
                                 return;
                             }
                             Intent i = new Intent(getContext(), SniffService.class);
-                            SniffAllModule module;
-                            module = new SniffAllModule();
+                            ModuleSniffAll module;
+                            module = new ModuleSniffAll();
                             module.setTarget(host.getIp());
                             module.setDumpPath(Environment.getExternalStorageDirectory() + "/pcaps" + "/" + insertedString + ".pcap");
                             module.initialize(getContext());

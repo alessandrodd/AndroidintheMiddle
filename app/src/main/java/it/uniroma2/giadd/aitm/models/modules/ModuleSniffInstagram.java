@@ -13,14 +13,16 @@ import it.uniroma2.giadd.aitm.managers.RootManager;
  * Created by Alessandro Di Diego on 13/08/16.
  */
 
-public class SniffVkModule extends MitmModule implements Parcelable {
+// TODO: filter by *.fbcdn.net *.facebook.com
 
-    private static final String TAG = SniffVkModule.class.getName();
-    public static final String PREFIX = "vk_";
+public class ModuleSniffInstagram extends ModuleMitm implements Parcelable {
 
-    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (<netfilter>)\"";
+    private static final String TAG = ModuleSniffInstagram.class.getName();
+    public static final String PREFIX = "instagram_";
 
-    public SniffVkModule() {
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (port 443)\"";
+
+    public ModuleSniffInstagram() {
         super();
         setForwardConnections(true);
     }
@@ -28,32 +30,16 @@ public class SniffVkModule extends MitmModule implements Parcelable {
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setModuleTitle(context.getString(R.string.module_sniffvk_title));
-        setModuleMessage(context.getString(R.string.module_sniffvk_message));
+        setModuleTitle(context.getString(R.string.module_sniffinstagram_title));
+        setModuleMessage(context.getString(R.string.module_sniffinstagram_message));
 
-        String netfilter = "";
-        int i;
-        for (i = 0; i < getNets().size(); i++) {
-            netfilter += "net " + getNets().get(i);
-            if (i < (getNets().size() - 1)) netfilter += " or ";
-        }
+        //dump to file
         setDumpToFile(true);
         String command = context.getFilesDir() + "/" + TCPDUMP_COMMAND;
         command = command.replaceAll("<path>", getDumpPath());
         command = command.replaceAll("<interface>", getInterfaceName());
-        command = command.replaceAll("<target>", getTarget());
-        command = command.replace("<netfilter>", netfilter);
+        command = command.replaceAll("<target>", target);
         commands.add(command);
-        largeLog(TAG, command);
-    }
-
-    private static void largeLog(String tag, String content) {
-        if (content.length() > 4000) {
-            Log.d(tag, content.substring(0, 4000));
-            largeLog(tag, content.substring(4000));
-        } else {
-            Log.d(tag, content);
-        }
     }
 
     @Override
@@ -87,19 +73,19 @@ public class SniffVkModule extends MitmModule implements Parcelable {
         super.writeToParcel(dest, flags);
     }
 
-    protected SniffVkModule(Parcel in) {
+    protected ModuleSniffInstagram(Parcel in) {
         super(in);
     }
 
-    public static final Creator<SniffVkModule> CREATOR = new Creator<SniffVkModule>() {
+    public static final Creator<ModuleSniffInstagram> CREATOR = new Creator<ModuleSniffInstagram>() {
         @Override
-        public SniffVkModule createFromParcel(Parcel source) {
-            return new SniffVkModule(source);
+        public ModuleSniffInstagram createFromParcel(Parcel source) {
+            return new ModuleSniffInstagram(source);
         }
 
         @Override
-        public SniffVkModule[] newArray(int size) {
-            return new SniffVkModule[size];
+        public ModuleSniffInstagram[] newArray(int size) {
+            return new ModuleSniffInstagram[size];
         }
     };
 }

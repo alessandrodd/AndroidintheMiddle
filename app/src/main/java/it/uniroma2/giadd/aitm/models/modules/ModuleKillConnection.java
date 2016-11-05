@@ -10,11 +10,11 @@ import it.uniroma2.giadd.aitm.R;
  * Created by Alessandro Di Diego on 13/08/16.
  */
 
-public class KillConnectionModule extends MitmModule implements Parcelable {
+public class ModuleKillConnection extends ModuleMitm implements Parcelable {
 
-    private static final String TAG = KillConnectionModule.class.getName();
+    private static final String TAG = ModuleKillConnection.class.getName();
 
-    public KillConnectionModule() {
+    public ModuleKillConnection() {
         super();
         setForwardConnections(false);
     }
@@ -42,19 +42,19 @@ public class KillConnectionModule extends MitmModule implements Parcelable {
         super.writeToParcel(dest, flags);
     }
 
-    protected KillConnectionModule(Parcel in) {
+    protected ModuleKillConnection(Parcel in) {
         super(in);
     }
 
-    public static final Creator<KillConnectionModule> CREATOR = new Creator<KillConnectionModule>() {
+    public static final Creator<ModuleKillConnection> CREATOR = new Creator<ModuleKillConnection>() {
         @Override
-        public KillConnectionModule createFromParcel(Parcel source) {
-            return new KillConnectionModule(source);
+        public ModuleKillConnection createFromParcel(Parcel source) {
+            return new ModuleKillConnection(source);
         }
 
         @Override
-        public KillConnectionModule[] newArray(int size) {
-            return new KillConnectionModule[size];
+        public ModuleKillConnection[] newArray(int size) {
+            return new ModuleKillConnection[size];
         }
     };
 }

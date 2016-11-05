@@ -13,16 +13,16 @@ import it.uniroma2.giadd.aitm.managers.RootManager;
  * Created by Alessandro Di Diego on 13/08/16.
  */
 
-// TODO: filter by *.amazonaws.com HTTP "Host: nimbuzz.com.s3.amazonaws.com"
+// TODO: filter by *.amazonaws.com
 
-public class SniffNimbuzzModule extends MitmModule implements Parcelable {
+public class ModuleSniffHike extends ModuleMitm implements Parcelable {
 
-    private static final String TAG = SniffNimbuzzModule.class.getName();
-    public static final String PREFIX = "nimbuzz_";
+    private static final String TAG = ModuleSniffHike.class.getName();
+    public static final String PREFIX = "hike_";
 
-    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (<netfilter>) and (port 80 or port 443 or port 5222)\"";
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and port 443\"";
 
-    public SniffNimbuzzModule() {
+    public ModuleSniffHike() {
         super();
         setForwardConnections(true);
     }
@@ -30,33 +30,16 @@ public class SniffNimbuzzModule extends MitmModule implements Parcelable {
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setModuleTitle(context.getString(R.string.module_sniffnimbuzz_title));
-        setModuleMessage(context.getString(R.string.module_sniffnimbuzz_message));
+        setModuleTitle(context.getString(R.string.module_sniffhike_title));
+        setModuleMessage(context.getString(R.string.module_sniffhike_message));
 
-        String netfilter = "";
-        int i;
-        for (i = 0; i < getNets().size(); i++) {
-            netfilter += "net " + getNets().get(i);
-            if (i < (getNets().size() - 1)) netfilter += " or ";
-        }
         //dump to file
         setDumpToFile(true);
         String command = context.getFilesDir() + "/" + TCPDUMP_COMMAND;
         command = command.replaceAll("<path>", getDumpPath());
         command = command.replaceAll("<interface>", getInterfaceName());
-        command = command.replaceAll("<target>", getTarget());
-        command = command.replace("<netfilter>", netfilter);
+        command = command.replaceAll("<target>", target);
         commands.add(command);
-        largeLog(TAG, command);
-    }
-
-    private static void largeLog(String tag, String content) {
-        if (content.length() > 4000) {
-            Log.d(tag, content.substring(0, 4000));
-            largeLog(tag, content.substring(4000));
-        } else {
-            Log.d(tag, content);
-        }
     }
 
     @Override
@@ -90,19 +73,19 @@ public class SniffNimbuzzModule extends MitmModule implements Parcelable {
         super.writeToParcel(dest, flags);
     }
 
-    protected SniffNimbuzzModule(Parcel in) {
+    protected ModuleSniffHike(Parcel in) {
         super(in);
     }
 
-    public static final Creator<SniffNimbuzzModule> CREATOR = new Creator<SniffNimbuzzModule>() {
+    public static final Creator<ModuleSniffHike> CREATOR = new Creator<ModuleSniffHike>() {
         @Override
-        public SniffNimbuzzModule createFromParcel(Parcel source) {
-            return new SniffNimbuzzModule(source);
+        public ModuleSniffHike createFromParcel(Parcel source) {
+            return new ModuleSniffHike(source);
         }
 
         @Override
-        public SniffNimbuzzModule[] newArray(int size) {
-            return new SniffNimbuzzModule[size];
+        public ModuleSniffHike[] newArray(int size) {
+            return new ModuleSniffHike[size];
         }
     };
 }

@@ -13,16 +13,20 @@ import it.uniroma2.giadd.aitm.managers.RootManager;
  * Created by Alessandro Di Diego on 13/08/16.
  */
 
-// TODO: filter by *.fbcdn.net *.facebook.com
+/** TODO: filter by (ads.nexage.com and port 80) or (*.nextplus.me and port 443,80)
+ * or
+ * (ads.nexage.com and port 80) or ((*.app.nextplus.me or *pic.nextplus.me) and port 80)
+ * or
+ * (ads.nexage.com and port 80) or (ASNumber and port 443,80)
+*/
+public class ModuleSniffTextPlus extends ModuleMitm implements Parcelable {
 
-public class SniffInstagramModule extends MitmModule implements Parcelable {
+    private static final String TAG = ModuleSniffTextPlus.class.getName();
+    public static final String PREFIX = "textPlus_";
 
-    private static final String TAG = SniffInstagramModule.class.getName();
-    public static final String PREFIX = "instagram_";
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and ((host ads.nexage.com and port 80) or (<netfilter>))\"";
 
-    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (port 443)\"";
-
-    public SniffInstagramModule() {
+    public ModuleSniffTextPlus() {
         super();
         setForwardConnections(true);
     }
@@ -30,15 +34,22 @@ public class SniffInstagramModule extends MitmModule implements Parcelable {
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setModuleTitle(context.getString(R.string.module_sniffinstagram_title));
-        setModuleMessage(context.getString(R.string.module_sniffinstagram_message));
+        setModuleTitle(context.getString(R.string.module_snifftextplus_title));
+        setModuleMessage(context.getString(R.string.module_snifftextplus_message));
 
+        String netFilter = "";
+        int i;
+        for (i = 0; i < getNets().size(); i++) {
+            netFilter += "net " + getNets().get(i);
+            if (i < (getNets().size() - 1)) netFilter += " or ";
+        }
         //dump to file
         setDumpToFile(true);
         String command = context.getFilesDir() + "/" + TCPDUMP_COMMAND;
         command = command.replaceAll("<path>", getDumpPath());
         command = command.replaceAll("<interface>", getInterfaceName());
         command = command.replaceAll("<target>", target);
+        command = command.replace("<netfilter>", netFilter);
         commands.add(command);
     }
 
@@ -73,19 +84,19 @@ public class SniffInstagramModule extends MitmModule implements Parcelable {
         super.writeToParcel(dest, flags);
     }
 
-    protected SniffInstagramModule(Parcel in) {
+    protected ModuleSniffTextPlus(Parcel in) {
         super(in);
     }
 
-    public static final Creator<SniffInstagramModule> CREATOR = new Creator<SniffInstagramModule>() {
+    public static final Creator<ModuleSniffTextPlus> CREATOR = new Creator<ModuleSniffTextPlus>() {
         @Override
-        public SniffInstagramModule createFromParcel(Parcel source) {
-            return new SniffInstagramModule(source);
+        public ModuleSniffTextPlus createFromParcel(Parcel source) {
+            return new ModuleSniffTextPlus(source);
         }
 
         @Override
-        public SniffInstagramModule[] newArray(int size) {
-            return new SniffInstagramModule[size];
+        public ModuleSniffTextPlus[] newArray(int size) {
+            return new ModuleSniffTextPlus[size];
         }
     };
 }

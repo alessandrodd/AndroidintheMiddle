@@ -18,7 +18,7 @@ import it.uniroma2.giadd.aitm.models.dto.RipeAnnouncedPrefix;
  * Created by Alessandro Di Diego on 01/10/16.
  */
 
-public class NimbuzzASGrabber implements AutonomousSystemGrabber {
+public class ASGrabberNimbuzz implements AutonomousSystemGrabber {
 
     private static final String NIMBUZZ_AS = "AS51089";
 

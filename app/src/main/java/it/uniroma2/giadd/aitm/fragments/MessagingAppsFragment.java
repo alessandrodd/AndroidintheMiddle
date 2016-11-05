@@ -28,33 +28,33 @@ import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.interfaces.AutonomousSystemGrabber;
 import it.uniroma2.giadd.aitm.interfaces.OnAutonomousSystemGrabbedListener;
 import it.uniroma2.giadd.aitm.models.NetworkHost;
-import it.uniroma2.giadd.aitm.models.modules.ImoASGrabber;
-import it.uniroma2.giadd.aitm.models.modules.KakaoTalkASGrabber;
-import it.uniroma2.giadd.aitm.models.modules.MitmModule;
-import it.uniroma2.giadd.aitm.models.modules.NimbuzzASGrabber;
-import it.uniroma2.giadd.aitm.models.modules.SniffBbmModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffGroupMeModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffHikeModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffImoModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffInstagramModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffKakaoTalkModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffMaaiModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffMxitModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffNimbuzzModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffQqModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffTalkrayModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffTelegramModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffTextPlusModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffVkModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffWhatsAppModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffYahooModule;
-import it.uniroma2.giadd.aitm.models.modules.SniffZaloModule;
-import it.uniroma2.giadd.aitm.models.modules.TelegramASGrabber;
-import it.uniroma2.giadd.aitm.models.modules.TextPlusASGrabber;
-import it.uniroma2.giadd.aitm.models.modules.VkASGrabber;
-import it.uniroma2.giadd.aitm.models.modules.WhatsappASGrabber;
-import it.uniroma2.giadd.aitm.models.modules.YahooASGrabber;
-import it.uniroma2.giadd.aitm.models.modules.ZaloASGrabber;
+import it.uniroma2.giadd.aitm.models.modules.ASGrabberImo;
+import it.uniroma2.giadd.aitm.models.modules.ASGrabberKakaoTalk;
+import it.uniroma2.giadd.aitm.models.modules.ModuleMitm;
+import it.uniroma2.giadd.aitm.models.modules.ASGrabberNimbuzz;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffBbm;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffGroupMe;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffHike;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffImo;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffInstagram;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffKakaoTalk;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffMaai;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffMxit;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffNimbuzz;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffQq;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffTalkray;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffTelegram;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffTextPlus;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffVk;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffWhatsApp;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffYahoo;
+import it.uniroma2.giadd.aitm.models.modules.ModuleSniffZalo;
+import it.uniroma2.giadd.aitm.models.modules.ASGrabberTelegram;
+import it.uniroma2.giadd.aitm.models.modules.ASGrabberTextPlus;
+import it.uniroma2.giadd.aitm.models.modules.ASGrabberVk;
+import it.uniroma2.giadd.aitm.models.modules.ASGrabberWhatsapp;
+import it.uniroma2.giadd.aitm.models.modules.ASGrabberYahoo;
+import it.uniroma2.giadd.aitm.models.modules.ASGrabberZalo;
 import it.uniroma2.giadd.aitm.services.SniffService;
 import it.uniroma2.giadd.aitm.utils.FileUtilities;
 
@@ -62,7 +62,7 @@ import it.uniroma2.giadd.aitm.utils.FileUtilities;
  * Created by Alessandro Di Diego
  */
 
-/** TODO: awful, horrible code; optimize this class (RecyclerView instead of tens of buttons for example)
+/** TODO: awful, horrible, boilerplate code; optimize this class (RecyclerView instead of tens of buttons for example)
  */
 
 public class MessagingAppsFragment extends Fragment {
@@ -89,93 +89,93 @@ public class MessagingAppsFragment extends Fragment {
             String filenameString = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(now);
             popDialog.setTitle(R.string.title_set_capture_filename);
             popDialog.setView(fileNameEditText);
-            final MitmModule module;
+            final ModuleMitm module;
             final AutonomousSystemGrabber grabber;
             switch (view.getId()) {
                 case R.id.button_whatsapp:
-                    filenameString = SniffWhatsAppModule.PREFIX + filenameString;
-                    module = new SniffWhatsAppModule();
-                    grabber = new WhatsappASGrabber();
+                    filenameString = ModuleSniffWhatsApp.PREFIX + filenameString;
+                    module = new ModuleSniffWhatsApp();
+                    grabber = new ASGrabberWhatsapp();
                     break;
                 case R.id.button_telegram:
-                    filenameString = SniffTelegramModule.PREFIX + filenameString;
-                    module = new SniffTelegramModule();
-                    grabber = new TelegramASGrabber();
+                    filenameString = ModuleSniffTelegram.PREFIX + filenameString;
+                    module = new ModuleSniffTelegram();
+                    grabber = new ASGrabberTelegram();
                     break;
                 case R.id.button_mxit:
-                    filenameString = SniffMxitModule.PREFIX + filenameString;
-                    module = new SniffMxitModule();
+                    filenameString = ModuleSniffMxit.PREFIX + filenameString;
+                    module = new ModuleSniffMxit();
                     grabber = null;
                     break;
                 case R.id.button_vk:
-                    filenameString = SniffVkModule.PREFIX + filenameString;
-                    module = new SniffVkModule();
-                    grabber = new VkASGrabber();
+                    filenameString = ModuleSniffVk.PREFIX + filenameString;
+                    module = new ModuleSniffVk();
+                    grabber = new ASGrabberVk();
                     break;
                 case R.id.button_qq:
-                    filenameString = SniffQqModule.PREFIX + filenameString;
-                    module = new SniffQqModule();
+                    filenameString = ModuleSniffQq.PREFIX + filenameString;
+                    module = new ModuleSniffQq();
                     grabber = null;
                     break;
                 case R.id.button_textplus:
-                    filenameString = SniffTextPlusModule.PREFIX + filenameString;
-                    module = new SniffTextPlusModule();
-                    grabber = new TextPlusASGrabber();
+                    filenameString = ModuleSniffTextPlus.PREFIX + filenameString;
+                    module = new ModuleSniffTextPlus();
+                    grabber = new ASGrabberTextPlus();
                     break;
                 case R.id.button_talkray:
-                    filenameString = SniffTalkrayModule.PREFIX + filenameString;
-                    module = new SniffTalkrayModule();
+                    filenameString = ModuleSniffTalkray.PREFIX + filenameString;
+                    module = new ModuleSniffTalkray();
                     grabber = null;
                     break;
                 case R.id.button_bbm:
-                    filenameString = SniffBbmModule.PREFIX + filenameString;
-                    module = new SniffBbmModule();
+                    filenameString = ModuleSniffBbm.PREFIX + filenameString;
+                    module = new ModuleSniffBbm();
                     grabber = null;
                     break;
                 case R.id.button_instagram:
-                    filenameString = SniffInstagramModule.PREFIX + filenameString;
-                    module = new SniffInstagramModule();
-                    grabber = new TelegramASGrabber();
+                    filenameString = ModuleSniffInstagram.PREFIX + filenameString;
+                    module = new ModuleSniffInstagram();
+                    grabber = new ASGrabberTelegram();
                     break;
                 case R.id.button_yahoo_messenger:
-                    filenameString = SniffYahooModule.PREFIX + filenameString;
-                    module = new SniffYahooModule();
-                    grabber = new YahooASGrabber();
+                    filenameString = ModuleSniffYahoo.PREFIX + filenameString;
+                    module = new ModuleSniffYahoo();
+                    grabber = new ASGrabberYahoo();
                     break;
                 case R.id.button_maai:
-                    filenameString = SniffMaaiModule.PREFIX + filenameString;
-                    module = new SniffMaaiModule();
+                    filenameString = ModuleSniffMaai.PREFIX + filenameString;
+                    module = new ModuleSniffMaai();
                     grabber = null;
                     break;
                 case R.id.button_groupme:
-                    filenameString = SniffGroupMeModule.PREFIX + filenameString;
-                    module = new SniffGroupMeModule();
+                    filenameString = ModuleSniffGroupMe.PREFIX + filenameString;
+                    module = new ModuleSniffGroupMe();
                     grabber = null;
                     break;
                 case R.id.button_kakaotalk:
-                    filenameString = SniffKakaoTalkModule.PREFIX + filenameString;
-                    module = new SniffKakaoTalkModule();
-                    grabber = new KakaoTalkASGrabber();
+                    filenameString = ModuleSniffKakaoTalk.PREFIX + filenameString;
+                    module = new ModuleSniffKakaoTalk();
+                    grabber = new ASGrabberKakaoTalk();
                     break;
                 case R.id.button_nimbuzz:
-                    filenameString = SniffNimbuzzModule.PREFIX + filenameString;
-                    module = new SniffNimbuzzModule();
-                    grabber = new NimbuzzASGrabber();
+                    filenameString = ModuleSniffNimbuzz.PREFIX + filenameString;
+                    module = new ModuleSniffNimbuzz();
+                    grabber = new ASGrabberNimbuzz();
                     break;
                 case R.id.button_hike:
-                    filenameString = SniffHikeModule.PREFIX + filenameString;
-                    module = new SniffHikeModule();
+                    filenameString = ModuleSniffHike.PREFIX + filenameString;
+                    module = new ModuleSniffHike();
                     grabber = null;
                     break;
                 case R.id.button_zalo:
-                    filenameString = SniffZaloModule.PREFIX + filenameString;
-                    module = new SniffZaloModule();
-                    grabber = new ZaloASGrabber();
+                    filenameString = ModuleSniffZalo.PREFIX + filenameString;
+                    module = new ModuleSniffZalo();
+                    grabber = new ASGrabberZalo();
                     break;
                 case R.id.button_imo:
-                    filenameString = SniffImoModule.PREFIX + filenameString;
-                    module = new SniffImoModule();
-                    grabber = new ImoASGrabber();
+                    filenameString = ModuleSniffImo.PREFIX + filenameString;
+                    module = new ModuleSniffImo();
+                    grabber = new ASGrabberImo();
                     break;
                 default:
                     module = null;

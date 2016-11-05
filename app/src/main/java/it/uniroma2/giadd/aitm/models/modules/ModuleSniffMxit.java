@@ -13,16 +13,14 @@ import it.uniroma2.giadd.aitm.managers.RootManager;
  * Created by Alessandro Di Diego on 13/08/16.
  */
 
-// TODO: filter by *.amazonaws.com
+public class ModuleSniffMxit extends ModuleMitm implements Parcelable {
 
-public class SniffTalkrayModule extends MitmModule implements Parcelable {
+    private static final String TAG = ModuleSniffMxit.class.getName();
+    public static final String PREFIX = "mxit_";
 
-    private static final String TAG = SniffTalkrayModule.class.getName();
-    public static final String PREFIX = "talkray_";
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (port 9119 or port 9229)\"";
 
-    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (port 8576  or port 443)\"";
-
-    public SniffTalkrayModule() {
+    public ModuleSniffMxit() {
         super();
         setForwardConnections(true);
     }
@@ -30,8 +28,8 @@ public class SniffTalkrayModule extends MitmModule implements Parcelable {
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setModuleTitle(context.getString(R.string.module_snifftalkray_title));
-        setModuleMessage(context.getString(R.string.module_snifftalkray_message));
+        setModuleTitle(context.getString(R.string.module_sniffmxit_title));
+        setModuleMessage(context.getString(R.string.module_sniffmxit_message));
 
         //dump to file
         setDumpToFile(true);
@@ -73,19 +71,19 @@ public class SniffTalkrayModule extends MitmModule implements Parcelable {
         super.writeToParcel(dest, flags);
     }
 
-    protected SniffTalkrayModule(Parcel in) {
+    protected ModuleSniffMxit(Parcel in) {
         super(in);
     }
 
-    public static final Creator<SniffTalkrayModule> CREATOR = new Creator<SniffTalkrayModule>() {
+    public static final Creator<ModuleSniffMxit> CREATOR = new Creator<ModuleSniffMxit>() {
         @Override
-        public SniffTalkrayModule createFromParcel(Parcel source) {
-            return new SniffTalkrayModule(source);
+        public ModuleSniffMxit createFromParcel(Parcel source) {
+            return new ModuleSniffMxit(source);
         }
 
         @Override
-        public SniffTalkrayModule[] newArray(int size) {
-            return new SniffTalkrayModule[size];
+        public ModuleSniffMxit[] newArray(int size) {
+            return new ModuleSniffMxit[size];
         }
     };
 }

@@ -13,14 +13,14 @@ import it.uniroma2.giadd.aitm.managers.RootManager;
  * Created by Alessandro Di Diego on 13/08/16.
  */
 
-public class SniffYahooModule extends MitmModule implements Parcelable {
+public class ModuleSniffImo extends ModuleMitm implements Parcelable {
 
-    private static final String TAG = SniffYahooModule.class.getName();
-    public static final String PREFIX = "yahoo_";
+    private static final String TAG = ModuleSniffImo.class.getName();
+    public static final String PREFIX = "imo_";
 
-    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (<netfilter>) and port 443\"";
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (<netfilter>) and (port 443 or port 5222 or port 5223 or port 5228)\"";
 
-    public SniffYahooModule() {
+    public ModuleSniffImo() {
         super();
         setForwardConnections(true);
     }
@@ -28,8 +28,8 @@ public class SniffYahooModule extends MitmModule implements Parcelable {
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setModuleTitle(context.getString(R.string.module_sniffyahoomessenger_title));
-        setModuleMessage(context.getString(R.string.module_sniffyahoomessenger_message));
+        setModuleTitle(context.getString(R.string.module_sniffimo_title));
+        setModuleMessage(context.getString(R.string.module_sniffimo_message));
 
         String netfilter = "";
         int i;
@@ -88,19 +88,19 @@ public class SniffYahooModule extends MitmModule implements Parcelable {
         super.writeToParcel(dest, flags);
     }
 
-    protected SniffYahooModule(Parcel in) {
+    protected ModuleSniffImo(Parcel in) {
         super(in);
     }
 
-    public static final Creator<SniffYahooModule> CREATOR = new Creator<SniffYahooModule>() {
+    public static final Creator<ModuleSniffImo> CREATOR = new Creator<ModuleSniffImo>() {
         @Override
-        public SniffYahooModule createFromParcel(Parcel source) {
-            return new SniffYahooModule(source);
+        public ModuleSniffImo createFromParcel(Parcel source) {
+            return new ModuleSniffImo(source);
         }
 
         @Override
-        public SniffYahooModule[] newArray(int size) {
-            return new SniffYahooModule[size];
+        public ModuleSniffImo[] newArray(int size) {
+            return new ModuleSniffImo[size];
         }
     };
 }

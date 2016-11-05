@@ -13,14 +13,15 @@ import it.uniroma2.giadd.aitm.managers.RootManager;
  * Created by Alessandro Di Diego on 13/08/16.
  */
 
-public class SniffImoModule extends MitmModule implements Parcelable {
+public class ModuleSniffWhatsApp extends ModuleMitm implements Parcelable {
 
-    private static final String TAG = SniffImoModule.class.getName();
-    public static final String PREFIX = "imo_";
+    private static final String TAG = ModuleSniffWhatsApp.class.getName();
+    public static final String PREFIX = "whatsapp_";
 
-    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (<netfilter>) and (port 443 or port 5222 or port 5223 or port 5228)\"";
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and (<whatsappfilter>) and (port 80 or port 443 or port 4244 or port 5222 or port 5223 or port 5228 or port 5242)\"";
 
-    public SniffImoModule() {
+
+    public ModuleSniffWhatsApp() {
         super();
         setForwardConnections(true);
     }
@@ -28,14 +29,14 @@ public class SniffImoModule extends MitmModule implements Parcelable {
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setModuleTitle(context.getString(R.string.module_sniffimo_title));
-        setModuleMessage(context.getString(R.string.module_sniffimo_message));
+        setModuleTitle(context.getString(R.string.module_sniffwhatsapp_title));
+        setModuleMessage(context.getString(R.string.module_sniffwhatsapp_message));
 
-        String netfilter = "";
+        String whatsappFilter = "";
         int i;
         for (i = 0; i < getNets().size(); i++) {
-            netfilter += "net " + getNets().get(i);
-            if (i < (getNets().size() - 1)) netfilter += " or ";
+            whatsappFilter += "net " + getNets().get(i);
+            if (i < (getNets().size() - 1)) whatsappFilter += " or ";
         }
         //dump to file
         setDumpToFile(true);
@@ -43,7 +44,7 @@ public class SniffImoModule extends MitmModule implements Parcelable {
         command = command.replaceAll("<path>", getDumpPath());
         command = command.replaceAll("<interface>", getInterfaceName());
         command = command.replaceAll("<target>", getTarget());
-        command = command.replace("<netfilter>", netfilter);
+        command = command.replace("<whatsappfilter>", whatsappFilter);
         commands.add(command);
         largeLog(TAG, command);
     }
@@ -88,19 +89,19 @@ public class SniffImoModule extends MitmModule implements Parcelable {
         super.writeToParcel(dest, flags);
     }
 
-    protected SniffImoModule(Parcel in) {
+    protected ModuleSniffWhatsApp(Parcel in) {
         super(in);
     }
 
-    public static final Creator<SniffImoModule> CREATOR = new Creator<SniffImoModule>() {
+    public static final Creator<ModuleSniffWhatsApp> CREATOR = new Creator<ModuleSniffWhatsApp>() {
         @Override
-        public SniffImoModule createFromParcel(Parcel source) {
-            return new SniffImoModule(source);
+        public ModuleSniffWhatsApp createFromParcel(Parcel source) {
+            return new ModuleSniffWhatsApp(source);
         }
 
         @Override
-        public SniffImoModule[] newArray(int size) {
-            return new SniffImoModule[size];
+        public ModuleSniffWhatsApp[] newArray(int size) {
+            return new ModuleSniffWhatsApp[size];
         }
     };
 }

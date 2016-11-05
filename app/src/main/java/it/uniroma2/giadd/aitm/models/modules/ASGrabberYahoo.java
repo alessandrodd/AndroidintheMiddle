@@ -18,14 +18,14 @@ import it.uniroma2.giadd.aitm.models.dto.RipeAnnouncedPrefix;
  * Created by Alessandro Di Diego on 01/10/16.
  */
 
-public class ImoASGrabber implements AutonomousSystemGrabber {
+public class ASGrabberYahoo implements AutonomousSystemGrabber {
 
-    private static final String IMO_AS = "AS36131";
+    private static final String YAHOO_AS = "AS26101";
 
     @Override
     public void getRoutingPrefixes(final Context context, final OnAutonomousSystemGrabbedListener listener) {
         Ion.with(context)
-                .load(STAT_RIPE_ANNOUNCED_PREFIXES_BY_AS_URI + IMO_AS).as(RipeAnnouncedPrefix.class)
+                .load(STAT_RIPE_ANNOUNCED_PREFIXES_BY_AS_URI + YAHOO_AS).as(RipeAnnouncedPrefix.class)
                 .setCallback(new FutureCallback<RipeAnnouncedPrefix>() {
                     @Override
                     public void onCompleted(Exception e, RipeAnnouncedPrefix result) {

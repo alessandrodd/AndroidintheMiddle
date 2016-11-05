@@ -43,12 +43,17 @@ public class ParsePcapService extends Service {
         if (intent.getBooleanExtra(READ_PCAP_STOP, false)) {
             stopSelf();
         } else if (intent.getStringExtra(PCAP_PATH) != null && !intent.getStringExtra(PCAP_PATH).equals(currentPcapPath)) {
+            // A new pcap path was provided
+
+            // stop old parsing task
             if (parsePcapTask != null) {
                 parsePcapTask.cancel(true);
                 parsePcapTask = null;
             }
             parsedPackets.clear();
             currentPcapPath = intent.getStringExtra(PCAP_PATH);
+
+            // start parsing the new pcap file
             parsePcapTask = new ParsePcapTask(currentPcapPath) {
 
                 @Override

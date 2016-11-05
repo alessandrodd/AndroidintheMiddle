@@ -52,6 +52,7 @@ public class ParsePcapTask extends AsyncTask<Void, MyIpPacket, Long> {
 
     @Override
     protected Long doInBackground(Void... voids) {
+        // continuoos parsing with 1 sec polling
         while (!isCancelled()) {
             offset = pcapParser.parsePcapFile(path, offset);
             Log.d("DBG", "reached offset: " + offset);

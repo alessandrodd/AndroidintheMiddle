@@ -73,7 +73,6 @@ public class PacketDetailFragment extends Fragment {
         View rootView = inflater.inflate(
                 R.layout.fragment_packet_detail, container, false);
 
-        // setting toolbar
         ipSource = (TextView) rootView.findViewById(R.id.ip_source);
         destinationSource = (TextView) rootView.findViewById(R.id.ip_destination);
         protocol = (TextView) rootView.findViewById(R.id.protocol);

@@ -18,7 +18,7 @@ import it.uniroma2.giadd.aitm.models.dto.RipeAnnouncedPrefix;
  * Created by Alessandro Di Diego on 01/10/16.
  */
 
-public class KakaoTalkASGrabber implements AutonomousSystemGrabber {
+public class ASGrabberKakaoTalk implements AutonomousSystemGrabber {
 
     private static final String KAKAOTALK_AS1 = "AS45991";
     private static final String KAKAOTALK_AS2 = "AS10158";

@@ -31,6 +31,7 @@ public class ArpTableReader {
         ArrayList<NetworkHost> networkHosts = new ArrayList<>();
         BufferedReader bufferedReader = null;
         try {
+            // Open the ARP table located at /proc/net/arp
             bufferedReader = new BufferedReader(new FileReader("/proc/net/arp"));
             String line;
             while ((line = bufferedReader.readLine()) != null) {

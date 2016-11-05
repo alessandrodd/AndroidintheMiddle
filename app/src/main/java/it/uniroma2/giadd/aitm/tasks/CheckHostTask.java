@@ -30,6 +30,7 @@ public class CheckHostTask extends AsyncTaskLoader<Boolean> {
         Boolean reachable = false;
         if (networkHost == null) return false;
         try {
+            // check if the selected host is alive (reachable)
             reachable = InetAddress.getByName(networkHost.getIp()).isReachable(DEFAULT_TIMEOUT);
         } catch (IOException e) {
             e.printStackTrace();

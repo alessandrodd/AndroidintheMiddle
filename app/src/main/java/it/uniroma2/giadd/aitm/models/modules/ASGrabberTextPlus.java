@@ -18,14 +18,14 @@ import it.uniroma2.giadd.aitm.models.dto.RipeAnnouncedPrefix;
  * Created by Alessandro Di Diego on 01/10/16.
  */
 
-public class ZaloASGrabber implements AutonomousSystemGrabber {
+public class ASGrabberTextPlus implements AutonomousSystemGrabber {
 
-    private static final String ZALO_AS = "AS38244";
+    private static final String TEXTPLUS_AS = "AS53981";
 
     @Override
     public void getRoutingPrefixes(final Context context, final OnAutonomousSystemGrabbedListener listener) {
         Ion.with(context)
-                .load(STAT_RIPE_ANNOUNCED_PREFIXES_BY_AS_URI + ZALO_AS).as(RipeAnnouncedPrefix.class)
+                .load(STAT_RIPE_ANNOUNCED_PREFIXES_BY_AS_URI + TEXTPLUS_AS).as(RipeAnnouncedPrefix.class)
                 .setCallback(new FutureCallback<RipeAnnouncedPrefix>() {
                     @Override
                     public void onCompleted(Exception e, RipeAnnouncedPrefix result) {

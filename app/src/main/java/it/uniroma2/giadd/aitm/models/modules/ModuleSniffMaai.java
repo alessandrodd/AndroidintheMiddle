@@ -13,14 +13,16 @@ import it.uniroma2.giadd.aitm.managers.RootManager;
  * Created by Alessandro Di Diego on 13/08/16.
  */
 
-public class SniffAllModule extends MitmModule implements Parcelable {
+// TODO: filter by *.amazonaws.com
 
-    private static final String TAG = SniffAllModule.class.getName();
+public class ModuleSniffMaai extends ModuleMitm implements Parcelable {
 
-    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and not arp and not rarp";
-    private static final String TCPDUMP_COMMAND_NO_DUMP = "tcpdump -i <interface> -XSs 0 host <target> and not arp and not rarp";
+    private static final String TAG = ModuleSniffMaai.class.getName();
+    public static final String PREFIX = "maai_";
 
-    public SniffAllModule() {
+    private static final String TCPDUMP_COMMAND = "tcpdump -i <interface> -XSs 0 -U -w <path> host <target> and \"not arp and not rarp and port 443\"";
+
+    public ModuleSniffMaai() {
         super();
         setForwardConnections(true);
     }
@@ -28,22 +30,17 @@ public class SniffAllModule extends MitmModule implements Parcelable {
     @Override
     public void initialize(Context context) {
         super.initialize(context);
-        setModuleTitle(context.getString(R.string.module_sniffall_title));
-        setModuleMessage(context.getString(R.string.module_sniffall_message));
+        setModuleTitle(context.getString(R.string.module_sniffmaai_title));
+        setModuleMessage(context.getString(R.string.module_sniffmaai_message));
 
         //dump to file
-        setDumpToFile(false);
-        String command = context.getFilesDir() + "/" + TCPDUMP_COMMAND_NO_DUMP;
-        if (getDumpPath() != null && !getDumpPath().isEmpty()) {
-            setDumpToFile(true);
-            command = context.getFilesDir() + "/" + TCPDUMP_COMMAND;
-            command = command.replaceAll("<path>", getDumpPath());
-        }
+        setDumpToFile(true);
+        String command = context.getFilesDir() + "/" + TCPDUMP_COMMAND;
+        command = command.replaceAll("<path>", getDumpPath());
         command = command.replaceAll("<interface>", getInterfaceName());
-        command = command.replaceAll("<target>", getTarget());
+        command = command.replaceAll("<target>", target);
         commands.add(command);
     }
-
 
     @Override
     public void onModuleTermination(Context context) {
@@ -76,19 +73,19 @@ public class SniffAllModule extends MitmModule implements Parcelable {
         super.writeToParcel(dest, flags);
     }
 
-    protected SniffAllModule(Parcel in) {
+    protected ModuleSniffMaai(Parcel in) {
         super(in);
     }
 
-    public static final Creator<SniffAllModule> CREATOR = new Creator<SniffAllModule>() {
+    public static final Creator<ModuleSniffMaai> CREATOR = new Creator<ModuleSniffMaai>() {
         @Override
-        public SniffAllModule createFromParcel(Parcel source) {
-            return new SniffAllModule(source);
+        public ModuleSniffMaai createFromParcel(Parcel source) {
+            return new ModuleSniffMaai(source);
         }
 
         @Override
-        public SniffAllModule[] newArray(int size) {
-            return new SniffAllModule[size];
+        public ModuleSniffMaai[] newArray(int size) {
+            return new ModuleSniffMaai[size];
         }
     };
 }
