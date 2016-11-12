@@ -43,6 +43,9 @@ public class MyIpPacket implements Parcelable {
     private long version;
     private MyTransportLayerPacket transportLayerPacket;
 
+    public MyIpPacket() {
+    }
+
     public MyIpPacket(String sourceIp, String destinationIp, int headerLength, int length, int id, short offset, short protocol, int checksum, short typeOfService, short ttl, long version, MyTransportLayerPacket transportLayerPacket) {
         this.sourceIp = sourceIp;
         this.destinationIp = destinationIp;

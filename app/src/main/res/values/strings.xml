@@ -152,9 +152,11 @@
     <string name="hike">Hike</string>
     <string name="zalo">Zalo</string>
     <string name="imo">imo</string>
+    <string name="ip_packet_title">IP Packet %1$d/%2$d</string>
 
     <string-array name="options_array">
         <item>Network Interface</item>
+        <item>Clean cache</item>
         <item> </item>
     </string-array>
     <string-array name="drawer_list">

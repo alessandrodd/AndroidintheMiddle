@@ -13,6 +13,7 @@ import android.widget.ListView;
 import java.net.NetworkInterface;
 import java.util.List;
 
+import it.uniroma2.giadd.aitm.utils.IpPacketDBHandler;
 import it.uniroma2.giadd.aitm.utils.NetworkUtils;
 import it.uniroma2.giadd.aitm.utils.PreferencesUtils;
 
@@ -43,6 +44,9 @@ public class OptionsActivity extends Activity {
                     case 0:
                         changeInterface();
                         break;
+                    case 1:
+                        cleanCache();
+                        break;
                 }
             }
         });
@@ -72,5 +76,10 @@ public class OptionsActivity extends Activity {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void cleanCache(){
+        IpPacketDBHandler dbHandler = new IpPacketDBHandler(this);
+        dbHandler.resetDatabase();
     }
 }

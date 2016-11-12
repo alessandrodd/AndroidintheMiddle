@@ -10,12 +10,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 
-import java.util.ArrayList;
-
 import it.uniroma2.giadd.aitm.CaptureActivity;
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.models.MyIpPacket;
 import it.uniroma2.giadd.aitm.tasks.ParsePcapTask;
+import it.uniroma2.giadd.aitm.utils.IpPacketDBHandler;
 
 /**
  * Created by Alessandro Di Diego on 13/08/16.
@@ -23,6 +22,7 @@ import it.uniroma2.giadd.aitm.tasks.ParsePcapTask;
 
 public class ParsePcapService extends Service {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private static int ONGOING_NOTIFICATION_ID = 30201; // just a number
 
     public static final String TAG = ParsePcapService.class.getName();
@@ -33,8 +33,7 @@ public class ParsePcapService extends Service {
     public static final String NEW_PACKET = "NEW_PACKET";
     public static final String RETRIEVE_DUMP_PATH = "RETRIEVE_DUMP_PATH";
 
-    public static ArrayList<MyIpPacket> parsedPackets = new ArrayList<>();
-
+    private IpPacketDBHandler dbHandler = new IpPacketDBHandler(this);
     private AsyncTask parsePcapTask = null;
     private String currentPcapPath;
 
@@ -50,7 +49,7 @@ public class ParsePcapService extends Service {
                 parsePcapTask.cancel(true);
                 parsePcapTask = null;
             }
-            parsedPackets.clear();
+            dbHandler.resetDatabase();
             currentPcapPath = intent.getStringExtra(PCAP_PATH);
 
             // start parsing the new pcap file
@@ -59,7 +58,7 @@ public class ParsePcapService extends Service {
                 @Override
                 protected void onProgressUpdate(MyIpPacket... values) {
                     super.onProgressUpdate(values);
-                    parsedPackets.add(values[0]);
+                    dbHandler.addIpPacket(values[0]);
                     notifyNewPacket();
                 }
 
@@ -84,7 +83,7 @@ public class ParsePcapService extends Service {
     public void onDestroy() {
         stopForeground(true);
         stopParsing();
-        parsedPackets = new ArrayList<>();
+        //dbHandler.resetDatabase();
         super.onDestroy();
     }
 

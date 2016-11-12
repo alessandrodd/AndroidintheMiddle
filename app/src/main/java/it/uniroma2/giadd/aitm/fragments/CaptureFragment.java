@@ -30,13 +30,12 @@ import android.widget.TextView;
 
 import it.uniroma2.giadd.aitm.R;
 import it.uniroma2.giadd.aitm.adapters.IpPacketAdapter;
-import it.uniroma2.giadd.aitm.interfaces.SimpleClickListener;
 import it.uniroma2.giadd.aitm.models.MyIpPacket;
 import it.uniroma2.giadd.aitm.models.modules.ModuleMitm;
 import it.uniroma2.giadd.aitm.services.ParsePcapService;
 import it.uniroma2.giadd.aitm.services.SniffService;
+import it.uniroma2.giadd.aitm.utils.IpPacketDBHandler;
 import it.uniroma2.giadd.aitm.utils.PreferencesUtils;
-import it.uniroma2.giadd.aitm.utils.RecyclerTouchListener;
 
 /**
  * Created by Alessandro Di Diego
@@ -60,6 +59,16 @@ public class CaptureFragment extends Fragment {
     private RecyclerView recyclerView;
     private boolean switchActivated = true;
 
+    private IpPacketDBHandler dbHandler;
+
+    private IpPacketAdapter.OnItemClickListener onItemClickListener = new IpPacketAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(MyIpPacket item, int position) {
+            showChooseDialog(item, position);
+        }
+    };
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +90,6 @@ public class CaptureFragment extends Fragment {
         parseCaptureSwitch.setFocusable(false);
         moduleTitle = (TextView) rootView.findViewById(R.id.module_title);
         moduleMessage = (TextView) rootView.findViewById(R.id.module_message);
-        TextView stopped = (TextView) rootView.findViewById(R.id.stopped);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         consoleOutputCardview = (CardView) rootView.findViewById(R.id.cardview_console_output);
         consoleOutputCardview.setVisibility(View.GONE);
@@ -111,26 +119,10 @@ public class CaptureFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         // we can enable optimizations if all item views are of the same height and width for significantly smoother scrolling
         recyclerView.setHasFixedSize(true);
-        if (ParsePcapService.parsedPackets != null) {
-            ipPacketAdapter = new IpPacketAdapter(getContext(), ParsePcapService.parsedPackets);
-            recyclerView.setAdapter(ipPacketAdapter);
-        }
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new SimpleClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                if (ParsePcapService.parsedPackets != null && ParsePcapService.parsedPackets.get(position) != null && currentDumpPath != null) {
-                    MyIpPacket packet = ParsePcapService.parsedPackets.get(position);
-                    showChooseDialog(packet);
-                }
 
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
-
+        dbHandler = new IpPacketDBHandler(getContext());
+        ipPacketAdapter = new IpPacketAdapter(getContext(), dbHandler.getAllIpPacketsCursor(), onItemClickListener);
+        recyclerView.setAdapter(ipPacketAdapter);
 
         saveCaptureSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -163,7 +155,7 @@ public class CaptureFragment extends Fragment {
         return rootView;
     }
 
-    private void closeFragmentDIalogs() {
+    private void closeFragmentDialogs() {
         FragmentManager manager = getFragmentManager();
         Fragment frag = manager.findFragmentByTag(PacketSelectedDialogFragment.TAG);
         if (frag != null) {
@@ -171,10 +163,10 @@ public class CaptureFragment extends Fragment {
         }
     }
 
-    private void showChooseDialog(MyIpPacket packet) {
-        closeFragmentDIalogs();
+    private void showChooseDialog(MyIpPacket ipPacket, int position) {
+        closeFragmentDialogs();
         FragmentManager manager = getFragmentManager();
-        PacketSelectedDialogFragment packetSelectedDialogFragment = PacketSelectedDialogFragment.newInstance(ParsePcapService.parsedPackets, ParsePcapService.parsedPackets.indexOf(packet), currentDumpPath);
+        PacketSelectedDialogFragment packetSelectedDialogFragment = PacketSelectedDialogFragment.newInstance(ipPacket, position, currentDumpPath);
         packetSelectedDialogFragment.show(manager, PacketSelectedDialogFragment.TAG);
     }
 
@@ -234,9 +226,9 @@ public class CaptureFragment extends Fragment {
                 switchActivated = true;
             } else if (intent.getBooleanExtra(ParsePcapService.NEW_PACKET, false)) {
                 if (ipPacketAdapter != null)
-                    ipPacketAdapter.notifyDataSetChanged();
+                    ipPacketAdapter.changeCursor(dbHandler.getAllIpPacketsCursor());
                 else {
-                    ipPacketAdapter = new IpPacketAdapter(context, ParsePcapService.parsedPackets);
+                    ipPacketAdapter = new IpPacketAdapter(getContext(), dbHandler.getAllIpPacketsCursor(), onItemClickListener);
                     recyclerView.setAdapter(ipPacketAdapter);
                 }
             }
@@ -268,7 +260,7 @@ public class CaptureFragment extends Fragment {
     public void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mMessageReceiver);
-        closeFragmentDIalogs();
+        closeFragmentDialogs();
     }
 
     @Override

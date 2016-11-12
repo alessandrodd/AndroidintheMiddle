@@ -48,6 +48,9 @@ public class MyTcpPacket extends MyTransportLayerPacket {
     private int syn;
     private int urg;
 
+    public MyTcpPacket(){
+    }
+
     public MyTcpPacket(byte[] data, int sourcePort, int destinationPort, long sequenceNumber, long acknowledgmentNumber, int dataOffset, int window, int checksum, int urgentPointer, long ackSequence, int cwr, int ece, int fin, int psh, int reservedBits1, int rst, int syn, int urg) {
         super(data);
         this.sourcePort = sourcePort;

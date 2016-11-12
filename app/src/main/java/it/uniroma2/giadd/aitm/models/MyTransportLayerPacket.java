@@ -12,6 +12,9 @@ import java.util.Arrays;
 public class MyTransportLayerPacket implements Parcelable {
     private byte[] data;
 
+    public MyTransportLayerPacket() {
+    }
+
     public MyTransportLayerPacket(byte[] data) {
         this.data = data;
     }

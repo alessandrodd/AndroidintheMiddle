@@ -25,6 +25,9 @@ public class MyUdpPacket extends MyTransportLayerPacket {
     private int length;
     private int checksum;
 
+    public MyUdpPacket() {
+    }
+
     public MyUdpPacket(byte[] data, int sourcePort, int destinationPort, int length, int checksum) {
         super(data);
         this.sourcePort = sourcePort;

@@ -1,23 +1,22 @@
 package it.uniroma2.giadd.aitm;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
-import java.util.List;
+import android.util.Log;
 
 import it.uniroma2.giadd.aitm.adapters.PacketDetailPagerAdapter;
-import it.uniroma2.giadd.aitm.models.MyIpPacket;
+import it.uniroma2.giadd.aitm.utils.IpPacketDBHandler;
 
 public class PacketDetailActivity extends AppCompatActivity {
 
-    public static String PACKETLIST_KEY = "PACKETLIST_KEY";
-    public static String SELECTED_PACKET_NUMBER_KEY = "SELECTED_PACKET_NUMBER_KEY";
+    public static String SELECTED_PACKET_POSITION = "SELECTED_PACKET_POSITION";
 
     private PacketDetailPagerAdapter packetDetailPagerAdapter;
-    private List<MyIpPacket> ipPacketList;
-    private int selectedPacket;
+    private int selectedPacketPosition;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +45,15 @@ public class PacketDetailActivity extends AppCompatActivity {
         });
 
         if (getIntent() != null) {
-            ipPacketList = getIntent().getParcelableArrayListExtra(PACKETLIST_KEY);
-            selectedPacket = getIntent().getIntExtra(SELECTED_PACKET_NUMBER_KEY, 0);
+            selectedPacketPosition = getIntent().getIntExtra(SELECTED_PACKET_POSITION, 0);
         }
-
-        if (ipPacketList != null) {
-            packetDetailPagerAdapter = new PacketDetailPagerAdapter(getSupportFragmentManager(), ipPacketList);
+        IpPacketDBHandler dbHandler = new IpPacketDBHandler(this);
+        Cursor cursor = dbHandler.getAllIpPacketsCursor();
+        if (cursor != null) {
+            packetDetailPagerAdapter = new PacketDetailPagerAdapter(this, getSupportFragmentManager(), cursor);
             viewPager.setAdapter(packetDetailPagerAdapter);
-            viewPager.setCurrentItem(selectedPacket);
-            setTitle(packetDetailPagerAdapter.getPageTitle(selectedPacket));
+            viewPager.setCurrentItem(selectedPacketPosition);
+            setTitle(packetDetailPagerAdapter.getPageTitle(viewPager.getCurrentItem()));
         }
     }
 
