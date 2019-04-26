@@ -1,17 +1,12 @@
 # Android-in-the-Middle
 Repository for "Android in the Middle", an Android application made as a personal project/study project for the Cybersecurity course at University of Rome "Tor Vergata". 
 
-TODO:
-  - ~~implement C/C++ code that continuosly read and parse packet from opened .pcap file using libpcap~~
-  - compile tcpdump and iptables in order to support non-arm CPUs
-  - use tshark instead of tcpdump
-  - tcp proxy (modify packets on-the-fly)
-  - use advanced https fingerprint (https://github.com/LeeBrotherston/tls-fingerprinting)
-  - extract images, files etc.
-  - add criteria to display particular set of packets
-  - multiple sniffing
 
-What to check for each messaging app:
+This application was used to analyze several other Android messaging apps and assess their security features regarding protection from sniffing.
+
+Below you can find a very short summary of the results.
+
+What was checked for each messaging app:
 
     a) Filter rules, i.e. how to filter the specific traffic (specific port(s), packet fingerprint, AS Number...)
     b) Are messages transmitted in clear text? [Victim, Contact]
@@ -245,3 +240,12 @@ Analyzed Messaging Apps:
         i) 9.8.000000003241 (06/10/2016)
         j) https://play.google.com/store/apps/details?id=com.imo.android.imoim
         
+## TODO:
+  - ~~implement C/C++ code that continuosly read and parse packet from opened .pcap file using libpcap~~
+  - compile tcpdump and iptables in order to support non-arm CPUs
+  - use tshark instead of tcpdump
+  - tcp proxy (modify packets on-the-fly)
+  - use advanced https fingerprint (https://github.com/LeeBrotherston/tls-fingerprinting)
+  - extract images, files etc.
+  - add criteria to display particular set of packets
+  - multiple sniffing
