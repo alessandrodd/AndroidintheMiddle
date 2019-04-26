@@ -239,7 +239,22 @@ Analyzed Messaging Apps:
         h) 100-500 millions
         i) 9.8.000000003241 (06/10/2016)
         j) https://play.google.com/store/apps/details?id=com.imo.android.imoim
-        
+
+## Build
+Dependencies needed to build the project(tested on Ubuntu 16.10 x64):
+- Android Studio 2.2.2 
+- Android NDK 13b
+- SDK Tools 25
+- Gradle 2.2.2
+- libssl1.0.0
+
+To generate an installable APK:
+1) Import the project in AndroidStudio
+2) Build => "Clean Project"
+3) Build => "Rebuild Project"
+4) Build => "Generate APK"
+
+
 ## Screenshots
 ![screen1](https://user-images.githubusercontent.com/11824406/56804831-4f99bf00-6827-11e9-9330-40ffe9c1b2ce.png)
 ![screen2](https://user-images.githubusercontent.com/11824406/56804830-4f99bf00-6827-11e9-864c-483ceb9c782d.png)
