@@ -4,7 +4,7 @@ Repository for "Android in the Middle", an Android application made as a persona
 
 This application was used to analyze several other Android messaging apps and assess their security features regarding protection from sniffing.
 
-Below you can find a very short summary of the results.
+[Here you can access the complete report](https://www.dropbox.com/s/3fycjhtgmoq1gw9/relazione_progetto_SI_2016_DiDiego_Imperi.pdf?dl=0) (in italian - sorry!), while below you can find a very short summary of the results.
 
 What was checked for each messaging app:
 
